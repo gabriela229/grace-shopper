@@ -4,6 +4,7 @@ const path = require('path');
 
 
 app.use('/dist', express.static(path.join(__dirname, 'dist')));
+app.use('/api/products', require())
 
 app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, 'index.html')));
 
