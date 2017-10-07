@@ -1,6 +1,6 @@
 const express = require('express');
-const Category = require('./db/models/Category');
-const Product = require('./db/models/Product');
+const Category = require('../db/models/Category');
+const Product = require('../db/models/Product');
 
 // This router is already mounted on /messages in server/app.js
 const router = express.Router();
