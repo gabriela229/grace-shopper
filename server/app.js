@@ -18,7 +18,13 @@ app.use(function (err, req, res, next) {
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
-    console.log(`listening on port ${PORT}`);
-});
+// db and server
+const db = require('./db');
+const seed = require('./db/seed.js');
 
+db.sync({ force: true })
+  .then(seed)
+  .then(() => {
+    console.log('Database is synced!');
+    app.listen(PORT, () => console.log(`GS listening on port ${ PORT }...`));
+  });
