@@ -1,5 +1,5 @@
-import express from 'express';
-const Product = require('./db/models/Product');
+const express = require('express');
+const Product = require('../db/models/Product');
 
 // This router is already mounted on /messages in server/app.js
 const router = express.Router();
@@ -45,4 +45,4 @@ router.delete('/:id', (req, res, next)=> {
         .catch(next);
 })
 
-export default router;
+module.exports = router;

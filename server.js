@@ -2,11 +2,13 @@ const express = require('express');
 const app = express();
 const path = require('path');
 const bodyParser = require('body-parser');
-const productsRouter = require('./routes/products');
+const productsRouter = require('./src/routes/products');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use('/dist', express.static(path.join(__dirname, 'dist')));
+//app.use('/dist', express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, 'node_modules')));
+app.use(express.static(path.join(__dirname, 'dist')));
 app.use('/api/products', productsRouter);
 
 app.get('/', (req, res, next)=> res.sendFile(path.join(__dirname, './index.html')));

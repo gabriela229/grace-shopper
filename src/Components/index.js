@@ -1,10 +1,17 @@
 import React from 'react';
-import CategoriesList from './CategoriesList'
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import store from '../store';
+import { BrowserRouter as Router } from 'react-router-dom';
+import Main from './Main';
 
-const Main = () => {
-  return (
-    <CategoriesList />
-  );
-}
+console.log('test')
 
-export default Main;
+ReactDOM.render(
+  <Provider store={store}>
+    <Router>
+      <Main />
+    </Router>
+  </Provider>,
+  document.getElementById('app')
+);
