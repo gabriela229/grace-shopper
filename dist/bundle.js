@@ -13238,8 +13238,6 @@ var _Main2 = _interopRequireDefault(_Main);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// console.log('test')
-
 _reactDom2.default.render(_react2.default.createElement(
   _reactRedux.Provider,
   { store: _store2.default },
