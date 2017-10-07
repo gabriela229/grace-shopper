@@ -1,4 +1,4 @@
-import express from 'express';
+const express = require('express');
 const Category = require('./db/models/Category');
 const Product = require('./db/models/Product');
 
@@ -38,4 +38,4 @@ router.delete('/:id', (req, res, next)=> {
         .catch(next);
 })
 
-export default router;
+module.exports = router;
