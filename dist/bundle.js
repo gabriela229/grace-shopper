@@ -27442,11 +27442,126 @@ module.exports = function spread(callback) {
 "use strict";
 
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.loadCategories = loadCategories;
+exports.addCategory = addCategory;
+exports.editCategory = editCategory;
+exports.removeCategory = removeCategory;
+exports.getCategories = getCategories;
+exports.postCategory = postCategory;
+exports.updateCategory = updateCategory;
+exports.deleteCategory = deleteCategory;
+exports.default = reducer;
+
 var _axios = __webpack_require__(111);
 
 var _axios2 = _interopRequireDefault(_axios);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+var GET_CATEGORIES = 'GET_CATEGORIES';
+var GET_CATEGORY = 'GET_CATEGORY';
+var UPDATE_CATEGORY = 'UPDATE_CATEGORY';
+var DELETE_CATEGORY = 'DELETE_CATEGORY';
+
+function loadCategories(categories) {
+  return { type: GET_CATEGORIES, categories: categories };
+}
+function addCategory(category) {
+  return { type: GET_CATEGORY, category: category };
+}
+function editCategory(category) {
+  return { type: UPDATE_CATEGORY, category: category };
+}
+function removeCategory(id) {
+  return { type: DELETE_CATEGORY, id: id };
+}
+
+function getCategories() {
+  return function thunk(dispatch) {
+    //make sure to update this get request url so that it matches route
+    return _axios2.default.get('/api/categories').then(function (res) {
+      return res.data;
+    }).then(function (categories) {
+      dispatch(loadCategories(categories));
+    })
+    //update error handling to do something with this error
+    .catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function postCategory(category) {
+  return function thunk(dispatch) {
+    //make sure to update this get request url so that it matches route
+    return _axios2.default.post('/api/categories', category).then(function (res) {
+      return res.data;
+    }).then(function (newCategory) {
+      dispatch(addCategory(newCategory));
+    })
+    //update error handling to do something with this error
+    .catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function updateCategory(id) {
+  return function thunk(dispatch) {
+    //make sure to update this get request url so that it matches route
+    return _axios2.default.put('/api/categories/' + id).then(function (res) {
+      return res.data;
+    }).then(function (category) {
+      dispatch(editCategory(category));
+    })
+    //update error handling to do something with this error
+    .catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function deleteCategory(id) {
+  return function thunk(dispatch) {
+    //make sure to update this get request url so that it matches route
+    return _axios2.default.delete('/api/categories/' + id).then(function (res) {
+      return res.data;
+    }).then(function () {
+      dispatch(removeCategory(id));
+    })
+    //update error handling to do something with this error
+    .catch(function (err) {
+      return console.log(err);
+    });
+  };
+}
+
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var action = arguments[1];
+
+  switch (action.type) {
+    case GET_CATEGORIES:
+      return action.categories;
+    case GET_CATEGORY:
+      return [].concat(_toConsumableArray(state), [action.category]);
+    case UPDATE_CATEGORY:
+      return state.map(function (category) {
+        return category.id === action.category.id ? action.category : category;
+      });
+    case DELETE_CATEGORY:
+      return state.filter(function (category) {
+        return category.id !== action.id;
+      });
+    default:
+      return state;
+  }
+}
 
 /***/ }),
 /* 271 */
