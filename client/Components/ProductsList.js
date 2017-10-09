@@ -7,8 +7,7 @@ const ProductsList = ({ products }) => {
     <div>
       <h1>Products list</h1>
       <div classNameName="row">
-        {
-          products.map(product => (
+        {products.map(product => (
           <div className="col-md-3 col-sm-6">
                   <span className="thumbnail">
                       <img src="http://placehold.it/400x400" alt="..." />
@@ -27,7 +26,7 @@ const ProductsList = ({ products }) => {
                           <p className="price">Price:${product.price}</p>
                         </div>
                         <div className="col-md-6 col-sm-6">
-                          <button className="btn btn-success pull-right">BUY</button>
+                          <Link to="/go-to-cart" className="btn btn-success pull-right">BUY</Link>
                         </div>
                         
                       </div>
@@ -40,7 +39,6 @@ const ProductsList = ({ products }) => {
     </div>
   );
 }
-
 
 const mapStateToProps = ({ products }) => {
   return {
