@@ -8,8 +8,7 @@ import {getProducts} from '../store/products';
 import {getCategories} from '../store/categories';
 
 export default class Main extends Component {
-
-  // fetch products data
+  // fetch products and categories data
   componentDidMount(){
     store.dispatch(getProducts());
     store.dispatch(getCategories());
