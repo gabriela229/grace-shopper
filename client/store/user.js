@@ -9,7 +9,6 @@ export function setUser(user){
 
 export function loginUser(credentials, history){
   return function thunk(dispatch){
-    //make sure to update this get request url so that it matches route
     return axios.post('/api/auth', credentials)
       .then(res => res.data)
       .then(user => {
@@ -23,7 +22,6 @@ export function loginUser(credentials, history){
 
 export function logoutUser(){
   return function thunk(dispatch){
-    //make sure to update this get request url so that it matches route
     return axios.delete('/api/auth')
       .then(() => {
         dispatch(setUser({}));
@@ -35,7 +33,6 @@ export function logoutUser(){
 
 export function createUser(credentials, history){
   return function thunk(dispatch){
-    //make sure to update this get request url so that it matches route
     return axios.post('/api/user', credentials)
       .then(() => {
         dispatch(loginUser(credentials, history));
