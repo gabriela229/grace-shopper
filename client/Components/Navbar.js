@@ -16,6 +16,11 @@ function Navbar(props){
               </NavLink>
               </li>
               <li>
+                <NavLink to="/cart" activeClassName="active">
+                Cart
+                </NavLink>
+              </li>
+              <li>
               <NavLink className={!user.id ? 'show' : 'hidden'}  to="/login" activeClassName="active">
               Log in
               </NavLink>

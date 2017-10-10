@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import LoginSignupForm from './LoginSignupForm';
+import CategoriesList from './CategoriesList';
 import ProductsList from './ProductsList';
+import Cart from './Cart';
+import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
-import {fetchUser} from '../store';
 
+// store and getProducts thunk
+import store, {fetchUser, getProducts, getCategories} from '../store';
 
 export default class Main extends Component {
-  componentDidMount(){
-    fetchUser();
+
+  // fetch products and categories data
+  componentDidMount() {
+    store.dispatch(getProducts());
+    store.dispatch(getCategories());
+    store.dispatch(fetchUser());
   }
   render() {
     return (
-      <div>
+      <div className="container">
         <Navbar />
         <Switch>
-          <Route exact path="/" component={ProductsList} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/" component={ProductsList} />
           <Route exact path="/login" component={LoginSignupForm} />
           <Route exact path="/signup" component={LoginSignupForm} />
           <Redirect to="/" />
