@@ -112,7 +112,7 @@ const users = [
     email: 'homer@gmail.com',
     password: 234
   }
-]
+];
 
 const seed = () => {
   Promise.all(categories.map(category => {

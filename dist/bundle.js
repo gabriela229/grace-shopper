@@ -27676,7 +27676,7 @@ function loginUser(credentials, history) {
       return res.data;
     }).then(function (user) {
       dispatch(setUser(user));
-      history.goBack();
+      history.push('/');
     })
     //update error handling to do something with this error
     .catch(function (err) {
@@ -30750,15 +30750,9 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactRouterDom = __webpack_require__(65);
 
-var _reactRedux = __webpack_require__(25);
-
 var _LoginSignupForm = __webpack_require__(301);
 
 var _LoginSignupForm2 = _interopRequireDefault(_LoginSignupForm);
-
-var _CategoriesList = __webpack_require__(302);
-
-var _CategoriesList2 = _interopRequireDefault(_CategoriesList);
 
 var _ProductsList = __webpack_require__(303);
 
@@ -30790,7 +30784,7 @@ var Main = function (_Component) {
   _createClass(Main, [{
     key: 'componentDidMount',
     value: function componentDidMount() {
-      this.props.fetchInitialData();
+      (0, _store.fetchUser)();
     }
   }, {
     key: 'render',
@@ -30804,6 +30798,7 @@ var Main = function (_Component) {
           null,
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/', component: _ProductsList2.default }),
           _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/login', component: _LoginSignupForm2.default }),
+          _react2.default.createElement(_reactRouterDom.Route, { exact: true, path: '/signup', component: _LoginSignupForm2.default }),
           _react2.default.createElement(_reactRouterDom.Redirect, { to: '/' })
         )
       );
@@ -30813,15 +30808,7 @@ var Main = function (_Component) {
   return Main;
 }(_react.Component);
 
-var mapDispatchToProps = function mapDispatchToProps(dispatch) {
-  return {
-    fetchInitialData: function fetchInitialData() {
-      dispatch((0, _store.fetchUser)());
-    }
-  };
-};
-
-exports.default = (0, _reactRouterDom.withRouter)((0, _reactRedux.connect)(null, mapDispatchToProps)(Main));
+exports.default = Main;
 
 /***/ }),
 /* 301 */
@@ -30861,6 +30848,7 @@ var LoginSignupForm = function (_Component) {
     var _this = _possibleConstructorReturn(this, (LoginSignupForm.__proto__ || Object.getPrototypeOf(LoginSignupForm)).call(this));
 
     _this.state = {
+      name: '',
       email: '',
       password: ''
     };
@@ -30881,7 +30869,11 @@ var LoginSignupForm = function (_Component) {
     key: 'onSubmit',
     value: function onSubmit(event) {
       event.preventDefault();
-      this.props.startUserSession(this.state);
+      var _state = this.state,
+          email = _state.email,
+          password = _state.password;
+
+      this.props.startUserSession({ email: email, password: password });
       this.setState({ email: '', password: '' });
     }
   }, {
@@ -30889,7 +30881,7 @@ var LoginSignupForm = function (_Component) {
     value: function onSignUpClick(event) {
       event.preventDefault();
       this.props.signUpUser(this.state);
-      this.setState({ email: '', password: '' });
+      this.setState({ name: '', email: '', password: '' });
     }
   }, {
     key: 'render',
@@ -30897,10 +30889,13 @@ var LoginSignupForm = function (_Component) {
       var onSubmit = this.onSubmit,
           onChange = this.onChange,
           onSignUpClick = this.onSignUpClick;
-      var _state = this.state,
-          email = _state.email,
-          password = _state.password;
+      var _state2 = this.state,
+          name = _state2.name,
+          email = _state2.email,
+          password = _state2.password;
+      var history = this.props.history;
 
+      var url = history.location.pathname;
       return _react2.default.createElement(
         'div',
         { className: 'row' },
@@ -30910,6 +30905,16 @@ var LoginSignupForm = function (_Component) {
           _react2.default.createElement(
             'form',
             { className: 'well', onSubmit: onSubmit },
+            _react2.default.createElement(
+              'div',
+              { className: 'form-group ' + (url === '/signup' ? 'show' : 'hidden') },
+              _react2.default.createElement(
+                'label',
+                { htmlFor: 'name' },
+                'Name'
+              ),
+              _react2.default.createElement('input', { onChange: onChange, name: 'name', className: 'form-control', type: 'text', value: name })
+            ),
             _react2.default.createElement(
               'div',
               { className: 'form-group' },
@@ -30928,17 +30933,17 @@ var LoginSignupForm = function (_Component) {
                 { htmlFor: 'password' },
                 'Password'
               ),
-              _react2.default.createElement('input', { onChange: onChange, name: 'password', className: 'form-control', type: 'text', value: password })
+              _react2.default.createElement('input', { onChange: onChange, name: 'password', className: 'form-control', type: 'password', value: password })
             ),
             _react2.default.createElement(
               'button',
-              { className: 'btn btn-success btn-sm' },
+              { className: 'btn btn-success btn-sm ' + (url === '/login' ? 'show' : 'hidden') },
               'Log In'
             ),
             ' ',
             _react2.default.createElement(
               'button',
-              { className: 'btn btn-warning btn-sm', onClick: onSignUpClick },
+              { className: 'btn btn-warning btn-sm ' + (url === '/signup' ? 'show' : 'hidden'), onClick: onSignUpClick },
               'Sign Up'
             )
           )
@@ -30966,49 +30971,7 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginSignupForm);
 
 /***/ }),
-/* 302 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
-var _react = __webpack_require__(6);
-
-var _react2 = _interopRequireDefault(_react);
-
-var _reactRedux = __webpack_require__(25);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-var CategoriesList = function CategoriesList(_ref) {
-  var categories = _ref.categories;
-
-  return _react2.default.createElement(
-    'div',
-    null,
-    _react2.default.createElement(
-      'h1',
-      null,
-      'Categories'
-    )
-  );
-};
-
-var mapStateToProps = function mapStateToProps(_ref2) {
-  var categories = _ref2.categories;
-
-  return {
-    categories: categories
-  };
-};
-
-exports.default = (0, _reactRedux.connect)(mapStateToProps)(CategoriesList);
-
-/***/ }),
+/* 302 */,
 /* 303 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -31078,7 +31041,6 @@ function Navbar(props) {
   var user = props.user,
       endUserSession = props.endUserSession;
 
-  console.log(!user.id);
   return _react2.default.createElement(
     'div',
     { className: 'navbar navbar-default' },
@@ -31111,7 +31073,7 @@ function Navbar(props) {
           null,
           _react2.default.createElement(
             _reactRouterDom.NavLink,
-            { className: !user.id ? 'show' : 'hidden', to: '/login', activeClassName: 'active' },
+            { className: !user.id ? 'show' : 'hidden', to: '/signup', activeClassName: 'active' },
             'Sign up'
           )
         ),

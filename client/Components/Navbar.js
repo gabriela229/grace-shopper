@@ -6,7 +6,6 @@ import { logoutUser } from '../store';
 
 function Navbar(props){
   const {user, endUserSession} = props;
-  console.log(!user.id);
   return (
     <div className="navbar navbar-default">
       <div className="container-fluid">
@@ -22,7 +21,7 @@ function Navbar(props){
               </NavLink>
               </li>
               <li>
-              <NavLink className={!user.id ? 'show' : 'hidden'}  to="/login" activeClassName="active">
+              <NavLink className={!user.id ? 'show' : 'hidden'}  to="/signup" activeClassName="active">
               Sign up
               </NavLink>
               </li>

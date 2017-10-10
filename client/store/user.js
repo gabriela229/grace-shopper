@@ -14,7 +14,7 @@ export function loginUser(credentials, history){
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
-        history.goBack();
+        history.push('/');
       })
       //update error handling to do something with this error
       .catch(err => console.log(err));

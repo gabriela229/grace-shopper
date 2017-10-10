@@ -6,6 +6,7 @@ class LoginSignupForm extends Component {
   constructor() {
     super();
     this.state = {
+      name: '',
       email: '',
       password: ''
     };
@@ -20,33 +21,39 @@ class LoginSignupForm extends Component {
   }
   onSubmit(event){
     event.preventDefault();
-    this.props.startUserSession(this.state);
+    const {email, password} = this.state;
+    this.props.startUserSession({email, password});
     this.setState({email: '', password: ''});
   }
   onSignUpClick(event){
     event.preventDefault();
     this.props.signUpUser(this.state);
-    this.setState({email: '', password: ''});
-
+    this.setState({name: '', email: '', password: ''});
   }
   render() {
     const {onSubmit, onChange, onSignUpClick} = this;
-    const {email, password} = this.state;
+    const {name, email, password} = this.state;
+    const {history} = this.props;
+    const url = history.location.pathname;
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form className="well" onSubmit={onSubmit}>
+            <div className={`form-group ${url === '/signup' ? 'show' : 'hidden' }`}>
+              <label htmlFor="name">Name</label>
+              <input onChange={onChange} name="name" className="form-control" type="text" value={name} />
+            </div>
             <div className="form-group">
               <label htmlFor="email">Email</label>
               <input onChange={onChange} name="email" className="form-control" type="text" value={email} />
             </div>
             <div className="form-group">
               <label htmlFor="password">Password</label>
-              <input onChange={onChange} name="password" className="form-control" type="text" value={password} />
+              <input onChange={onChange} name="password" className="form-control" type="password" value={password} />
             </div>
-              <button className="btn btn-success btn-sm">Log In</button>
+              <button className={`btn btn-success btn-sm ${url === '/login' ? 'show' : 'hidden' }`}>Log In</button>
               {' '}
-              <button className="btn btn-warning btn-sm" onClick={onSignUpClick} >Sign Up</button>
+              <button className={`btn btn-warning btn-sm ${url === '/signup' ? 'show' : 'hidden' }`} onClick={onSignUpClick} >Sign Up</button>
           </form>
         </div>
       </div>
