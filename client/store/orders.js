@@ -11,7 +11,7 @@ export function getCart() {
         return axios.get('/api/cart')
             .then(res => res.data)
             .then(cart => {
-                dispatch(loadCart(cart))
+                dispatch(loadCart(cart));
             })
             .catch(err => console.log(err));
     };

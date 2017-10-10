@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
-import { Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import CategoriesList from './CategoriesList';
 import ProductsList from './ProductsList';
 import Cart from './Cart';
+import LoginSignupForm from './LoginSignupForm';
+import Navbar from './Navbar';
 
 // store and getProducts thunk
-import store from '../store';
-import { getProducts } from '../store/products';
-import { getCategories } from '../store/categories';
+import store, {fetchUser, getProducts, getCategories} from '../store';
 
 export default class Main extends Component {
 
@@ -15,14 +15,18 @@ export default class Main extends Component {
   componentDidMount() {
     store.dispatch(getProducts());
     store.dispatch(getCategories());
+    store.dispatch(fetchUser());
   }
   render() {
     return (
       <div className="container">
-        <Link to='/cart'>Cart</Link>
+        <Navbar />
         <Switch>
-          <Route path='/cart' component={Cart} />
-          <Route path='/' component={ProductsList} />
+          <Route path="/cart" component={Cart} />
+          <Route path="/" component={ProductsList} />
+          <Route exact path="/login" component={LoginSignupForm} />
+          <Route exact path="/signup" component={LoginSignupForm} />
+          <Redirect to="/" />
         </Switch>
       </div>
     );

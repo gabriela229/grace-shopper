@@ -1,5 +1,6 @@
 const Category = require('./Category');
 const Product = require('./Product');
+const User = require('./User');
 const LineItem = require('./LineItem');
 const Order = require('./Order');
 
@@ -13,4 +14,5 @@ Order.hasMany(LineItem);
 module.exports = {
   Category,
   Product,
+  User
 };
