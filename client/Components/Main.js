@@ -1,14 +1,37 @@
 import React, { Component } from 'react';
-import CategoriesList from './CategoriesList'
-import ProductsList from './ProductsList'
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import {connect} from 'react-redux';
+import LoginSignupForm from './LoginSignupForm';
+import CategoriesList from './CategoriesList';
+import ProductsList from './ProductsList';
+import Navbar from './Navbar';
+import {fetchUser} from '../store';
 
-export default class Main extends Component {
+
+class Main extends Component {
+  componentDidMount(){
+    this.props.fetchInitialData();
+  }
   render() {
     return (
       <div>
-        <CategoriesList />
-        <ProductsList />
+        <Navbar />
+        <Switch>
+          <Route exact path="/" component={ProductsList} />
+          <Route exact path="/login" component={LoginSignupForm} />
+          <Redirect to="/" />
+        </Switch>
       </div>
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchInitialData: () => {
+      dispatch(fetchUser());
+    }
+  };
+};
+
+export default withRouter(connect(null, mapDispatchToProps)(Main));

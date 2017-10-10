@@ -1,5 +1,6 @@
 const Product = require('./models/Product');
 const Category = require('./models/Category');
+const User = require('./models/User');
 
 const categories = [
   {
@@ -100,6 +101,19 @@ const products = [
   },
 ];
 
+const users = [
+  {
+    name: 'Doug Hnut',
+    email: 'doughnut@gmail.com',
+    password: 123
+  },
+  {
+    name: 'Homer Simpson',
+    email: 'homer@gmail.com',
+    password: 234
+  }
+]
+
 const seed = () => {
   Promise.all(categories.map(category => {
     Category.create(category);
@@ -107,6 +121,11 @@ const seed = () => {
   .then(() => {
     Promise.all(products.map(product => {
       Product.create(product);
+    }));
+  })
+  .then(() => {
+    Promise.all(users.map(user => {
+      User.create(user);
     }));
   });
 };
