@@ -26,9 +26,9 @@ const createError = (message) => {
 };
 
 User.findBySessionId = function(id){
-  if (!id){
-    throw createError('No user found');
-  }
+  // if (!id){
+  //   throw createError('No user found');
+  // }
   return this.findById(id);
 };
 

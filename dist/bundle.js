@@ -5301,6 +5301,18 @@ Object.keys(_user).forEach(function (key) {
   });
 });
 
+var _error = __webpack_require__(306);
+
+Object.keys(_error).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _error[key];
+    }
+  });
+});
+
 var _redux = __webpack_require__(107);
 
 var _reduxThunk = __webpack_require__(273);
@@ -5317,13 +5329,18 @@ var _products2 = _interopRequireDefault(_products);
 
 var _user2 = _interopRequireDefault(_user);
 
+var _error2 = _interopRequireDefault(_error);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+// https://github.com/evgenyrodionov/redux-logger
 var rootReducer = (0, _redux.combineReducers)({
   products: _products2.default,
   categories: _categories2.default,
-  user: _user2.default
-}); // https://github.com/evgenyrodionov/redux-logger
+  user: _user2.default,
+  error: _error2.default
+});
+
 exports.default = (0, _redux.createStore)(rootReducer, (0, _redux.applyMiddleware)(_reduxThunk2.default, _reduxLogger2.default));
 
 /***/ }),
@@ -27661,6 +27678,8 @@ var _axios = __webpack_require__(64);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _error = __webpack_require__(306);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var SET_USER = 'SET_USER';
@@ -27679,7 +27698,7 @@ function loginUser(credentials, history) {
     })
     //update error handling to do something with this error
     .catch(function (err) {
-      return console.log(err);
+      return dispatch((0, _error.setError)(err.response.data));
     });
   };
 }
@@ -27691,7 +27710,7 @@ function logoutUser() {
     })
     //update error handling to do something with this error
     .catch(function (err) {
-      return console.log(err);
+      return dispatch((0, _error.setError)(err.response.data));
     });
   };
 }
@@ -27703,7 +27722,7 @@ function createUser(credentials, history) {
     })
     //update error handling to do something with this error
     .catch(function (err) {
-      return console.log(err);
+      return dispatch((0, _error.setError)(err.response.data));
     });
   };
 }
@@ -27715,7 +27734,7 @@ function fetchUser() {
     }).then(function (user) {
       dispatch(setUser(user));
     }).catch(function (err) {
-      return console.log(err);
+      return dispatch((0, _error.setError)(err.response.data));
     });
   };
 }
@@ -31309,6 +31328,7 @@ var LoginSignupForm = function (_Component) {
       var change = {};
       change[event.target.name] = event.target.value;
       this.setState(change);
+      this.props.clearError();
     }
   }, {
     key: 'onSubmit',
@@ -31320,6 +31340,7 @@ var LoginSignupForm = function (_Component) {
 
       this.props.startUserSession({ email: email, password: password });
       this.setState({ email: '', password: '' });
+      // this.props.clearError();
     }
   }, {
     key: 'onSignUpClick',
@@ -31327,6 +31348,12 @@ var LoginSignupForm = function (_Component) {
       event.preventDefault();
       this.props.signUpUser(this.state);
       this.setState({ name: '', email: '', password: '' });
+      // this.props.clearError();
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      this.props.clearError();
     }
   }, {
     key: 'render',
@@ -31338,7 +31365,9 @@ var LoginSignupForm = function (_Component) {
           name = _state2.name,
           email = _state2.email,
           password = _state2.password;
-      var history = this.props.history;
+      var _props = this.props,
+          history = _props.history,
+          error = _props.error;
 
       var url = history.location.pathname;
       return _react2.default.createElement(
@@ -31350,6 +31379,11 @@ var LoginSignupForm = function (_Component) {
           _react2.default.createElement(
             'form',
             { className: 'well', onSubmit: onSubmit },
+            error.length > 0 ? _react2.default.createElement(
+              'div',
+              { className: 'alert alert-danger' },
+              error
+            ) : null,
             _react2.default.createElement(
               'div',
               { className: 'form-group ' + (url === '/signup' ? 'show' : 'hidden') },
@@ -31400,7 +31434,13 @@ var LoginSignupForm = function (_Component) {
   return LoginSignupForm;
 }(_react.Component);
 
-var mapStateToProps = null;
+var mapStateToProps = function mapStateToProps(_ref) {
+  var error = _ref.error;
+
+  return {
+    error: error
+  };
+};
 
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
@@ -31409,6 +31449,9 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
     },
     startUserSession: function startUserSession(credentials) {
       dispatch((0, _store.loginUser)(credentials, ownProps.history));
+    },
+    clearError: function clearError() {
+      dispatch((0, _store.setError)(''));
     }
   };
 };
@@ -31522,6 +31565,38 @@ var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 };
 
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Navbar);
+
+/***/ }),
+/* 306 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.setError = setError;
+exports.default = reducer;
+// import axios from 'axios';
+
+var SET_ERROR = 'SET_ERROR';
+
+function setError(msg) {
+  return { type: SET_ERROR, msg: msg };
+}
+
+function reducer() {
+  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+  var action = arguments[1];
+
+  switch (action.type) {
+    case SET_ERROR:
+      return action.msg;
+    default:
+      return state;
+  }
+}
 
 /***/ })
 /******/ ]);

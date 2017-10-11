@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createUser, loginUser} from '../store';
+import {createUser, loginUser, setError} from '../store';
 
 class LoginSignupForm extends Component {
   constructor() {
@@ -18,27 +18,34 @@ class LoginSignupForm extends Component {
     const change = {};
     change[event.target.name] = event.target.value;
     this.setState(change);
+    this.props.clearError();
   }
   onSubmit(event){
     event.preventDefault();
     const {email, password} = this.state;
     this.props.startUserSession({email, password});
     this.setState({email: '', password: ''});
+    // this.props.clearError();
   }
   onSignUpClick(event){
     event.preventDefault();
     this.props.signUpUser(this.state);
     this.setState({name: '', email: '', password: ''});
+    // this.props.clearError();
+  }
+  componentWillUnmount(){
+    this.props.clearError();
   }
   render() {
     const {onSubmit, onChange, onSignUpClick} = this;
     const {name, email, password} = this.state;
-    const {history} = this.props;
+    const {history, error} = this.props;
     const url = history.location.pathname;
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form className="well" onSubmit={onSubmit}>
+          {error.length > 0 ? <div className="alert alert-danger">{error}</div> : null}
             <div className={`form-group ${url === '/signup' ? 'show' : 'hidden' }`}>
               <label htmlFor="name">Name</label>
               <input onChange={onChange} name="name" className="form-control" type="text" value={name} />
@@ -61,7 +68,11 @@ class LoginSignupForm extends Component {
   }
 }
 
-const mapStateToProps = null;
+const mapStateToProps = ({error}) => {
+  return {
+    error
+  };
+};
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
@@ -70,6 +81,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     startUserSession: (credentials) => {
       dispatch(loginUser(credentials, ownProps.history));
+    },
+    clearError: () => {
+      dispatch(setError(''));
     }
   };
 };
