@@ -22,10 +22,10 @@ export default class Main extends Component {
       <div className="container">
         <Navbar />
         <Switch>
+          <Route exact path="/" component={ProductsList} />
           <Route path="/cart" component={Cart} />
-          <Route path="/" component={ProductsList} />
-          <Route exact path="/login" component={LoginSignupForm} />
-          <Route exact path="/signup" component={LoginSignupForm} />
+          <Route path="/login" component={LoginSignupForm} />
+          <Route path="/signup" component={LoginSignupForm} />
           <Redirect to="/" />
         </Switch>
       </div>
