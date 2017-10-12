@@ -5,7 +5,7 @@ import { getCategories, getProducts, logoutUser } from '../store';
 
 
 function Navbar(props){
-  const {categories, products, user, endUserSession} = props;
+  const {categories, products, user, cart, endUserSession} = props;
   return (
     <div className="navbar navbar-default navbar-fixed-top">
       <div className="container">
@@ -103,10 +103,11 @@ function Navbar(props){
   );
 }
 
-const mapStateToProps = ({categories, products, user}) => {
+const mapStateToProps = ({categories, products, cart, user}) => {
   return {
     categories,
     products,
+    cart,
     user
   };
 };
