@@ -4,13 +4,11 @@ import logger from 'redux-logger'; // https://github.com/evgenyrodionov/redux-lo
 import categories from './categories';
 import products from './products';
 import user from './user';
-import error from './error';
 
 const rootReducer = combineReducers({
   products,
   categories,
-  user,
-  error
+  user
 });
 
 export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
@@ -18,3 +16,4 @@ export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger)
 export * from './products';
 export * from './categories';
 export * from './user';
+

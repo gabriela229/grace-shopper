@@ -11,6 +11,7 @@ const ProductsList = (props) => {
          <form onSubmit = {handleSubmit} className='form-group' style={{marginTop: '20px'}}>
               <input
                 name = "searchInput"
+                value={}
                 onChange = {handleChange}
                 className='form-control'
                 placeholder="Search product"
