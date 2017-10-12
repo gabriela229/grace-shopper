@@ -5,7 +5,6 @@ import { getCategories, getProducts, logoutUser } from '../store';
 
 
 function Navbar(props){
-  console.log(props);
   const {categories, products, user, endUserSession} = props;
   return (
     <div className="navbar navbar-default navbar-fixed-top">

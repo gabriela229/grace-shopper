@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {searchProducts, search, getProducts} from '../store/products';
+import {searchProducts, getProducts} from '../store/products';
 
 const ProductsList = (props) => {
   const {products, handleChange, handleSubmit} = props;
