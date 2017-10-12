@@ -41,7 +41,7 @@ function Navbar(props){
               <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Categories <span className="caret" /></a>
               <ul className="dropdown-menu">
                 {
-                  categories.length  && categories.map(category => {
+                  categories && categories.map(category => {
                     return (
                       <li key={ category.id }>
                         <NavLink
