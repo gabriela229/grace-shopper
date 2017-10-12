@@ -10,19 +10,19 @@ const SingleProduct = (props) => {
   return (
     <div className="row">
 
-      <div className="col-xs-12 col-sm-6 product-info">
+      <div className="col-xs-12 col-sm-12 product-image-box">
+        <img src={ product.image } alt="default product image" className="img-responsive" />
+      </div>
+
+      <div className="col-xs-12 col-sm-12 product-info-box">
         <h1 className="product-title">{ product.title }</h1>
         <p className="product-description">{ product.description }</p>
-        <p className="product-price">{ product.price }</p>
+        <p className="product-price"><strong>${ product.price }</strong></p>
       </div>
 
-      <div className="col-xs-12 col-sm-6 product-image">
-        <img src={ product.image } alt="default product image" className="img-rounded" />
-      </div>
-
-      <div className="button-zone">
+      <div className="col-xs-12 col-sm-12 product-button-zone center-block">
         <button
-          className="btn btn-sm btn-primary">Add to Cart</button>
+          className="btn btn-sm btn-default">Add to Cart</button>
       </div>
 
     </div>

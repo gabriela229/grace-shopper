@@ -1,11 +1,36 @@
 body {
   padding-top: 70px;
+  /*font-family: 'Nixie One', cursive;*/
+  /*font-family: 'Averia Serif Libre', cursive;*/
+  font-family: 'Inconsolata', cursive;
 }
 
 h1 {
   /*font-family: 'Lobster', cursive;*/
-  /*font-family: 'Abril Fatface', cursive;*/
+  font-family: 'Abril Fatface', cursive;
   /*font-family: 'Permanent Marker', cursive;*/
   /*font-family: 'Bangers', cursive;*/
-  font-family: 'Shrikhand', cursive;
+  /*font-family: 'Shrikhand', cursive;*/
+  /*font-family: 'Changa One', cursive;*/
+  /*font-family: 'Tillana', cursive;*/
+  color: #803215;
 }
+
+
+.product-info-box {
+  text-align: center;
+}
+
+.product-image-box {
+  /*margin: 0 auto;*/
+}
+
+.product-image-box img {
+  margin: 0 auto;
+}
+
+.product-button-zone {
+  text-align: center;
+}
+
+/*http://paletton.com/#uid=10e0u0kllllaFw0g0qFqFg0w0aF*/
