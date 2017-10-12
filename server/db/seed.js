@@ -1,6 +1,4 @@
-const Product = require('./models/Product');
-const Category = require('./models/Category');
-const User = require('./models/User');
+const { Product, Category, LineItem, Order, User } = require('./models')
 
 const categories = [
   {
@@ -101,6 +99,54 @@ const products = [
   },
 ];
 
+const orders = [
+  {
+    address: "300 east 39th street, NY",
+    isCart: false
+  },
+  {
+    address: "5 Hanover Square, Floor 25, New York, NY 10004",
+    isCart: false
+  },
+  {
+    address: "",
+    isCart: true
+  }
+]
+
+const lineItems = [
+  {
+    productId: 1,
+    orderId: 1,
+    quantity: 5
+  },
+  {
+    productId: 5,
+    orderId: 1,
+    quantity: 2
+  },
+  {
+    productId: 1,
+    orderId: 2,
+    quantity: 7
+  },
+  {
+    productId: 1,
+    orderId: 3,
+    quantity: 2
+  },
+  {
+    productId: 4,
+    orderId: 3,
+    quantity: 5
+  },
+  {
+    productId: 9,
+    orderId: 3,
+    quantity: 7
+  }
+]
+
 const users = [
   {
     name: 'Doug Hnut',
@@ -118,16 +164,26 @@ const seed = () => {
   Promise.all(categories.map(category => {
     Category.create(category);
   }))
-  .then(() => {
-    Promise.all(products.map(product => {
-      Product.create(product);
-    }));
-  })
-  .then(() => {
-    Promise.all(users.map(user => {
-      User.create(user);
-    }));
-  });
+    .then(() => {
+      Promise.all(products.map(product => {
+        Product.create(product);
+      }));
+    })
+    .then(() => {
+      Promise.all(orders.map(user => {
+        Order.create(user);
+      }));
+    })
+    .then(() => {
+      Promise.all(lineItems.map(user => {
+        LineItem.create(user);
+      }));
+    })
+    .then(() => {
+      Promise.all(users.map(user => {
+        User.create(user);
+      }));
+    });
 };
 
 module.exports = seed;

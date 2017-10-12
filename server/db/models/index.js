@@ -1,8 +1,8 @@
 const Category = require('./Category');
 const Product = require('./Product');
-const User = require('./User');
 const LineItem = require('./LineItem');
 const Order = require('./Order');
+const User = require('./User');
 
 // ASSOCIATION(s)
 Category.hasMany(Product);
@@ -14,5 +14,7 @@ Order.hasMany(LineItem);
 module.exports = {
   Category,
   Product,
+  LineItem,
+  Order,
   User
 };
