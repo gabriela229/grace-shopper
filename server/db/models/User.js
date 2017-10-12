@@ -4,18 +4,36 @@ const db = require('../db');
 const User = db.define('user', {
   name: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Please provide a name.'
+      }
+    }
   },
   email: {
     type: Sequelize.STRING,
     allowNull: false,
+    unique: {
+      msg: 'This email is already in use.'
+    },
     validate: {
-      isEmail: true
+      notEmpty: {
+        msg: 'Please provide an email'
+      },
+      isEmail: {
+        msg: 'Please provide a valid email'
+      }
     }
   },
   password: {
     type: Sequelize.STRING,
-    allowNull: false
+    allowNull: false,
+    validate: {
+      notEmpty: {
+        msg: 'Please provide a password.'
+      }
+    }
   }
 });
 
@@ -26,9 +44,9 @@ const createError = (message) => {
 };
 
 User.findBySessionId = function(id){
-  if (!id){
-    throw createError('No user found');
-  }
+  // if (!id){
+  //   throw createError('No user found');
+  // }
   return this.findById(id);
 };
 

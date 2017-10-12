@@ -1,11 +1,11 @@
 import axios from 'axios';
+import {setError} from './error';
 
 const SET_USER = 'SET_USER';
 
 export function setUser(user){
   return {type: SET_USER, user};
 }
-
 
 export function loginUser(credentials, history){
   return function thunk(dispatch){
@@ -16,7 +16,7 @@ export function loginUser(credentials, history){
         history.push('/');
       })
       //update error handling to do something with this error
-      .catch(err => console.log(err));
+      .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
@@ -27,7 +27,7 @@ export function logoutUser(){
         dispatch(setUser({}));
       })
       //update error handling to do something with this error
-      .catch(err => console.log(err));
+      .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
@@ -38,7 +38,7 @@ export function createUser(credentials, history){
         dispatch(loginUser(credentials, history));
       })
       //update error handling to do something with this error
-      .catch(err => console.log(err));
+      .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
@@ -49,7 +49,7 @@ export function fetchUser(){
       .then(user => {
         dispatch(setUser(user));
       })
-      .catch(err => console.log(err));
+      .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
