@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 
 // components
-import CategoriesList from './CategoriesList';
-import ProductsList from './ProductsList';
 import Cart from './Cart';
+import CategoriesList from './CategoriesList';
 import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
+import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
 
 // store and getProducts thunk
