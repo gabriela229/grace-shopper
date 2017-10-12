@@ -25,13 +25,16 @@ class LoginSignupForm extends Component {
     const {email, password} = this.state;
     this.props.startUserSession({email, password});
     this.setState({email: '', password: ''});
-    // this.props.clearError();
   }
   onSignUpClick(event){
     event.preventDefault();
     this.props.signUpUser(this.state);
     this.setState({name: '', email: '', password: ''});
-    // this.props.clearError();
+  }
+  componentDidUpdate(prevProps){
+    if (this.props.location.pathname !== prevProps.location.pathname ){
+    this.props.clearError();
+    }
   }
   componentWillUnmount(){
     this.props.clearError();
@@ -45,7 +48,7 @@ class LoginSignupForm extends Component {
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form className="well" onSubmit={onSubmit}>
-          {error.length > 0 ? <div className="alert alert-danger">{error}</div> : null}
+          {error.length > 0 ? <div className="alert alert-danger">{error.split(',').join('\n')}</div> : null}
             <div className={`form-group ${url === '/signup' ? 'show' : 'hidden' }`}>
               <label htmlFor="name">Name</label>
               <input onChange={onChange} name="name" className="form-control" type="text" value={name} />

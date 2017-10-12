@@ -7,7 +7,6 @@ export function setUser(user){
   return {type: SET_USER, user};
 }
 
-
 export function loginUser(credentials, history){
   return function thunk(dispatch){
     return axios.post('/api/auth', credentials)
