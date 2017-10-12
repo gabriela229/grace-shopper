@@ -5,12 +5,14 @@ import categories from './categories';
 import products from './products';
 import cart from './orders';
 import user from './user';
+import error from './error';
 
 const rootReducer = combineReducers({
   products,
   categories,
   cart,
-  user
+  user,
+  error
 });
 
 export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
@@ -19,3 +21,4 @@ export * from './products';
 export * from './categories';
 export * from './user';
 export * from './orders';
+export * from './error';

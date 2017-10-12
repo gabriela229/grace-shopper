@@ -49,7 +49,7 @@ const products = [
     categoryId: 1,
   },
   {
-    title: "Jelly Dounut",
+    title: "Jelly Donut",
     description: "Put some jelly in a donut.",
     price: 2.00,
     quantity: 100,

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import CategoriesList from './CategoriesList';
-import ProductsList from './ProductsList';
+
+// components
 import Cart from './Cart';
+import CategoriesList from './CategoriesList';
 import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
+import ProductsList from './ProductsList';
+import SingleProduct from './SingleProduct';
 
 // store and getProducts thunk
 import store, {fetchUser, getProducts, getCategories, loadCart} from '../store';
@@ -27,6 +30,7 @@ export default class Main extends Component {
           <Route path="/cart" component={Cart} />
           <Route path="/login" component={LoginSignupForm} />
           <Route path="/signup" component={LoginSignupForm} />
+          <Route path="/products/:productId" component={SingleProduct} />
           <Redirect to="/" />
         </Switch>
       </div>
