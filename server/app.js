@@ -15,8 +15,8 @@ app.use('/api', require('./api'));
 app.get('/*', (req, res, next)=> res.sendFile(path.join(__dirname, '..', 'public', 'index.html')));
 
 app.use(function (err, req, res, next) {
-    console.error(err, err.stack);
-    res.status(500).send(err);
+    console.log(err, err.stack);
+    res.status(500).send(err.message);
 });
 
 const PORT = process.env.PORT || 3000;

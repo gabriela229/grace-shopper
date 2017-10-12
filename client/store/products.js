@@ -5,6 +5,13 @@ const GET_PRODUCT = 'GET_PRODUCT';
 const UPDATE_PRODUCT = 'UPDATE_PRODUCT';
 const DELETE_PRODUCT = 'DELETE_PRODUCT';
 
+// working on search bar
+const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS';
+// search products action
+export function searchProducts(toSearch){
+  return{ type: SEARCH_PRODUCTS, toSearch};
+}
+
 export function loadProducts(products){
   return {type: GET_PRODUCTS, products};
 }
@@ -17,6 +24,7 @@ export function editProduct(product){
 export function removeProduct(id){
   return {type: DELETE_PRODUCT, id};
 }
+
 
 export function getProducts(){
   return function thunk(dispatch){
@@ -75,7 +83,7 @@ export default function reducer(state = [], action){
     case GET_PRODUCTS:
       return action.products;
     case GET_PRODUCT:
-      return [...state, action.product];
+      return [...state.products, action.product];
     case UPDATE_PRODUCT:
       return state.map(product => {
         return product.id === action.product.id ? action.product : product;
@@ -84,7 +92,13 @@ export default function reducer(state = [], action){
       return state.filter(product => {
         return product.id !== action.id;
       });
+    case SEARCH_PRODUCTS:
+     const searchResults = state.filter( product=> {
+       return product.title.slice(0, -6).toLowerCase().match(action.toSearch.toLowerCase());
+     })
+     return searchResults;
     default:
       return state;
   }
 }
+
