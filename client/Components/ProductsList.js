@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {addToCart} from '../store';
 
 const ProductsList = ({ products }) => {
   return (
@@ -26,7 +27,7 @@ const ProductsList = ({ products }) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-md-6 col-sm-6">
-                  <Link to="/go-to-cart" className="btn btn-success pull-right">BUY</Link>
+                  <a onClick={() => addToCart(product.id)} className="btn btn-success pull-right">BUY</a>
                 </div>
 
               </div>
@@ -46,4 +47,12 @@ const mapStateToProps = ({ products }) => {
   };
 };
 
-export default connect(mapStateToProps)(ProductsList);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addToCart: () => {
+      dispatch(addToCart());
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);

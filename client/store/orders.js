@@ -7,7 +7,7 @@ export function cartLoaded(cart) {
     return { type: GET_CART, cart };
 }
 
-export function itemAdded(cart) {
+export function itemAdded(id) {
     return { type: ADD_ITEM, id };
 }
 
@@ -33,6 +33,8 @@ export default function reducer(state = [], action) {
     switch (action.type) {
         case GET_CART:
             return action.cart;
+        case ADD_ITEM:
+            return action.id;
         default:
             return state;
     }

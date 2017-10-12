@@ -7,7 +7,7 @@ import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
 
 // store and getProducts thunk
-import store, {fetchUser, getProducts, getCategories, loadCart} from '../store';
+import store, {fetchUser, getProducts, getCategories, loadCart, addToCart} from '../store';
 
 export default class Main extends Component {
 
