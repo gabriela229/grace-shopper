@@ -18,4 +18,3 @@ export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger)
 export * from './products';
 export * from './categories';
 export * from './user';
-export * from './error';
