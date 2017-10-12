@@ -1,10 +1,9 @@
 body {
   padding-top: 70px;
-}
-
-
   /*font-family: 'Nixie One', cursive;*/
   /*font-family: 'Averia Serif Libre', cursive;*/
+  font-family: 'Inconsolata', cursive;
+}
 
 h1 {
   /*font-family: 'Lobster', cursive;*/
