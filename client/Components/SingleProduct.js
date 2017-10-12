@@ -17,7 +17,7 @@ const SingleProduct = (props) => {
       </div>
 
       <div className="col-xs-12 col-sm-6 product-image">
-        <img src="..." alt="..." className="img-rounded" />
+        <img src={ product.image } alt="default product image" className="img-rounded" />
       </div>
 
       <div className="button-zone">
