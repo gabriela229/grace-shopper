@@ -26,10 +26,11 @@ const SingleProduct = (props) => {
 /* -----------------    CONTAINER     ------------------ */
 
 const mapStateToProps = ({ products }, ownProps) => {
-  const productId = Number(ownProps.match.params.id);
+  const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   return {
     product,
+    productId
   };
 };
 
