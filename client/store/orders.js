@@ -24,7 +24,7 @@ export function loadCart() {
 
 export function addToCart(id) {
     return function thunk(dispatch) {
-        
+        dispatch(itemAdded(id))
     };
 }
 
@@ -34,7 +34,7 @@ export default function reducer(state = [], action) {
         case GET_CART:
             return action.cart;
         case ADD_ITEM:
-            return action.id;
+            return [...state, action.id];
         default:
             return state;
     }

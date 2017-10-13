@@ -5,7 +5,7 @@ import { addToCart } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
-  const { products, handleChange, handleSubmit } = props;
+  const { products, handleChange, handleSubmit, handleOnClick } = props;
   return (
     <div>
       <h1>Products list</h1>
@@ -37,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-md-6 col-sm-4">
-                  <a onClick={() => addToCart(product.id)} className="btn btn-success pull-right">BUY</a>
+                  <a onClick={() => handleOnClick(product.id)} className="btn btn-success pull-right">BUY</a>
                 </div>
 
               </div>
@@ -59,8 +59,8 @@ const mapStateToProps = ({ products }) => {
 
 const mapDispatchToProps = function(dispatch){
   return {
-    addToCart: () => {
-      dispatch(addToCart());
+    handleOnClick: (id) => {
+      dispatch(addToCart(id));
     },
     handleChange : function(evt){
       const input = evt.target.value;

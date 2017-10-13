@@ -165,22 +165,22 @@ const seed = () => {
     Category.create(category);
   }))
     .then(() => {
-      Promise.all(products.map(product => {
+      return Promise.all(products.map(product => {
         Product.create(product);
       }));
     })
     .then(() => {
-      Promise.all(orders.map(user => {
+      return Promise.all(orders.map(user => {
         Order.create(user);
       }));
     })
     .then(() => {
-      Promise.all(lineItems.map(user => {
+      return Promise.all(lineItems.map(user => {
         LineItem.create(user);
       }));
     })
     .then(() => {
-      Promise.all(users.map(user => {
+      return Promise.all(users.map(user => {
         User.create(user);
       }));
     });
