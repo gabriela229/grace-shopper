@@ -3,14 +3,14 @@ import { Route, Switch, Redirect } from 'react-router-dom';
 
 // components
 import Cart from './Cart';
-import CategoriesList from './CategoriesList';
 import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
 import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
+import Admin from './Admin';
 
 // store and getProducts thunk
-import store, {fetchUser, getProducts, getCategories} from '../store';
+import store, {fetchUser, fetchUsers, getProducts, getCategories} from '../store';
 
 export default class Main extends Component {
 
@@ -19,6 +19,7 @@ export default class Main extends Component {
     store.dispatch(getProducts());
     store.dispatch(getCategories());
     store.dispatch(fetchUser());
+    store.dispatch(fetchUsers());
   }
   render() {
     return (
@@ -30,6 +31,7 @@ export default class Main extends Component {
           <Route path="/login" component={LoginSignupForm} />
           <Route path="/signup" component={LoginSignupForm} />
           <Route path="/products/:productId" component={SingleProduct} />
+          <Route path="/admin" component={Admin} />
           <Redirect to="/" />
         </Switch>
       </div>

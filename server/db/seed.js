@@ -151,7 +151,8 @@ const users = [
   {
     name: 'Doug Hnut',
     email: 'doughnut@gmail.com',
-    password: 123
+    password: 123,
+    isAdmin: true
   },
   {
     name: 'Homer Simpson',

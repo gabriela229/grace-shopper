@@ -5,7 +5,7 @@ import { getCategories, getProducts, logoutUser } from '../store';
 
 
 function Navbar(props){
-  const {categories, products, user, endUserSession} = props;
+  const {categories, products, authUser, endUserSession} = props;
   return (
     <div className="navbar navbar-default navbar-fixed-top">
       <div className="container">
@@ -81,17 +81,22 @@ function Navbar(props){
               </NavLink>
             </li>
             <li>
-              <NavLink className={!user.id ? 'show' : 'hidden'}  to="/login" activeClassName="active">
+              <NavLink className={!authUser.id ? 'show' : 'hidden'}  to="/login" activeClassName="active">
               Log in
               </NavLink>
             </li>
             <li>
-              <NavLink className={!user.id ? 'show' : 'hidden'}  to="/signup" activeClassName="active">
+              <NavLink className={!authUser.id ? 'show' : 'hidden'}  to="/signup" activeClassName="active">
               Sign up
               </NavLink>
             </li>
             <li>
-              <a><button className={`btn btn-primary ${user.id ? 'show' : 'hidden'}`} onClick={endUserSession}>
+              <NavLink className={authUser.id && authUser.isAdmin ? 'show' : 'hidden'}  to="/admin" activeClassName="active">
+              Admin
+              </NavLink>
+            </li>
+            <li>
+              <a><button className={`btn btn-primary ${authUser.id ? 'show' : 'hidden'}`} onClick={endUserSession}>
               logout
               </button></a>
             </li>
@@ -103,11 +108,11 @@ function Navbar(props){
   );
 }
 
-const mapStateToProps = ({categories, products, user}) => {
+const mapStateToProps = ({categories, products, authUser}) => {
   return {
     categories,
     products,
-    user
+    authUser
   };
 };
 

@@ -34,6 +34,10 @@ const User = db.define('user', {
         msg: 'Please provide a password.'
       }
     }
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
   }
 });
 

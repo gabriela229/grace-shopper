@@ -16,13 +16,13 @@ router.get('/:id', (req, res, next) => {
         .catch(next);
 });
 
-router.post("/", (req, res, next)=> {
+router.post('/', (req, res, next) => {
     User.create(req.body)
         .then(user => res.status(200).send(user))
         .catch(next);
 });
 
-router.put('/:id', (req, res, next)=> {
+router.put('/:id', (req, res, next) => {
     const {email, password} = req.body;
     User.findById(req.params.id)
         .then(user => {
@@ -32,7 +32,7 @@ router.put('/:id', (req, res, next)=> {
         .catch(next);
 });
 
-router.delete('/:id', (req, res, next)=> {
+router.delete('/:id', (req, res, next) => {
     User.findById(req.params.id)
         .then(user => user.destroy())
         .then( ()=> res.status(200).send())

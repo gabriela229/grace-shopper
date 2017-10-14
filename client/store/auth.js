@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {setError} from './error';
+import {fetchUsers} from './users';
 
 const SET_USER = 'SET_USER';
 
@@ -35,6 +36,7 @@ export function createUser(credentials, history){
   return function thunk(dispatch){
     return axios.post('/api/user', credentials)
       .then(() => {
+        dispatch(fetchUsers());
         dispatch(loginUser(credentials, history));
       })
       //update error handling to do something with this error
