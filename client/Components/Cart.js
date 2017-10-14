@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Cart = ({ cart }) => {
+const Cart = ({ cart, products }) => {
   return (
     <div className="row">
       <div className="col-xs-12">
@@ -43,7 +43,7 @@ const Cart = ({ cart }) => {
                   </h6>
                 </div>
                 <div className="col-xs-4">
-                  <input type="text" className="form-control input-sm" value="1" />
+                  <input type="text" className="form-control input-sm" />
                 </div>
                 <div className="col-xs-2">
                   <button type="button" className="btn btn-link btn-xs">
@@ -74,7 +74,7 @@ const Cart = ({ cart }) => {
                   </h6>
                 </div>
                 <div className="col-xs-4">
-                  <input type="text" className="form-control input-sm" value="1" />
+                  <input type="text" className="form-control input-sm" />
                 </div>
                 <div className="col-xs-2">
                   <button type="button" className="btn btn-link btn-xs">
@@ -117,9 +117,10 @@ const Cart = ({ cart }) => {
   );
 }
 
-const mapStateToProps = ({ cart }) => {
+const mapStateToProps = ({ cart, products }) => {
   return {
-    cart
+    cart,
+    products
   };
 };
 

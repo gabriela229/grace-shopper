@@ -10,7 +10,7 @@ import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
 
 // store and getProducts thunk
-import store, {fetchUser, getProducts, getCategories} from '../store';
+import store, {fetchUser, getProducts, getCategories, loadCart, addToCart} from '../store';
 
 export default class Main extends Component {
 
@@ -19,6 +19,7 @@ export default class Main extends Component {
     store.dispatch(getProducts());
     store.dispatch(getCategories());
     store.dispatch(fetchUser());
+    store.dispatch(loadCart());
   }
   render() {
     return (

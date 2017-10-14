@@ -1,22 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {searchProducts, getProducts} from '../store/products';
+import { addToCart } from '../store';
+import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
-  const {products, handleChange, handleSubmit} = props;
+  const { products, cart, handleChange, handleSubmit, handleAddToCart } = props;
   return (
     <div>
       <h1>Products list</h1>
-         <form onSubmit = {handleSubmit} className='form-group' style={{marginTop: '20px'}}>
-              <input
-                name = "searchInput"
-                onChange = {handleChange}
-                className='form-control'
-                placeholder="Search product"
-              />
-        </form>
-      <div className="row row-eq-height">
+      <form onSubmit={handleSubmit} className='form-group' style={{ marginTop: '20px' }}>
+        <input
+          name="searchInput"
+          onChange={handleChange}
+          className='form-control'
+          placeholder="Search product"
+        />
+      </form>
+      <div className="row">
         {products.map(product => (
           <div key={product.id} className="col-md-3 col-sm-6">
             <span className="thumbnail">
@@ -36,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-md-6 col-sm-4">
-                  <Link to="/go-to-cart" className="btn btn-success pull-right">BUY</Link>
+                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">BUY</a>
                 </div>
 
               </div>
@@ -50,32 +51,37 @@ const ProductsList = (props) => {
   );
 }
 
-const mapStateToProps = ({ products}) => {
+const mapStateToProps = ({ products, cart }) => {
   return {
     products,
+    cart
   };
 };
 
-const mapDispatchToProps = function(dispatch){
+const mapDispatchToProps = function (dispatch) {
   return {
-    handleChange : function(evt){
+    handleAddToCart: (productId, cartId) => {
+      dispatch(addToCart(productId, cartId));
+    },
+    handleChange: function (evt) {
       const input = evt.target.value;
-      if(input){                 
+      if (input) {
         dispatch(searchProducts(input))
-      }else{
-         dispatch(getProducts()); 
+      } else {
+        dispatch(getProducts());
       }
     },
-    handleSubmit : function(evt){
+    handleSubmit: function (evt) {
       evt.preventDefault();
       const input = evt.target.searchInput.value;
-      if(input){
+      if (input) {
         dispatch(searchProducts(input))
-      }else{
-         dispatch(getProducts());
+      } else {
+        dispatch(getProducts());
       }
       // evt.target.searchInput.value = '';
     }
   }
 }
+
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);
