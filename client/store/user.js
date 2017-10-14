@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {setError} from './error';
+import {loadCart} from './cart';
 
 const SET_USER = 'SET_USER';
 
@@ -13,6 +14,7 @@ export function loginUser(credentials, history){
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
+        dispatch(loadCart())
         history.push('/');
       })
       //update error handling to do something with this error
@@ -25,6 +27,9 @@ export function logoutUser(){
     return axios.delete('/api/auth')
       .then(() => {
         dispatch(setUser({}));
+      })
+      .then(() => {
+        dispatch(loadCart())
       })
       //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));

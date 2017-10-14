@@ -10,6 +10,7 @@ Product.belongsTo(Category);
 LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
+Order.belongsTo(User);
 
 module.exports = {
   Category,
