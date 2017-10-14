@@ -1,5 +1,24 @@
 const { Product, Category, LineItem, Order, User } = require('./models')
 
+const users = [
+  {
+    name: 'Doug Hnut',
+    email: 'doughnut@gmail.com',
+    password: 123,
+    isAdmin: true
+  },
+  {
+    name: 'Homer Simpson',
+    email: 'homer@gmail.com',
+    password: 234
+  },
+  {
+    name: 'Duncan Donaught',
+    email: 'duncan@gmail.com',
+    password: 123
+  }
+];
+
 const categories = [
   {
     title: "Original",
@@ -102,17 +121,20 @@ const products = [
 const orders = [
   {
     address: "300 east 39th street, NY",
-    isCart: false
+    isCart: false,
+    userId: 3
   },
   {
     address: "5 Hanover Square, Floor 25, New York, NY 10004",
-    isCart: false
+    isCart: false,
+    userId: 3
   },
   {
     address: "",
-    isCart: true
+    isCart: true,
+    userId: 3
   }
-]
+];
 
 const lineItems = [
   {
@@ -145,45 +167,21 @@ const lineItems = [
     orderId: 3,
     quantity: 7
   }
-]
-
-const users = [
-  {
-    name: 'Doug Hnut',
-    email: 'doughnut@gmail.com',
-    password: 123,
-    isAdmin: true
-  },
-  {
-    name: 'Homer Simpson',
-    email: 'homer@gmail.com',
-    password: 234
-  }
 ];
 
 const seed = () => {
-  Promise.all(categories.map(category => {
-    Category.create(category);
-  }))
+  Category.bulkCreate(categories)
     .then(() => {
-      Promise.all(products.map(product => {
-        Product.create(product);
-      }));
+      User.bulkCreate(users);
     })
     .then(() => {
-      Promise.all(orders.map(user => {
-        Order.create(user);
-      }));
+      Product.bulkCreate(products);
     })
     .then(() => {
-      Promise.all(lineItems.map(user => {
-        LineItem.create(user);
-      }));
+      Order.bulkCreate(orders);
     })
     .then(() => {
-      Promise.all(users.map(user => {
-        User.create(user);
-      }));
+      LineItem.bulkCreate(lineItems);
     });
 };
 

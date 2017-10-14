@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { getCategories, getProducts, logoutUser } from '../store';
 
 
+<<<<<<< HEAD
 function Navbar(props){
   const {categories, products, authUser, endUserSession} = props;
+=======
+function Navbar(props) {
+  const { categories, products, user, cart, endUserSession } = props;
+>>>>>>> a3c4f5ee952eb8addcfc79af34a5c828410b596f
   return (
     <div className="navbar navbar-default navbar-fixed-top">
       <div className="container">
@@ -43,11 +48,11 @@ function Navbar(props){
                 {
                   categories && categories.map(category => {
                     return (
-                      <li key={ category.id }>
+                      <li key={category.id}>
                         <NavLink
                           activeClassName="active"
                           className="nav-link"
-                          to={`/categories/${ category.id }`}>{ category.title }</NavLink>
+                          to={`/categories/${category.id}`}>{category.title}</NavLink>
                       </li>
                     );
                   })
@@ -61,11 +66,11 @@ function Navbar(props){
                 {
                   products && products.map(product => {
                     return (
-                      <li key={ product.id }>
+                      <li key={product.id}>
                         <NavLink
                           activeClassName="active"
                           className="nav-link"
-                          to={`/products/${ product.id }`}>{ product.title }</NavLink>
+                          to={`/products/${product.id}`}>{product.title}</NavLink>
                       </li>
                     );
                   })
@@ -73,11 +78,10 @@ function Navbar(props){
               </ul>
             </li>
           </ul>
-
           <ul className="nav navbar-nav navbar-right">
             <li>
               <NavLink to="/cart" activeClassName="active">
-              Cart
+                Cart {cart.lineItems ? `(${cart.lineItems.reduce((total, item) => {return total + item.quantity}, 0)})` : ''}
               </NavLink>
             </li>
             <li>
@@ -108,10 +112,11 @@ function Navbar(props){
   );
 }
 
-const mapStateToProps = ({categories, products, authUser}) => {
+const mapStateToProps = ({ categories, products, cart, authUser }) => {
   return {
     categories,
     products,
+    cart,
     authUser
   };
 };
