@@ -44,11 +44,13 @@ class LoginSignupForm extends Component {
     const {name, email, password} = this.state;
     const {history, error} = this.props;
     const url = history.location.pathname;
+    if (url === '/admin'){ this.props.loginError('Please log in');}
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form className="well" onSubmit={onSubmit}>
           {error.length > 0 ? <div className="alert alert-danger">{error.split(',').join('\n')}</div> : null}
+          {/*url === '/admin' ? <div className="alert alert-danger">Please log in</div> : null */}
             <div className={`form-group ${url === '/signup' ? 'show' : 'hidden' }`}>
               <label htmlFor="name">Name</label>
               <input onChange={onChange} name="name" className="form-control" type="text" value={name} />
@@ -61,7 +63,7 @@ class LoginSignupForm extends Component {
               <label htmlFor="password">Password</label>
               <input onChange={onChange} name="password" className="form-control" type="password" value={password} />
             </div>
-              <button className={`btn btn-success btn-sm ${url === '/login' ? 'show' : 'hidden' }`}>Log In</button>
+              <button className={`btn btn-success btn-sm ${url === '/login' || url === '/admin' ? 'show' : 'hidden' }`}>Log In</button>
               {' '}
               <button className={`btn btn-warning btn-sm ${url === '/signup' ? 'show' : 'hidden' }`} onClick={onSignUpClick} >Sign Up</button>
           </form>
@@ -87,6 +89,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearError: () => {
       dispatch(setError(''));
+    },
+    loginError: () => {
+      dispatch(setError('Please log in'));
     }
   };
 };

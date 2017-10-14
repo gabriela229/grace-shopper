@@ -5,8 +5,6 @@ import {createUser, deleteUser, setError} from '../store';
 function Admin({users, removeUserOnClick, authUser}) {
   let counter = 0;
   return (
-    <div>
-      {authUser.id && authUser.isAdmin ?
         <div>
           <h1>Users</h1>
           <table className="table table-hover">
@@ -35,11 +33,6 @@ function Admin({users, removeUserOnClick, authUser}) {
             </tbody>
           </table>
         </div>
-      :
-        <div className="alert alert-danger">Please log in</div>
-
-      }
-    </div>
     );
 }
 

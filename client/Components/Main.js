@@ -31,7 +31,7 @@ export default class Main extends Component {
           <Route path="/login" component={LoginSignupForm} />
           <Route path="/signup" component={LoginSignupForm} />
           <Route path="/products/:productId" component={SingleProduct} />
-          <Route path="/admin" component={Admin} />
+          <Route path="/admin" component={store.authUser ? Admin : LoginSignupForm} />
           <Redirect to="/" />
         </Switch>
       </div>
