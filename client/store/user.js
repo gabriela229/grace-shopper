@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {setError} from './error';
-import {loadCart} from './orders'
+import {loadCart} from './cart';
 
 const SET_USER = 'SET_USER';
 

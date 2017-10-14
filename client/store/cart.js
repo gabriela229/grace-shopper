@@ -38,7 +38,7 @@ export function addToCart(productId, orderId) {
 export default function reducer(state = { lineItems: [] }, action) {
     switch (action.type) {
         case GET_CART:
-            console.log('updating cart')
+            console.log('updating cart');
             return action.cart || state;
         case ADD_ITEM:
             const newLineItems = state.lineItems;

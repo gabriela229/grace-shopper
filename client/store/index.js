@@ -3,7 +3,7 @@ import thunkMiddleware from 'redux-thunk';
 import logger from 'redux-logger'; // https://github.com/evgenyrodionov/redux-logger
 import categories from './categories';
 import products from './products';
-import cart from './orders';
+import cart from './cart';
 import user from './user';
 import error from './error';
 
@@ -20,5 +20,5 @@ export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger)
 export * from './products';
 export * from './categories';
 export * from './user';
-export * from './orders';
+export * from './cart';
 export * from './error';

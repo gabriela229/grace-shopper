@@ -7,8 +7,8 @@ const router = express.Router();
 router.post('/:id/lineItems', (req, res, next) => {
     Order.addProductToCart(req.params.id, req.body.productId)
         .then(order => {
-            res.sendStatus(204)
-        })
+            res.sendStatus(204);
+        });
 });
 
 // remove item from cart
@@ -21,11 +21,11 @@ router.put('/:id', (req, res, next) => {
 
 // get cart
 router.get('/getCart', (req, res, next) => {
-    if (typeof req.session.userId === 'undefined')
-        res.send({lineItems: []})
-    else {
+    if (typeof req.session.userId === 'undefined'){
+        res.send({lineItems: []});
+    } else {
         Order.getCart(req.session.userId)
-            .then(cart => res.send(cart))
+            .then(cart => res.send(cart));
     }
 });
 
