@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
+const LineItem = require('./LineItem')
 
 const Order = db.define('order', {
     address: Sequelize.STRING,
@@ -17,54 +18,24 @@ const Order = db.define('order', {
         }
     });
 
-Order.updateFromRequestBody = function (id, body) {
-    return Order.findById(id)
-        .then(order => {
-            Object.assign(order, body);
-            return order.save();
-        });
-};
-
-Order.destroyLineItem = function (orderId, lineItemId) {
-    return conn.models.lineItem.destroy({
-        where: {
-            id: lineItemId,
-            orderId
-        }
-    });
-};
-
-Order.getOrders = function () {
-    return Order.findAll({
-        order: [['id', 'DESC']],
-        where: {
-            isCart: false
-        },
-        include: {
-            model: conn.models.lineItem,
-            include: [conn.models.product]
-        }
-    });
-};
-
-Order.addProductToCart = function (productId) {
-    return this.getCart()
+Order.addProductToCart = function (cartId, productId) {
+    return Order.findById(cartId, { include: LineItem })
         .then(cart => {
             let lineItem = cart.lineItems.find(lineItem => lineItem.productId === productId);
             if (lineItem) {
                 lineItem.quantity++;
                 return lineItem.save();
             }
-            return conn.models.lineItem.create({
+            return db.models.lineItem.create({
                 orderId: cart.id,
                 productId: productId
             });
         });
 };
 
-Order.getCart = function () {
+Order.getCart = function (userId) {
     return Order.findOne({
-        where: { isCart: true },
+        where: { isCart: true, userId }
     })
         .then(order => {
             if (!order) {
@@ -75,8 +46,8 @@ Order.getCart = function () {
         .then(order => {
             return Order.findById(order.id, {
                 include: {
-                    model: conn.models.lineItem,
-                    include: [conn.models.product]
+                    model: db.models.lineItem,
+                    include: [db.models.product]
                 }
             });
         });

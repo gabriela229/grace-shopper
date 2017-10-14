@@ -5,7 +5,7 @@ import { addToCart } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
-  const { products, handleChange, handleSubmit, handleOnClick } = props;
+  const { products, cart, handleChange, handleSubmit, handleAddToCart } = props;
   return (
     <div>
       <h1>Products list</h1>
@@ -37,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-md-6 col-sm-4">
-                  <a onClick={() => handleOnClick(product.id)} className="btn btn-success pull-right">BUY</a>
+                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">BUY</a>
                 </div>
 
               </div>
@@ -51,32 +51,33 @@ const ProductsList = (props) => {
   );
 }
 
-const mapStateToProps = ({ products }) => {
+const mapStateToProps = ({ products, cart }) => {
   return {
     products,
+    cart
   };
 };
 
-const mapDispatchToProps = function(dispatch){
+const mapDispatchToProps = function (dispatch) {
   return {
-    handleOnClick: (id) => {
-      dispatch(addToCart(id));
+    handleAddToCart: (productId, cartId) => {
+      dispatch(addToCart(productId, cartId));
     },
-    handleChange : function(evt){
+    handleChange: function (evt) {
       const input = evt.target.value;
-      if(input){
+      if (input) {
         dispatch(searchProducts(input))
-      }else{
-         dispatch(getProducts());
+      } else {
+        dispatch(getProducts());
       }
     },
-    handleSubmit : function(evt){
+    handleSubmit: function (evt) {
       evt.preventDefault();
       const input = evt.target.searchInput.value;
-      if(input){
+      if (input) {
         dispatch(searchProducts(input))
-      }else{
-         dispatch(getProducts());
+      } else {
+        dispatch(getProducts());
       }
     }
   }
