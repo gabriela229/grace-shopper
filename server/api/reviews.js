@@ -10,12 +10,26 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
-// get a review
-router.get('/:id', (req, res, next) => {
-  Review.findById(req.params.id)
+// get a review by ReviewId
+router.get('/:reviewId', (req, res, next) => {
+  Review.findById(req.params.reviewId)
     .then(review => res.send(review))
     .catch(next);
 });
+
+// // get reviews for a Product by ProductId
+// router.get('/:productId', (req, res, next) => {
+//   Review.getReviewsForProduct(req.params.productId)
+//     .then(reviews => res.send(reviews))
+//     .catch(next);
+// });
+
+// // get reviews for a User by UserId
+// router.get('/:userId', (req, res, next) => {
+//   Review.getReviewsForUser(req.params.userId)
+//     .then(reviews => res.send(reviews))
+//     .catch(next);
+// });
 
 // create a review
 router.post('/', (req, res, next) => {

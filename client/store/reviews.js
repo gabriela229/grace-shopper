@@ -36,6 +36,18 @@ export function getReviews() {
   };
 }
 
+// export function getReviewsByProductId(productId) {
+//   return function thunk(dispatch) {
+//     return axios.get(`/api/reviews/${productId}`)
+//       .then(res => res.data)
+//       .then(reviews => {
+//         dispatch(loadReviews(reviews));
+//       })
+//       //update error handling to do something with this error
+//       .catch(err => console.log(err));
+//   };
+// }
+
 export function postReview(review) {
   return function thunk(dispatch) {
     return axios.post('/api/reviews', review)
