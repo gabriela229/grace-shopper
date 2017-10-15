@@ -10,14 +10,15 @@ import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
 
 // store and getProducts thunk
-import store, {fetchUser, getProducts, getCategories, loadCart, addToCart} from '../store';
+import store, {fetchUser, getProducts, getCategories, getReviews, loadCart, addToCart} from '../store';
 
 export default class Main extends Component {
 
-  // fetch products and categories data
+  // fetch categories, products, and reviews data
   componentDidMount() {
     store.dispatch(getProducts());
     store.dispatch(getCategories());
+    store.dispatch(getReviews());
     store.dispatch(fetchUser());
     store.dispatch(loadCart());
   }

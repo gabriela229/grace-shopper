@@ -7,6 +7,7 @@ const SingleProduct = (props) => {
   const {
     cart,
     product,
+    productReviews,
     // quantityCounter,
     // handleChange,
     handleAddToCart
@@ -59,7 +60,7 @@ const SingleProduct = (props) => {
         <h3>{product.title} Reviews</h3>
         <ul className="list-group">
           {
-            product.reviews && product.reviews.map(review => {
+            productReviews && productReviews.map(review => {
               return (
                 <li
                   key={review.id}
@@ -75,9 +76,10 @@ const SingleProduct = (props) => {
   );
 };
 
-const mapStateToProps = ({products, cart}, ownProps) => {
+const mapStateToProps = ({products, cart, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
+  const productReviews = reviews.filter(_review => _review.product.id === productId);
 
   // const quantityCounter = [];
   // for (var i = 1; i < product.quantity; i++) {
@@ -87,6 +89,7 @@ const mapStateToProps = ({products, cart}, ownProps) => {
   return {
     cart,
     product,
+    productReviews,
     // quantityCounter
   };
 };

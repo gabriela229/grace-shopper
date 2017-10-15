@@ -5,7 +5,7 @@ const router = express.Router();
 
 // get all products (and reviews + users)
 router.get('/', (req, res, next) => {
-  Product.findAll({ include: [{ all: true, nested: true }] })
+  Product.findAll()
     .then(products => res.send(products))
     .catch(next);
 });
