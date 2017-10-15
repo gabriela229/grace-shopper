@@ -56,6 +56,18 @@ const SingleProduct = (props) => {
       </div>
 
       <div className="col-xs-12 col-sm-12 product-review-box center-block">
+        <h3>{product.title} Reviews</h3>
+        <ul className="list-group">
+          {
+            product.reviews && product.reviews.map(review => {
+              return (
+                <li
+                  key={review.id}
+                  className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
+              );
+            })
+          }
+        </ul>
 
       </div>
 

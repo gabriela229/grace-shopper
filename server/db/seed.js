@@ -173,19 +173,19 @@ const reviews = [
     content: "Great donut! Just try it!",
     isVerified: true,
     productId: 1,
-    reviewerId: 1
+    userId: 1
   },
   {
     content: "This donut changed my life.",
     isVerified: true,
     productId: 1,
-    reviewerId: 2
+    userId: 2
   },
   {
     content: "I've heard that these are the best.",
     isVerified: false,
     productId: 1,
-    reviewerId: 3
+    userId: 3
   }
 ];
 
