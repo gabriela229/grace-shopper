@@ -20,12 +20,10 @@ const Review = db.define('review', {
 });
 
 Review.getReviewsForProduct = function(productId) {
-  console.log("Review.getReviewsForProduct!");
   return Review.getProducts({
     where: { productId: productId }
   })
     .then(reviews => {
-      console.log("getReviewsForProduct: reviews = ", reviews);
       return reviews;
     });
 };
