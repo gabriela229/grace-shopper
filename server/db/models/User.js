@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
+const bcrypt = require('bcrypt');
 
 const User = db.define('user', {
   name: {
@@ -55,18 +56,24 @@ User.findBySessionId = function(id){
 };
 
 User.login = function(credentials){
+  const {email, password} = credentials;
   if (!credentials.email || !credentials.password){
     throw createError('Please complete all fields');
   }
   return this.findOne({
-    where: credentials
+    where: {
+      email
+    }
   })
-    .then( user => {
-      if (!user){
+  .then( user => {
+    return bcrypt.compare(password, user.password)
+    .then( (res) => {
+      if (!res){
         throw createError('Invalid credentials');
       }
       return user;
     });
+  });
 };
 
 module.exports = User;

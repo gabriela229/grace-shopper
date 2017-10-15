@@ -67,7 +67,6 @@ const mapDispatchToProps = (dispatch) => {
     handleUserUpdate: (event) => {
       const isAdmin = event.target.value;
       const id = event.target.dataset.id * 1;
-      console.log(id);
       dispatch(updateUser({id, isAdmin}));
     }
   };

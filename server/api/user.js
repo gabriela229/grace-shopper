@@ -1,7 +1,7 @@
 const express = require('express');
 const User = require('../db/models/User');
 const router = express.Router();
-
+const bcrypt = require('bcrypt');
 
 router.get('/', (req, res, next) => {
     User.findAll()
@@ -17,13 +17,17 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    User.create(req.body)
+    bcrypt.genSalt(10)
+        .then( salt => bcrypt.hash(req.body.password, salt))
+        .then( hash => {
+            req.body.password = hash;
+            return User.create(req.body);
+        })
         .then(user => res.status(200).send(user))
         .catch(next);
 });
 
 router.put('/:id', (req, res, next) => {
-    // const {email, password, isAdmin} = req.body;
     User.findById(req.params.id)
         .then(user => {
             return user.update(req.body);
