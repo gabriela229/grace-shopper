@@ -40,6 +40,18 @@ const User = db.define('user', {
     type: Sequelize.BOOLEAN,
     defaultValue: false
   }
+}, {
+  hooks: {
+    beforeCreate: (user) => {
+      return bcrypt.genSalt(10)
+      .then( salt => {
+        return bcrypt.hash(user.password, salt);
+      })
+      .then( hash => {
+          user.password = hash;
+      });
+    }
+  }
 });
 
 const createError = (message) => {

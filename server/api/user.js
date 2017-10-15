@@ -17,12 +17,7 @@ router.get('/:id', (req, res, next) => {
 });
 
 router.post('/', (req, res, next) => {
-    bcrypt.genSalt(10)
-        .then( salt => bcrypt.hash(req.body.password, salt))
-        .then( hash => {
-            req.body.password = hash;
-            return User.create(req.body);
-        })
+    User.create(req.body)
         .then(user => res.status(200).send(user))
         .catch(next);
 });

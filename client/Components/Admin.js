@@ -40,6 +40,7 @@ function Admin({users, removeUserOnClick, authUser, handleUserUpdate}) {
                         <option value={false}>User</option>
                         </select>
                       </td>
+                      <td><button value={user.id} onClick={resetUserPassword} className="btn btn-danger">Reset User Password</button></td>
                       <td><button value={user.id} onClick={removeUserOnClick} className="btn btn-danger">Delete</button></td>
                     </tr>
                   );
