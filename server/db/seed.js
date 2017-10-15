@@ -170,19 +170,19 @@ const lineItems = [
 
 const reviews = [
   {
-    description: "Great donut! Just try it!",
+    content: "Great donut! Just try it!",
     isVerified: true,
     productId: 1,
     reviewerId: 1
   },
   {
-    description: "This donut changed my life.",
+    content: "This donut changed my life.",
     isVerified: true,
     productId: 1,
     reviewerId: 2
   },
   {
-    description: "I've heard that these are the best.",
+    content: "I've heard that these are the best.",
     isVerified: false,
     productId: 1,
     reviewerId: 3

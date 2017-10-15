@@ -60,6 +60,7 @@ const SingleProduct = (props) => {
 };
 
 const mapStateToProps = ({products, cart}, ownProps) => {
+  console.log("mapStateToProps: products = ", products);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
 
@@ -81,8 +82,6 @@ const mapDispatchToProps = (dispatch) => {
     //   console.log("handleChange: evt.target.value = ", evt.target.value);
     // },
     handleAddToCart: (productId, cartId) => {
-      console.log("handleAddToCart: productId = ", productId);
-      console.log("handleAddToCart: cartId = ", cartId);
       dispatch(addToCart(productId, cartId));
     }
   };

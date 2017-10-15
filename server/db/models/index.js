@@ -12,9 +12,11 @@ LineItem.belongsTo(Product);
 LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 Order.belongsTo(User);
+
 Review.belongsTo(Product);
-Review.belongsTo(User, {as: 'reviewer'});
 Product.hasMany(Review);
+Review.belongsTo(User, {as: 'reviewer'});
+User.hasMany(Review);
 
 module.exports = {
   Category,
