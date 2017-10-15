@@ -55,6 +55,10 @@ const SingleProduct = (props) => {
 
       </div>
 
+      <div className="col-xs-12 col-sm-12 product-review-box center-block">
+
+      </div>
+
     </div>
   );
 };

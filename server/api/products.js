@@ -3,9 +3,9 @@ const Product = require('../db/models/Product');
 
 const router = express.Router();
 
-// get all products
+// get all products (and reviews + users)
 router.get('/', (req, res, next) => {
-  Product.findAll({ include: [{ all: true }] })
+  Product.findAll({ include: [{ all: true, nested: true }] })
     .then(products => res.send(products))
     .catch(next);
 });
