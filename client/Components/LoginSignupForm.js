@@ -31,7 +31,16 @@ class LoginSignupForm extends Component {
     this.props.signUpUser(this.state);
     this.setState({name: '', email: '', password: ''});
   }
+  componentDidMount(){
+    //if user tries to access /admin directly they will get an error
+    // except directly from /login or /signup since they are already mounted
+    const url = this.props.location.pathname;
+    if (url === '/admin'){
+      this.props.loginError('Please log in');
+    }
+  }
   componentDidUpdate(prevProps){
+  //clear error message
     if (this.props.location.pathname !== prevProps.location.pathname ){
     this.props.clearError();
     }
@@ -44,13 +53,12 @@ class LoginSignupForm extends Component {
     const {name, email, password} = this.state;
     const {history, error} = this.props;
     const url = history.location.pathname;
-    if (url === '/admin'){ this.props.loginError('Please log in');}
+
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
           <form className="well" onSubmit={onSubmit}>
           {error.length > 0 ? <div className="alert alert-danger">{error.split(',').join('\n')}</div> : null}
-          {/*url === '/admin' ? <div className="alert alert-danger">Please log in</div> : null */}
             <div className={`form-group ${url === '/signup' ? 'show' : 'hidden' }`}>
               <label htmlFor="name">Name</label>
               <input onChange={onChange} name="name" className="form-control" type="text" value={name} />

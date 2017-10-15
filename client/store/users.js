@@ -28,6 +28,15 @@ export function deleteUser(id){
   };
 }
 
+export function updateUser(user){
+  return (dispatch) => {
+    return axios.put(`api/user/${user.id}`, user)
+    .then( () => {
+      dispatch(fetchUsers());
+    });
+  };
+}
+
 
 export default function reducer(state = [], action){
   switch (action.type){

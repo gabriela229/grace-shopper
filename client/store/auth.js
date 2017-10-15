@@ -15,7 +15,7 @@ export function loginUser(credentials, history){
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
-        dispatch(loadCart())
+        dispatch(loadCart());
         history.push('/');
       })
       //update error handling to do something with this error
@@ -30,7 +30,7 @@ export function logoutUser(){
         dispatch(setUser({}));
       })
       .then(() => {
-        dispatch(loadCart())
+        dispatch(loadCart());
       })
       //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));

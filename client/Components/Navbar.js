@@ -4,13 +4,8 @@ import { connect } from 'react-redux';
 import { getCategories, getProducts, logoutUser } from '../store';
 
 
-<<<<<<< HEAD
-function Navbar(props){
-  const {categories, products, authUser, endUserSession} = props;
-=======
 function Navbar(props) {
-  const { categories, products, user, cart, endUserSession } = props;
->>>>>>> a3c4f5ee952eb8addcfc79af34a5c828410b596f
+  const { categories, products, authUser, cart, endUserSession } = props;
   return (
     <div className="navbar navbar-default navbar-fixed-top">
       <div className="container">

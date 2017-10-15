@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {createUser, deleteUser, setError} from '../store';
+import {createUser, deleteUser, setError, updateUser} from '../store';
 
-function Admin({users, removeUserOnClick, authUser}) {
+function Admin({users, removeUserOnClick, authUser, handleUserUpdate}) {
   let counter = 0;
   return (
         <div>
@@ -19,14 +19,29 @@ function Admin({users, removeUserOnClick, authUser}) {
             </thead>
             <tbody>
               {users.map( user => {
-                return (
-                  <tr key={user.id}>
-                    <th scope="row">{++counter}</th>
-                    <td >{user.name}</td>
-                    <td>{user.email}</td>
-                    <td>{user.isAdmin ? 'Admin' : 'User'}</td>
-                    <td><button value={user.id} onClick={removeUserOnClick} className="btn btn-danger">Delete</button></td>
-                  </tr>
+                return user.id === authUser.id ?
+                  (
+                    <tr key={user.id}>
+                      <th scope="row">{++counter}</th>
+                      <td >{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>Admin</td>
+                    </tr>
+                  )
+                  :
+                  (
+                    <tr key={user.id}>
+                      <th scope="row">{++counter}</th>
+                      <td >{user.name}</td>
+                      <td>{user.email}</td>
+                      <td>
+                        <select  onChange={handleUserUpdate} name="isAdmin" className="form-control" data-id={user.id} value={user.isAdmin}>
+                        <option value={true}>Admin</option>
+                        <option value={false}>User</option>
+                        </select>
+                      </td>
+                      <td><button value={user.id} onClick={removeUserOnClick} className="btn btn-danger">Delete</button></td>
+                    </tr>
                   );
                 })
               }
@@ -48,6 +63,12 @@ const mapDispatchToProps = (dispatch) => {
     removeUserOnClick: (event) => {
       const id = event.target.value;
       dispatch(deleteUser(id));
+    },
+    handleUserUpdate: (event) => {
+      const isAdmin = event.target.value;
+      const id = event.target.dataset.id * 1;
+      console.log(id);
+      dispatch(updateUser({id, isAdmin}));
     }
   };
 };

@@ -23,10 +23,10 @@ router.post('/', (req, res, next) => {
 });
 
 router.put('/:id', (req, res, next) => {
-    const {email, password} = req.body;
+    // const {email, password, isAdmin} = req.body;
     User.findById(req.params.id)
         .then(user => {
-            return user.update({email, password});
+            return user.update(req.body);
         })
         .then( updatedUser => res.status(200).send(updatedUser))
         .catch(next);
