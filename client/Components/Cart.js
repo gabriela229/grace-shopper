@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const Cart = ({ cart, products }) => {
+  // console.log("CART", cart.lineItems);
   return (
     <div className="row">
       <div className="col-xs-12">
@@ -22,68 +23,44 @@ const Cart = ({ cart, products }) => {
             </div>
           </div>
           <div className="panel-body">
-            <div className="row">
-              <div className="col-xs-2">
-                <img className="img-responsive" src="http://placehold.it/100x70" />
-              </div>
-              <div className="col-xs-4">
-                <h4 className="product-name">
-                  <strong>Product name</strong>
-                </h4>
-                <h4>
-                  <small>Product description</small>
-                </h4>
-              </div>
-              <div className="col-xs-6">
-                <div className="col-xs-6 text-right">
-                  <h6>
-                    <strong>25.00
-                                    <span className="text-muted">x</span>
-                    </strong>
-                  </h6>
+            {cart.lineItems.map(lineItem => {
+              return (
+                <div>
+                  <div className="row">
+                    <div className="col-xs-2">
+                      <img className="img-responsive" src="http://placehold.it/100x70" />
+                      <p>You are buying {lineItem.buying} of this tasty donut!</p>
+                    </div>
+                    <div className="col-xs-4">
+                      <h4 className="product-name">
+                        <strong>{lineItem.title}</strong>
+                      </h4>
+                      <h4>
+                        <small>{lineItem.description}</small>
+                      </h4>
+                    </div>
+                    <div className="col-xs-6">
+                      <div className="col-xs-6 text-right">
+                        <h6>
+                          <strong>25.00
+                                            <span className="text-muted">x</span>
+                          </strong>
+                        </h6>
+                      </div>
+                      <div className="col-xs-4">
+                        <input type="text" className="form-control input-sm" />
+                      </div>
+                      <div className="col-xs-2">
+                        <button type="button" className="btn btn-link btn-xs">
+                          <span className="glyphicon glyphicon-trash"> </span>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <hr />
                 </div>
-                <div className="col-xs-4">
-                  <input type="text" className="form-control input-sm" />
-                </div>
-                <div className="col-xs-2">
-                  <button type="button" className="btn btn-link btn-xs">
-                    <span className="glyphicon glyphicon-trash"> </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <hr />
-            <div className="row">
-              <div className="col-xs-2">
-                <img className="img-responsive" src="http://placehold.it/100x70" />
-              </div>
-              <div className="col-xs-4">
-                <h4 className="product-name">
-                  <strong>Product name</strong>
-                </h4>
-                <h4>
-                  <small>Product description</small>
-                </h4>
-              </div>
-              <div className="col-xs-6">
-                <div className="col-xs-6 text-right">
-                  <h6>
-                    <strong>25.00
-                                    <span className="text-muted">x</span>
-                    </strong>
-                  </h6>
-                </div>
-                <div className="col-xs-4">
-                  <input type="text" className="form-control input-sm" />
-                </div>
-                <div className="col-xs-2">
-                  <button type="button" className="btn btn-link btn-xs">
-                    <span className="glyphicon glyphicon-trash"> </span>
-                  </button>
-                </div>
-              </div>
-            </div>
-            <hr />
+              )
+            })}
             <div className="row">
               <div className="text-center">
                 <div className="col-xs-9">
