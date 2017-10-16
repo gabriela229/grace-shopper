@@ -60,13 +60,15 @@ const SingleProduct = (props) => {
         <h3>{product.title} Reviews</h3>
         <ul className="list-group">
           {
-            productReviews && productReviews.map(review => {
+            productReviews.length > 0
+            ? productReviews.map(review => {
               return (
                 <li
                   key={review.id}
                   className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
               );
             })
+            : <li className="list-group-item">No reviews yet!</li>
           }
         </ul>
 
