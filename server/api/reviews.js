@@ -17,12 +17,12 @@ router.get('/:reviewId', (req, res, next) => {
     .catch(next);
 });
 
-// get reviews for a Product by productId
-router.get('/:productId', (req, res, next) => {
-  Review.getReviewsForProduct(req.params.productId)
-    .then(reviews => res.send(reviews))
-    .catch(next);
-});
+// // get reviews for a Product by productId
+// router.get('/:productId', (req, res, next) => {
+//   Review.getReviewsForProduct(req.params.productId)
+//     .then(reviews => res.send(reviews))
+//     .catch(next);
+// });
 
 // // get reviews for a User by userId
 // router.get('/:userId', (req, res, next) => {

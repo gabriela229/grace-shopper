@@ -19,14 +19,14 @@ const Review = db.define('review', {
   }
 });
 
-Review.getReviewsForProduct = function(productId) {
-  return Review.getProducts({
-    where: { productId: productId }
-  })
-    .then(reviews => {
-      return reviews;
-    });
-};
+// Review.getReviewsForProduct = function(productId) {
+//   return Review.getProducts({
+//     where: { productId: productId }
+//   })
+//     .then(reviews => {
+//       return reviews;
+//     });
+// };
 
 // Review.getReviewsForUser = function(userId) {
 //   return Review.getUsers({
