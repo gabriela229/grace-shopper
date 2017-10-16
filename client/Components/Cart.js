@@ -4,93 +4,85 @@ import { connect } from 'react-redux';
 const Cart = ({ cart, products }) => {
   // console.log("CART", cart.lineItems);
   return (
+    <div className="container">
     <div className="row">
-      <div className="col-xs-12">
-        <div className="panel panel-info">
-          <div className="panel-heading">
-            <div className="panel-title">
-              <div className="row">
-                <div className="col-xs-6">
-                  <h5>
-                    <span className="glyphicon glyphicon-shopping-cart"></span> Shopping Cart</h5>
-                </div>
-                <div className="col-xs-6">
-                  <button type="button" className="btn btn-primary btn-sm btn-block">
-                    <span className="glyphicon glyphicon-share-alt"></span> Continue shopping
-                            </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="panel-body">
-            {cart.lineItems.map(lineItem => {
+        <div className="col-sm-12 col-md-10 col-md-offset-1">
+            <table className="table table-hover">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Quantity</th>
+                        <th className="text-center">Price</th>
+                        <th className="text-center">Total</th>
+                        <th> </th>
+                    </tr>
+                </thead>
+                <tbody>
+            {
+              cart.lineItems.map(lineItem => {
               return (
-                <div>
-                  <div className="row">
-                    <div className="col-xs-2">
-                      <img className="img-responsive" src="http://placehold.it/100x70" />
-                      <p>You are buying {lineItem.buying} of this tasty donut!</p>
+                <tr>
+                <td className="col-sm-8 col-md-6">
+                <div className="media">
+                    <a className="thumbnail pull-left" href="#"> <img className="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style={{width: "72px", height: "72px"}} /> </a>
+                    <div className="media-body">
+                        <h4 className="media-heading"><a href="#">Product name</a></h4>
+                        <h5 className="media-heading"> by <a href="#">Brand name</a></h5>
+                        <span>Status: </span><span className="text-success"><strong>In Stock</strong></span>
                     </div>
-                    <div className="col-xs-4">
-                      <h4 className="product-name">
-                        <strong>{lineItem.title}</strong>
-                      </h4>
-                      <h4>
-                        <small>{lineItem.description}</small>
-                      </h4>
-                    </div>
-                    <div className="col-xs-6">
-                      <div className="col-xs-6 text-right">
-                        <h6>
-                          <strong>25.00
-                                            <span className="text-muted">x</span>
-                          </strong>
-                        </h6>
-                      </div>
-                      <div className="col-xs-4">
-                        <input type="text" className="form-control input-sm" />
-                      </div>
-                      <div className="col-xs-2">
-                        <button type="button" className="btn btn-link btn-xs">
-                          <span className="glyphicon glyphicon-trash"> </span>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                  <hr />
-                </div>
+                </div></td>
+                <td className="col-sm-1 col-md-1" style={{textAlign: "center"}}>
+                <input type="email" className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
+                </td>
+                <td className="col-sm-1 col-md-1 text-center"><strong>$4.87</strong></td>
+                <td className="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                <td className="col-sm-1 col-md-1">
+                <button type="button" className="btn btn-danger">
+                    <span className="glyphicon glyphicon-remove"></span> Remove
+                </button></td>
+            </tr>
               )
-            })}
-            <div className="row">
-              <div className="text-center">
-                <div className="col-xs-9">
-                  <h6 className="text-right">Added items?</h6>
-                </div>
-                <div className="col-xs-3">
-                  <button type="button" className="btn btn-default btn-sm btn-block">
-                    Update cart
-                            </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="panel-footer">
-            <div className="row text-center">
-              <div className="col-xs-9">
-                <h4 className="text-right">Total
-                            <strong>$50.00</strong>
-                </h4>
-              </div>
-              <div className="col-xs-3">
-                <button type="button" className="btn btn-success btn-block">
-                  Checkout
-                        </button>
-              </div>
-            </div>
-          </div>
+            })
+            }
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Subtotal</h5></td>
+                        <td className="text-right"><h5><strong>$24.59</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h5>Estimated shipping</h5></td>
+                        <td className="text-right"><h5><strong>$6.94</strong></h5></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td><h3>Total</h3></td>
+                        <td className="text-right"><h3><strong>$31.53</strong></h3></td>
+                    </tr>
+                    <tr>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>   </td>
+                        <td>
+                        <button type="button" className="btn btn-default">
+                            <span className="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
+                        </button></td>
+                        <td>
+                        <button type="button" className="btn btn-success">
+                            Checkout <span className="glyphicon glyphicon-play"></span>
+                        </button></td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-      </div>
     </div>
+</div>
   );
 }
 
