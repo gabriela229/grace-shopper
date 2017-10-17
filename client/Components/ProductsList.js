@@ -17,12 +17,12 @@ const ProductsList = (props) => {
           placeholder="Search product"
         />
       </form>
-      <div className="row">
+      <div className="row row-eq-height">
         {products.map(product => (
-          <div key={product.id} className="col-md-3 col-sm-6">
+          <div key={product.id} className="col-xs-4">
             <span className="thumbnail">
-              <img src="http://placehold.it/800x800" alt="..." />
-              <p>{product.title}</p>
+              <img src={product.image} alt="..." />
+              <Link to={`/products/${product.id}`}> <p>{product.title}</p> </Link>
               <div className="ratings">
                 <span className="glyphicon glyphicon-star"></span>
                 <span className="glyphicon glyphicon-star"></span>
@@ -33,10 +33,10 @@ const ProductsList = (props) => {
               <p>{product.description}</p>
               <hr className="line" />
               <div className="row">
-                <div className="col-md-6 col-sm-4">
+                <div className="col-xs-6">
                   <p className="price">Price:${product.price}</p>
                 </div>
-                <div className="col-md-6 col-sm-4">
+                <div className="col-xs-6">
                   <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">BUY</a>
                 </div>
 
@@ -79,7 +79,6 @@ const mapDispatchToProps = function (dispatch) {
       } else {
         dispatch(getProducts());
       }
-      // evt.target.searchInput.value = '';
     }
   }
 }
