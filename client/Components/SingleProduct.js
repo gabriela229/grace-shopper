@@ -7,6 +7,7 @@ const SingleProduct = (props) => {
   const {
     cart,
     product,
+    productReviews,
     // quantityCounter,
     // handleChange,
     handleAddToCart
@@ -55,13 +56,32 @@ const SingleProduct = (props) => {
 
       </div>
 
+      <div className="col-xs-12 col-sm-12 product-review-box center-block">
+        <h3>{product.title} Reviews</h3>
+        <ul className="list-group">
+          {
+            productReviews.length > 0
+            ? productReviews.map(review => {
+              return (
+                <li
+                  key={review.id}
+                  className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
+              );
+            })
+            : <li className="list-group-item">No reviews yet!</li>
+          }
+        </ul>
+
+      </div>
+
     </div>
   );
 };
 
-const mapStateToProps = ({products, cart}, ownProps) => {
+const mapStateToProps = ({products, cart, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
+  const productReviews = reviews.filter(_review => _review.product.id === productId);
 
   // const quantityCounter = [];
   // for (var i = 1; i < product.quantity; i++) {
@@ -71,6 +91,7 @@ const mapStateToProps = ({products, cart}, ownProps) => {
   return {
     cart,
     product,
+    productReviews,
     // quantityCounter
   };
 };
@@ -81,8 +102,6 @@ const mapDispatchToProps = (dispatch) => {
     //   console.log("handleChange: evt.target.value = ", evt.target.value);
     // },
     handleAddToCart: (productId, cartId) => {
-      console.log("handleAddToCart: productId = ", productId);
-      console.log("handleAddToCart: cartId = ", cartId);
       dispatch(addToCart(productId, cartId));
     }
   };

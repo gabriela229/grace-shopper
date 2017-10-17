@@ -3,11 +3,10 @@ body {
   font-family: 'Inconsolata', cursive;
 }
 
-h1 {
+h1, h2, h3 {
   font-family: 'Abril Fatface', cursive;
   color: #803215;
 }
-
 
 .product-info-box {
   text-align: center;
@@ -23,7 +22,11 @@ h1 {
 .product-buy-box {
   text-align: center;
 }
-.product-buy-box select {
-}
-/*http://paletton.com/#uid=10e0u0kllllaFw0g0qFqFg0w0aF*/
 
+.product-review-box {
+  margin-top: 20px;
+  padding-top: 10px;
+  text-align: left;
+}
+
+/*http://paletton.com/#uid=10e0u0kllllaFw0g0qFqFg0w0aF*/
