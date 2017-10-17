@@ -51,7 +51,7 @@ export default function reducer(state = { lineItems: [] }, action) {
             return action.cart || state;
         case ADD_ITEM:
             const newLineItems = state.lineItems;
-            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.productId === action.product.productId);
+            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.productId === action.product.id);
             if (lineItemIdx !== -1) {
                 newLineItems[lineItemIdx].quantity += action.product.buying;
             }
