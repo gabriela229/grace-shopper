@@ -76,7 +76,7 @@ function Navbar(props) {
           <ul className="nav navbar-nav navbar-right">
             <li>
               <NavLink to="/cart" activeClassName="active">
-                  Cart {cart.lineItems ? `(${cart.lineItems.reduce((total, item) => {return total + item.buying}, 0)})` : ''}}
+                  Cart {cart.lineItems ? `(${cart.lineItems.reduce((total, item) => {return total + item.buying}, 0)})` : ''}
               </NavLink>
             </li>
             <li>

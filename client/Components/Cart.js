@@ -28,7 +28,7 @@ const Cart = ({ cart, products }) => {
                 <div>
                   <div className="row">
                     <div className="col-xs-2">
-                      <img className="img-responsive" src="http://placehold.it/100x70" />
+                      <img className="img-responsive" src={lineItem.image} />
                       <p>You are buying {lineItem.buying} of this tasty donut!</p>
                     </div>
                     <div className="col-xs-4">

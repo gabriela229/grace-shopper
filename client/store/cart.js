@@ -63,7 +63,7 @@ export default function reducer(state = { lineItems: [] }, action) {
             // just modified a little of bart callback function 
             const lineItemIdx = newLineItems.findIndex(lineItem => lineItem.id === action.product.id);
             if (lineItemIdx !== -1) {
-                console.log("Not push works too");
+                // console.log("Not push works too");
                 newLineItems[lineItemIdx].buying += 1;
             }
             else {
