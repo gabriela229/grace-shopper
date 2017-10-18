@@ -26,7 +26,6 @@ export function loadCart() {
 export function addToCart(productId, orderId) {
     return function thunk(dispatch) {
         if (!orderId) {
-            // return dispatch(addProductToCart({ productId, quantity: 1 }))
             return axios.get(`/api/products/${productId}`)
                 .then(res => res.data)
                 .then(product => {
@@ -52,23 +51,14 @@ export default function reducer(state = { lineItems: [] }, action) {
             return action.cart || state;
         case ADD_ITEM:
             const newLineItems = state.lineItems;
-            // let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.productId === action.product.productId);
-            // if (lineItemIdx !== -1) {
-            //     newLineItems[lineItemIdx].buying += action.product.buying;
-            // }
-            // else {
-            //     newLineItems.push(action.product)
-            // }
-
-            // just modified a little of bart callback function 
-            const lineItemIdx = newLineItems.findIndex(lineItem => lineItem.id === action.product.id);
+            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.productId === action.product.id);
             if (lineItemIdx !== -1) {
-                // console.log("Not push works too");
-                newLineItems[lineItemIdx].buying += 1;
+                newLineItems[lineItemIdx].quantity += action.product.buying;
             }
             else {
-                newLineItems.push(action.product);
+                newLineItems.push({quantity: action.product.buying, product: action.product})
             }
+            
             return Object.assign({}, state, { lineItems: newLineItems })
         default:
             return state;
