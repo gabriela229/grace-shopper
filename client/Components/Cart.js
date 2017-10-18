@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-const Cart = ({ cart, products }) => {
+const Cart = ({ cart, products, handleQuantityUpdate }) => {
     if (!cart.lineItems.length) {
         return(
             <div>
@@ -36,7 +36,7 @@ const Cart = ({ cart, products }) => {
                     </div>
                 </div></td>
                 <td className="col-sm-1 col-md-1" style={{textAlign: "center"}}>
-                <input type="email" className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
+                <input type="email" onChange={(event) => handleQuantityUpdate(event)} className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
                 </td>
                 <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price}</strong></td>
                 <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price * lineItem.quantity}</strong></td>
@@ -83,4 +83,14 @@ const mapStateToProps = ({ cart, products }) => {
   };
 };
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleQuantityUpdate: (event) => {
+            // const id = event.target.value;
+            console.log(event.target.value);
+            // dispatch(updateLineItem(cartId, productId, 1, true));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

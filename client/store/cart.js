@@ -7,8 +7,8 @@ export function getCart(cart) {
     return { type: GET_CART, cart };
 }
 
-export function addProductToCart(product) {
-    return { type: ADD_ITEM, product };
+export function addProductToCart(product, quantity) {
+    return { type: ADD_ITEM, product, quantity };
 }
 
 export function loadCart() {
@@ -23,16 +23,13 @@ export function loadCart() {
     };
 }
 
-export function addToCart(productId, orderId) {
+export function updateLineItem(orderId, productId, quantity, increase) {
     return function thunk(dispatch) {
         if (!orderId) {
             return axios.get(`/api/products/${productId}`)
                 .then(res => res.data)
                 .then(product => {
-                    // product has inventory quantity
-                    // buying is for customer selecting quantity
-                    const _product = Object.assign({}, product, {buying: 1});
-                    dispatch(addProductToCart(_product));
+                    dispatch(addProductToCart(product, quantity));
                 })
                 .catch(err => console.log(err));
         }
@@ -43,20 +40,20 @@ export function addToCart(productId, orderId) {
     };
 }
 
-
 export default function reducer(state = { lineItems: [] }, action) {
     switch (action.type) {
         case GET_CART:
             console.log('updating cart');
             return action.cart || state;
         case ADD_ITEM:
+            console.log(action)
             const newLineItems = state.lineItems;
-            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.productId === action.product.id);
+            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.product.id);
             if (lineItemIdx !== -1) {
-                newLineItems[lineItemIdx].quantity += action.product.buying;
+                newLineItems[lineItemIdx].quantity += action.quantity;
             }
             else {
-                newLineItems.push({quantity: action.product.buying, product: action.product})
+                newLineItems.push({quantity: action.quantity, product: action.product})
             }
             
             return Object.assign({}, state, { lineItems: newLineItems })
