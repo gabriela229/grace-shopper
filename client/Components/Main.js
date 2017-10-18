@@ -12,13 +12,15 @@ import Admin from './Admin';
 import PasswordReset from './PasswordReset';
 
 // store and getProducts thunk
-import {fetchUser, fetchUsers, getProducts, getCategories, loadCart, addToCart} from '../store';
+
+import store, {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart, addToCart} from '../store';
 
 class Main extends Component {
 
-  // fetch products and categories data
+  // fetch categories, products, and reviews data
   componentDidMount() {
     this.props.fetchInitialData();
+
   }
   render() {
     return (
@@ -53,6 +55,7 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(fetchUser());
       dispatch(fetchUsers());
       dispatch(loadCart());
+      dispatch(getReviews());
     }
   };
 };

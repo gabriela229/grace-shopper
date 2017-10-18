@@ -2,6 +2,7 @@ const Category = require('./Category');
 const Product = require('./Product');
 const LineItem = require('./LineItem');
 const Order = require('./Order');
+const Review = require('./Review');
 const User = require('./User');
 
 // ASSOCIATION(s)
@@ -12,10 +13,16 @@ LineItem.belongsTo(Order);
 Order.hasMany(LineItem);
 Order.belongsTo(User);
 
+Review.belongsTo(Product);
+Product.hasMany(Review);
+Review.belongsTo(User);
+User.hasMany(Review);
+
 module.exports = {
   Category,
   Product,
   LineItem,
   Order,
+  Review,
   User
 };
