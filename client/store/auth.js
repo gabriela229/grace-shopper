@@ -16,9 +16,8 @@ export function loginUser(credentials, history){
       .then(user => {
         dispatch(setUser(user));
         dispatch(loadCart());
-        history.push('/');
+        user.passwordExpired === true ? history.push('/reset') : history.push('/');
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
@@ -31,8 +30,8 @@ export function logoutUser(){
       })
       .then(() => {
         dispatch(loadCart());
+        history.push('/');
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
@@ -44,7 +43,6 @@ export function createUser(credentials, history){
         dispatch(fetchUsers());
         dispatch(loginUser(credentials, history));
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }

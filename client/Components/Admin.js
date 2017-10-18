@@ -1,8 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
-import {createUser, deleteUser, setError, updateUser} from '../store';
+import {deleteUser, resetPassword, updateUser} from '../store';
 
-function Admin({users, removeUserOnClick, authUser, handleUserUpdate}) {
+function Admin({users, removeUserOnClick, authUser, handleUserUpdate, resetUserPassword}) {
   let counter = 0;
   return (
         <div>
@@ -40,7 +40,7 @@ function Admin({users, removeUserOnClick, authUser, handleUserUpdate}) {
                         <option value={false}>User</option>
                         </select>
                       </td>
-                      <td><button value={user.id} onClick={resetUserPassword} className="btn btn-danger">Reset User Password</button></td>
+                      <td><button value={user.id} onClick={resetUserPassword} className="btn btn-warning">Reset User Password</button></td>
                       <td><button value={user.id} onClick={removeUserOnClick} className="btn btn-danger">Delete</button></td>
                     </tr>
                   );
@@ -69,6 +69,10 @@ const mapDispatchToProps = (dispatch) => {
       const isAdmin = event.target.value;
       const id = event.target.dataset.id * 1;
       dispatch(updateUser({id, isAdmin}));
+    },
+    resetUserPassword: (event) => {
+      const id = event.target.value;
+      dispatch(resetPassword(id));
     }
   };
 };

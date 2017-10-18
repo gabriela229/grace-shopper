@@ -25,7 +25,7 @@ class LoginSignupForm extends Component {
     event.preventDefault();
     const url = this.props.location.pathname;
     const {email, password} = this.state;
-    url === '/login' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state);
+    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state);
     this.setState({name: '', email: '', password: ''});
   }
   componentDidMount(){

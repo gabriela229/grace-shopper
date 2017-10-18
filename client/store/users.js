@@ -28,9 +28,21 @@ export function deleteUser(id){
   };
 }
 
-export function updateUser(user){
+export function updateUser(user, history){
   return (dispatch) => {
     return axios.put(`api/user/${user.id}`, user)
+    .then( () => {
+      if (user.currentPassword){
+        history.push('/');
+      dispatch(fetchUsers());
+      }
+    });
+  };
+}
+
+export function resetPassword(id){
+  return (dispatch) => {
+    return axios.put(`api/user/${id}`, {passwordExpired: true})
     .then( () => {
       dispatch(fetchUsers());
     });

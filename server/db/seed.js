@@ -22,7 +22,8 @@ const users = [
   {
     name: 'Homer Simpson',
     email: 'homer@gmail.com',
-    password: '234'
+    password: '234',
+    passwordExpired: true
   },
   {
     name: 'Duncan Donaught',
