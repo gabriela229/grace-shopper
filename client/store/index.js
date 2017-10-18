@@ -11,17 +11,13 @@ import users from './users';
 import reviews from './reviews';
 
 const rootReducer = combineReducers({
-  products,
-  categories,
   authUser,
-  users,
   cart,
+  categories,
+  error,
+  products,
   reviews,
-  error
-=======
-
-
-
+  users,
 });
 
 export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
