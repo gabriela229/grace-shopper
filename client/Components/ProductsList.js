@@ -5,7 +5,7 @@ import { addToCart, addToUserCart } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
-  const { products, cart, handleChange, handleSubmit, handleAddToCart } = props;
+  const { products, cart, handleChange, handleSubmit, handleAddToCart, authUser } = props;
   return (
     <div>
       <h1>Products list</h1>
@@ -37,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-xs-6">
-                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">Add to cart</a>
+                  <a onClick={() => handleAddToCart(product.id, cart.id, authUser.id)} className="btn btn-success pull-right">Add to cart</a>
                 </div>
 
               </div>
@@ -61,8 +61,12 @@ const mapStateToProps = ({ products, cart, authUser }) => {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    handleAddToCart: (productId, cartId) => {
-      dispatch(addToCart(productId, cartId, 1));
+    handleAddToCart: (productId, cartId, authUserId) => {
+      if (authUserId){
+        dispatch(addToUserCart(productId, cartId, 1));
+      } else {
+        dispatch(addToCart(productId, 1));
+      }
     },
     handleChange: function (evt) {
       const input = evt.target.value;

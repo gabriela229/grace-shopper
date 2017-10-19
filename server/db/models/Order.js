@@ -18,17 +18,18 @@ const Order = db.define('order', {
         }
     });
 
-Order.addProductToCart = function (cartId, productId) {
+Order.addProductToCart = function (cartId, productId, quantity) {
     return Order.findById(cartId, { include: LineItem })
         .then(cart => {
             let lineItem = cart.lineItems.find(item => item.productId === productId);
             if (lineItem) {
-                lineItem.quantity++;
+                lineItem.quantity += quantity;
                 return lineItem.save();
             }
             return db.models.lineItem.create({
                 orderId: cart.id,
-                productId: productId
+                productId,
+                quantity
             });
         });
 };
