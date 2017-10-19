@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCart } from '../store';
+import { addToCart, addToUserCart } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
@@ -37,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-xs-6">
-                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">BUY</a>
+                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">Add to cart</a>
                 </div>
 
               </div>
@@ -51,22 +51,23 @@ const ProductsList = (props) => {
   );
 }
 
-const mapStateToProps = ({ products, cart }) => {
+const mapStateToProps = ({ products, cart, authUser }) => {
   return {
     products,
-    cart
+    cart,
+    authUser
   };
 };
 
 const mapDispatchToProps = function (dispatch) {
   return {
     handleAddToCart: (productId, cartId) => {
-      dispatch(addToCart(productId, cartId));
+        dispatch(addToCart(productId, cartId, 1));
     },
     handleChange: function (evt) {
       const input = evt.target.value;
       if (input) {
-        dispatch(searchProducts(input))
+        dispatch(searchProducts(input));
       } else {
         dispatch(getProducts());
       }
@@ -75,7 +76,7 @@ const mapDispatchToProps = function (dispatch) {
       evt.preventDefault();
       const input = evt.target.searchInput.value;
       if (input) {
-        dispatch(searchProducts(input))
+        dispatch(searchProducts(input));
       } else {
         dispatch(getProducts());
       }

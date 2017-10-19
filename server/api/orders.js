@@ -21,7 +21,7 @@ router.put('/:id', (req, res, next) => {
 
 // get cart
 router.get('/getCart', (req, res, next) => {
-    if (typeof req.session.userId === 'undefined'){
+    if (!req.session.userId){
         res.send({lineItems: []});
     } else {
         Order.getCart(req.session.userId)
