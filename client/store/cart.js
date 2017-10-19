@@ -57,14 +57,13 @@ export function removeLineItem(orderId, productId) {
 }
 
 export default function reducer(state = { lineItems: [] }, action) {
-    let newLineItems = state.lineItems;
+    let newLineItems = [...state.lineItems];
     let lineItemIdx = 0;
 
     switch (action.type) {
         case GET_CART:
-            return action.cart || state;
+            return action.cart;
         case ADD_ITEM:
-            newLineItems = state.lineItems;
             lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.product.id);
             if (lineItemIdx !== -1) {
                 if (action.increase) {
@@ -75,12 +74,11 @@ export default function reducer(state = { lineItems: [] }, action) {
                 }
             }
             else {
-                newLineItems.push({ quantity: action.quantity, product: action.product })
+                 newLineItems = [...state.lineItems, {quantity: action.product.buying, product: action.product}];
             }
 
             return Object.assign({}, state, { lineItems: newLineItems })
         case DELETE_ITEM:
-            newLineItems = state.lineItems;
             lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.productId);
             newLineItems.splice(lineItemIdx, 1)
 
