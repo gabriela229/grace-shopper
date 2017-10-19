@@ -30,7 +30,7 @@ export function addToCart(productId, orderId, orderQuantity) {
                 .then(product => {
                     // product has inventory quantity
                     // buying is for customer selecting quantity
-                    const _product = Object.assign({}, product, {buying: orderQuantity});
+                    const _product = Object.assign({}, product, {buying: orderQuantity * 1});
                     dispatch(addProductToCart(_product));
                 })
                 .catch(err => console.log(err));
