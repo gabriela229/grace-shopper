@@ -28,7 +28,7 @@ export function loadCart(cart) {
 }
 
 export function addToUserCart(productId, orderId, quantity) {
-    console.log(productId, orderId, quantity);
+    console.log('addtoUserCart', `productId: ${productId} orderId: ${orderId} quantity: ${quantity}`);
     return function thunk(dispatch) {
         return axios.post(`/api/orders/${orderId}/lineItems`, { productId, quantity })
             .then((res) => {

@@ -6,6 +6,7 @@ import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
   const { products, cart, handleChange, handleSubmit, handleAddToCart, authUser } = props;
+  console.log(products, 'products');
   return (
     <div>
       <h1>Products list</h1>
@@ -62,9 +63,11 @@ const mapStateToProps = ({ products, cart, authUser }) => {
 const mapDispatchToProps = function (dispatch) {
   return {
     handleAddToCart: (productId, cartId, authUserId) => {
+      console.log(cartId, 'cartId in product list add to cart');
       if (authUserId){
         dispatch(addToUserCart(productId, cartId, 1));
       } else {
+
         dispatch(addToCart(productId, 1));
       }
     },
