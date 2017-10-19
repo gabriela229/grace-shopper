@@ -37,6 +37,7 @@ class Main extends Component {
           {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
           {/* <Route path="/products/:productId" component={SingleProduct} />  */}
           <Route exact path="/admin" component={this.props.authUser.id ? Admin : LoginSignupForm} />
+          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
           <Redirect to="/" />
         </Switch>
       </div>

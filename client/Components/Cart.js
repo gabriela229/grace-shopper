@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { removeLineItem } from '../store';
 
-const Cart = ({ cart, products }) => {
+const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) => {
     if (!cart.lineItems.length) {
         return(
             <div>
@@ -37,12 +38,12 @@ const Cart = ({ cart, products }) => {
                     </div>
                 </div></td>
                 <td className="col-sm-1 col-md-1" style={{textAlign: "center"}}>
-                <input type="email" className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
+                <input type="email" onChange={handleQuantityUpdate} className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
                 </td>
                 <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price}</strong></td>
                 <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price * lineItem.quantity}</strong></td>
                 <td className="col-sm-1 col-md-1">
-                <button type="button" className="btn btn-danger">
+                <button onClick={() => removeLineItemOnClick(cart.id, lineItem.product.id)} type="button" className="btn btn-danger">
                     <span className="glyphicon glyphicon-remove"></span> Remove
                 </button></td>
             </tr>
@@ -84,4 +85,16 @@ const mapStateToProps = ({ cart, products }) => {
   };
 };
 
-export default connect(mapStateToProps)(Cart);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        handleQuantityUpdate: (event) => {
+            // const id = event.target.value;
+            // dispatch(updateLineItem(cartId, productId, 1, true));
+        },
+        removeLineItemOnClick: (cartId, productId) => {
+            dispatch(removeLineItem(cartId, productId));
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

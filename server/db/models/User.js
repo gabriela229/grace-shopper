@@ -16,7 +16,8 @@ function saltPassword(user){
   .then( hash => {
       user.password = hash;
       user.save();
-  });
+  })
+  .catch(err => console.log(err));
 }
 
 const User = db.define('user', {
@@ -64,7 +65,7 @@ const User = db.define('user', {
 }, {
   hooks: {
     beforeCreate: (user) => {
-      saltPassword(user);
+      return saltPassword(user);
     }
   }
 });
@@ -101,17 +102,18 @@ User.prototype.checkNewPasswords = function(newPassword, newPasswordCheck){
 
 User.login = function(credentials){
   const {email, password} = credentials;
-  if (!credentials.email || !credentials.password){
+  if (!email || !password){
     throw createError('Please complete all fields');
   }
-  return this.findOne({
+  return User.findOne({
     where: {
       email
     }
   })
   .then( user => {
     return user.validatePassword(password);
-  });
+  })
+  .catch(err => console.log(err));
 };
 
 module.exports = User;

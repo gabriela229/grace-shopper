@@ -18,10 +18,14 @@ const Order = db.define('order', {
         }
     });
 
-Order.addProductToCart = function (cartId, productId) {
+Order.updateLineItem = function (cartId, quantity, productId) {
     return Order.findById(cartId, { include: LineItem })
         .then(cart => {
-            let lineItem = cart.lineItems.find(lineItem => lineItem.productId === productId);
+            let lineItem = cart.lineItems.find(item => item.productId === productId);
+            console.log("quant", quantity)
+            if (quantity === 0) {
+                lineItem.destroy()
+            }
             if (lineItem) {
                 lineItem.quantity++;
                 return lineItem.save();
@@ -39,7 +43,7 @@ Order.getCart = function (userId) {
     })
         .then(order => {
             if (!order) {
-                return Order.create({});
+                return Order.create({userId});
             }
             return order;
         })

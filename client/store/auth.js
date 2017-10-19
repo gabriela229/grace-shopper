@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {setError} from './error';
 import {fetchUsers} from './users';
-import {loadCart} from './cart';
+import {loadCart, addToCart} from './cart';
 
 const SET_USER = 'SET_USER';
 
@@ -9,13 +9,18 @@ export function setUser(user){
   return {type: SET_USER, user};
 }
 
-export function loginUser(credentials, history){
+export function loginUser(credentials, history, cart){
   return function thunk(dispatch){
     return axios.post('/api/auth', credentials)
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
         dispatch(loadCart());
+        if (cart) {
+          cart.lineItems.map( item => {
+            dispatch(addToCart(item.product.id, cart.orderId));
+          });
+        }
         user.passwordExpired === true ? history.push('/reset') : history.push('/');
       })
       .catch(err => dispatch(setError(err.response.data)));
@@ -36,12 +41,13 @@ export function logoutUser(){
   };
 }
 
-export function createUser(credentials, history){
+export function createUser(credentials, history, cart){
   return function thunk(dispatch){
     return axios.post('/api/user', credentials)
+      .then(res => res.data)
       .then(() => {
         dispatch(fetchUsers());
-        dispatch(loginUser(credentials, history));
+        dispatch(loginUser(credentials, history, cart));
       })
       .catch(err => dispatch(setError(err.response.data)));
   };

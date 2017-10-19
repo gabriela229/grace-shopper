@@ -23,9 +23,10 @@ class LoginSignupForm extends Component {
   }
   onSubmit(event){
     event.preventDefault();
-    const url = this.props.location.pathname;
+    const {location, cart} = this.props;
+    const url = location.pathname;
     const {email, password} = this.state;
-    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state);
+    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state, cart);
     this.setState({name: '', email: '', password: ''});
   }
   componentDidMount(){
@@ -80,16 +81,17 @@ class LoginSignupForm extends Component {
   }
 }
 
-const mapStateToProps = ({error}) => {
+const mapStateToProps = ({error, cart}) => {
   return {
-    error
+    error,
+    cart
   };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    signUpUser: (credentials) => {
-      dispatch(createUser(credentials, ownProps.history));
+    signUpUser: (credentials, cart) => {
+      dispatch(createUser(credentials, ownProps.history, cart));
     },
     startUserSession: (credentials) => {
       dispatch(loginUser(credentials, ownProps.history));
