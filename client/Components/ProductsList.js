@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCart, addToUserCart } from '../store';
+import { addToCart, addToUserCart, updateLineItem } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
@@ -62,14 +62,16 @@ const mapStateToProps = ({ products, cart, authUser }) => {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    handleAddToCart: (productId, cartId, authUserId) => {
-      console.log(cartId, 'cartId in product list add to cart');
-      if (authUserId){
-        dispatch(addToUserCart(productId, cartId, 1));
-      } else {
+    // handleAddToCart: (productId, cartId, authUserId) => {
+    //   console.log(cartId, 'cartId in product list add to cart');
+    //   if (authUserId){
+    //     dispatch(addToUserCart(productId, cartId, 1));
+    //   } else {
 
-        dispatch(addToCart(productId, 1));
-      }
+    //     dispatch(addToCart(productId, 1));
+    //   }
+    handleAddToCart: (productId, cartId) => {
+      dispatch(updateLineItem(cartId, productId, 1, true));
     },
     handleChange: function (evt) {
       const input = evt.target.value;
