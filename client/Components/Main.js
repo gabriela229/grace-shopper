@@ -10,6 +10,7 @@ import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
 import Admin from './Admin';
 import PasswordReset from './PasswordReset';
+import Checkout from './Checkout';
 
 // store and getProducts thunk
 
@@ -31,8 +32,10 @@ class Main extends Component {
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/login" component={LoginSignupForm} />
           <Route exact path="/signup" component={LoginSignupForm} />
-          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
           <Route path="/products/:productId" component={SingleProduct} />
+          <Route path="/checkout" component={Checkout} />
+          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
+          {/* <Route path="/products/:productId" component={SingleProduct} />  */}
           <Route exact path="/admin" component={this.props.authUser.id ? Admin : LoginSignupForm} />
           <Redirect to="/" />
         </Switch>

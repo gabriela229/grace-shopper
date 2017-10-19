@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 const Cart = ({ cart, products }) => {
     if (!cart.lineItems.length) {
@@ -65,7 +66,7 @@ const Cart = ({ cart, products }) => {
                         </button></td>
                         <td>
                         <button type="button" className="btn btn-success">
-                            Checkout <span className="glyphicon glyphicon-play"></span>
+                            <Link to="/checkout" replace> Checkout <span></span> </Link>
                         </button></td>
                     </tr>
                 </tbody>
