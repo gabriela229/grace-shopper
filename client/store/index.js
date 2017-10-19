@@ -9,6 +9,7 @@ import products from './products';
 import authUser from './auth';
 import users from './users';
 import reviews from './reviews';
+import checkout from './checkout';
 
 const rootReducer = combineReducers({
   authUser,
@@ -18,6 +19,7 @@ const rootReducer = combineReducers({
   products,
   reviews,
   users,
+  checkout                          // an object
 });
 
 export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
