@@ -5,7 +5,7 @@ const router = express.Router();
 
 // add item to cart
 router.post('/:id/lineItems', (req, res, next) => {
-    Order.addProductToCart(req.params.id, req.body.productId)
+    Order.addProductToCart(req.params.id, req.body.productId, req.body.quantity)
         .then(order => {
             res.sendStatus(204);
         });

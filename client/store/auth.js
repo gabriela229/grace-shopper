@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {setError} from './error';
 import {fetchUsers} from './users';
-import {loadCart, addToCart} from './cart';
+import {loadCart, addToUserCart} from './cart';
 
 const SET_USER = 'SET_USER';
 
@@ -15,12 +15,7 @@ export function loginUser(credentials, history, cart){
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
-        dispatch(loadCart());
-        if (cart) {
-          cart.lineItems.map( item => {
-            dispatch(addToCart(item.product.id, cart.orderId));
-          });
-        }
+        dispatch(loadCart(cart));
         user.passwordExpired === true ? history.push('/reset') : history.push('/');
       })
       .catch(err => dispatch(setError(err.response.data)));

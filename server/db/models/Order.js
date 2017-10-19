@@ -19,10 +19,13 @@ const Order = db.define('order', {
     });
 
 Order.addProductToCart = function (cartId, productId, quantity) {
+    console.log(cartId, productId, quantity);
     return Order.findById(cartId, { include: LineItem })
         .then(cart => {
             let lineItem = cart.lineItems.find(item => item.productId === productId);
+            console.log(lineItem);
             if (lineItem) {
+                console.log('in here?');
                 lineItem.quantity += quantity;
                 return lineItem.save();
             }

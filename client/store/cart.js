@@ -11,18 +11,24 @@ export function addProductToCart(product) {
     return { type: ADD_ITEM, product };
 }
 
-export function loadCart() {
+export function loadCart(cart) {
     return function thunk(dispatch) {
         return axios.get('/api/orders/getCart')
             .then(res => res.data)
-            .then(cart => {
-                dispatch(getCart(cart));
+            .then(newCart => {
+                if (cart) {
+                    cart.lineItems.map( item => {
+                      dispatch(addToUserCart(item.productId, newCart.id, item.quantity));
+                    });
+                  }
+                dispatch(getCart(newCart));
             })
             .catch(err => console.log(err));
     };
 }
 
 export function addToUserCart(productId, orderId, quantity) {
+    console.log(productId, orderId, quantity);
     return function thunk(dispatch) {
         return axios.post(`/api/orders/${orderId}/lineItems`, { productId, quantity })
             .then((res) => {
