@@ -24,7 +24,7 @@ const Checkout = (props) => {
                 </div>
             </div>
             <div className="row cart-body">
-                <div>
+                <div className="form-horizontal">
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">
@@ -173,6 +173,7 @@ const Checkout = (props) => {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             <div className="row cart-footer">
