@@ -5,7 +5,7 @@ import { getCategories, getProducts, logoutUser } from '../store';
 
 
 function Navbar(props) {
-  const { categories, products, user, cart, endUserSession } = props;
+  const { categories, products, authUser, cart, endUserSession } = props;
   return (
     <div className="navbar navbar-default navbar-fixed-top">
       <div className="container">
@@ -80,18 +80,23 @@ function Navbar(props) {
               </NavLink>
             </li>
             <li>
-              <NavLink className={!user.id ? 'show' : 'hidden'} to="/login" activeClassName="active">
-                Log in
+              <NavLink className={!authUser.id ? 'show' : 'hidden'}  to="/login" activeClassName="active">
+              Log in
               </NavLink>
             </li>
             <li>
-              <NavLink className={!user.id ? 'show' : 'hidden'} to="/signup" activeClassName="active">
-                Sign up
+              <NavLink className={!authUser.id ? 'show' : 'hidden'}  to="/signup" activeClassName="active">
+              Sign up
               </NavLink>
             </li>
             <li>
-              <a><button className={`btn btn-primary ${user.id ? 'show' : 'hidden'}`} onClick={endUserSession}>
-                logout
+              <NavLink className={authUser.id && authUser.isAdmin ? 'show' : 'hidden'}  to="/admin" activeClassName="active">
+              Admin
+              </NavLink>
+            </li>
+            <li>
+              <a><button className={`btn btn-primary ${authUser.id ? 'show' : 'hidden'}`} onClick={endUserSession}>
+              logout
               </button></a>
             </li>
           </ul>
@@ -102,12 +107,12 @@ function Navbar(props) {
   );
 }
 
-const mapStateToProps = ({ categories, products, cart, user }) => {
+const mapStateToProps = ({ categories, products, cart, authUser }) => {
   return {
     categories,
     products,
     cart,
-    user
+    authUser
   };
 };
 

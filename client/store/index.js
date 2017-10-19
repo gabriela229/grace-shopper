@@ -6,23 +6,27 @@ import cart from './cart';
 import categories from './categories';
 import error from './error';
 import products from './products';
+import authUser from './auth';
+import users from './users';
 import reviews from './reviews';
-import user from './user';
 
 const rootReducer = combineReducers({
+  authUser,
   cart,
   categories,
   error,
   products,
   reviews,
-  user,
+  users,
 });
 
 export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
 
-export * from './cart';
-export * from './categories';
-export * from './error';
+
 export * from './products';
+export * from './categories';
+export * from './auth';
+export * from './error';
+export * from './users';
+export * from './cart';
 export * from './reviews';
-export * from './user';
