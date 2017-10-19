@@ -37,7 +37,7 @@ const ProductsList = (props) => {
                   <p className="price">Price:${product.price}</p>
                 </div>
                 <div className="col-xs-6">
-                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">BUY</a>
+                  <a onClick={() => handleAddToCart(product.id, cart.id)} className="btn btn-success pull-right">Add to cart</a>
                 </div>
 
               </div>
@@ -66,7 +66,7 @@ const mapDispatchToProps = function (dispatch) {
     handleChange: function (evt) {
       const input = evt.target.value;
       if (input) {
-        dispatch(searchProducts(input))
+        dispatch(searchProducts(input));
       } else {
         dispatch(getProducts());
       }
@@ -75,7 +75,7 @@ const mapDispatchToProps = function (dispatch) {
       evt.preventDefault();
       const input = evt.target.searchInput.value;
       if (input) {
-        dispatch(searchProducts(input))
+        dispatch(searchProducts(input));
       } else {
         dispatch(getProducts());
       }
