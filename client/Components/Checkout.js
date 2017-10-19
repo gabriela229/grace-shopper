@@ -1,10 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {getFistName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submit} from '../store/checkout';
 
 const Checkout = (props) => {
     const { cart, checkout} = props;
-    console.dir(checkout);
+    const {
+        handleFristNameInput, 
+        handleLastNameInput, 
+        handleAddressInput, 
+        handleCityInput, 
+        handleStateInput, 
+        handlePostalCodeInput,
+        handleEmailInout,
+        handleSubmit
+    }  = props;
+    console.log(props);
     return (
         <div className="container wrapper">
             <div className="row cart-head">
@@ -13,7 +24,7 @@ const Checkout = (props) => {
                 </div>
             </div>
             <div className="row cart-body">
-                <form className="form-horizontal" method="post" action="">
+                <div>
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-push-6 col-sm-push-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">
@@ -51,47 +62,47 @@ const Checkout = (props) => {
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">Shipping Address</div>
-                            <form><div className="panel-body">
+                            <form onSubmit = {handleSubmit}><div className="panel-body">
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>First Name:</strong>
-                                        <input type="text" name="first_name" className="form-control" value="" />
+                                        <input onChange={handleFristNameInput} type="text" name="first_name" className="form-control" value={checkout.firstName} />
                                     </div>
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
                                         <strong>Last Name:</strong>
-                                        <input type="text" name="last_name" className="form-control" value="" />
+                                        <input  onChange={handleLastNameInput} type="text" name="last_name" className="form-control" value={checkout.lastName} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>Address:</strong></div>
                                     <div className="col-md-12">
-                                        <input type="text" name="address" className="form-control" value="" />
+                                        <input  onChange={handleAddressInput} type="text" name="address" className="form-control" value={checkout.address} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>City:</strong></div>
                                     <div className="col-md-12">
-                                        <input type="text" name="city" className="form-control" value="" />
+                                        <input  onChange={handleCityInput} type="text" name="city" className="form-control" value={checkout.city} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>State:</strong>
-                                        <input type="text" name="first_name" className="form-control" value="" />
+                                        <input  onChange={handleStateInput} type="text" name="first_name" className="form-control" value={checkout.state} />
                                     </div>
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
                                         <strong>Zip / Postal Code:</strong>
-                                        <input type="text" name="last_name" className="form-control" value="" />
+                                        <input  onChange={handlePostalCodeInput} type="text" name="last_name" className="form-control" value={checkout.postCode} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>Email Address:</strong></div>
-                                    <div className="col-md-12"><input type="text" name="email_address" className="form-control" value="" /></div>
+                                    <div className="col-md-12"><input  onChange={handleEmailInout} type="text" name="email_address" className="form-control" value={checkout.email} /></div>
                                 </div>
                                 <div className="form-group">
-                                    <div className="col-md-12"><button className="btn btn-primary" value=""> <strong>submit</strong> </button> </div>
+                                    <div className="col-md-12"><button type="submit" className="btn btn-primary" value=""> <strong>submit</strong> </button> </div>
                                 </div>
                             </div></form>
                         </div>
@@ -162,8 +173,7 @@ const Checkout = (props) => {
                             </div>
                         </div>
                     </div>
-
-                </form>
+                </div>
             </div>
             <div className="row cart-footer">
 
@@ -180,7 +190,33 @@ const mapStateToProps = ({ cart, checkout }) => {
 };
 
 const mapDispatchToProps = function (dispatch) {
-    return {}
+    return {
+        handleFristNameInput: evt=> {
+            dispatch(getFistName(evt.target.value));
+        },
+        handleLastNameInput: evt=> {
+            dispatch(getLastName(evt.target.value));
+        },
+        handleAddressInput: evt=> {
+            dispatch(getAddress(evt.target.value));
+        },
+        handleCityInput: evt=> {
+            dispatch(getCity(evt.target.value));
+        },
+        handleStateInput: evt=> {
+            dispatch(getState(evt.target.value));
+        },
+        handleEmailInout: evt=> {
+            dispatch(getEmail(evt.target.value));
+        },
+        handlePostalCodeInput: evt=>{
+            dispatch(getPostalCode(evt.target.value));
+        },
+        handleSubmit: evt=> {
+            evt.preventDefault();
+            dispatch(submit());
+        }
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Checkout);

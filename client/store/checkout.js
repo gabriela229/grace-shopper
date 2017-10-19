@@ -6,6 +6,7 @@ const WRITE_CITY = 'WRITE_CITY';
 const WRITE_STATE = 'WRITE_STATE';
 const WRITE_EMAIL = 'WRITE_EMAIL';
 const WRITE_POSTAL_CDOE = 'WRITE_POSTAL_CDOE';
+const SUBMIT = "SUBMIT";
 
 export const getFistName = firstName =>{
     return {type: WRITE_FIRST_NAME, firstName}
@@ -31,9 +32,15 @@ export const getEmail  =  email =>{
     return {type: WRITE_EMAIL, email}
 }
 
-export const getPostCode  =  postalCode =>{
+export const getPostalCode  =  postalCode =>{
     return {type: WRITE_POSTAL_CDOE, postalCode}
 }
+
+export const submit = ()=>{
+    return {type: SUBMIT}
+}
+
+// a thunk when submit
 
 const initialState = {
     firstName: '',
@@ -60,6 +67,8 @@ export default function reducer(state = initialState, action){
             return Object.assign({}, state, {email: action.email})
         case WRITE_POSTAL_CDOE:
             return Object.assign({}, state, {firstName: action.postalCode})
+        case SUBMIT:
+            return Object.assign({}, initialState);
         default: 
             return state;
     }
