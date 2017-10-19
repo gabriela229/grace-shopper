@@ -94,7 +94,7 @@ export default function reducer(state = [], action){
       });
     case SEARCH_PRODUCTS:
      const searchResults = state.filter( product=> {
-       return product.title.slice(0, -6).toLowerCase().match(action.toSearch.toLowerCase());
+       return product.title.toLowerCase().match(action.toSearch.toLowerCase());
      })
      return searchResults;
     default:
