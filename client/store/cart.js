@@ -74,7 +74,7 @@ export default function reducer(state = { lineItems: [] }, action) {
                 }
             }
             else {
-                 newLineItems = [...state.lineItems, {quantity: action.product.buying, product: action.product}];
+                 newLineItems = [...state.lineItems, {quantity: action.quantity, product: action.product}];
             }
 
             return Object.assign({}, state, { lineItems: newLineItems })
