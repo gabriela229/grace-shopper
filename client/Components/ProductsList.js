@@ -61,7 +61,7 @@ const mapStateToProps = ({ products, cart }) => {
 const mapDispatchToProps = function (dispatch) {
   return {
     handleAddToCart: (productId, cartId) => {
-      dispatch(addToCart(productId, cartId));
+      dispatch(addToCart(productId, cartId, 1));
     },
     handleChange: function (evt) {
       const input = evt.target.value;

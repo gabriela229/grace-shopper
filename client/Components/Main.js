@@ -27,13 +27,13 @@ class Main extends Component {
       <div className="container">
         <Navbar />
         <Switch>
+          <Route path="/products/:productId" component={SingleProduct} />
           <Route exact path="/" component={ProductsList} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/login" component={LoginSignupForm} />
           <Route exact path="/signup" component={LoginSignupForm} />
-          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
-          <Route path="/products/:productId" component={SingleProduct} />
           <Route exact path="/admin" component={this.props.authUser.id ? Admin : LoginSignupForm} />
+          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
           <Redirect to="/" />
         </Switch>
       </div>
