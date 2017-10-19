@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {setError} from './error';
+import {fetchUsers} from './users';
 import {loadCart} from './cart';
 
 const SET_USER = 'SET_USER';
@@ -14,10 +15,9 @@ export function loginUser(credentials, history){
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
-        dispatch(loadCart())
-        history.push('/');
+        dispatch(loadCart());
+        user.passwordExpired === true ? history.push('/reset') : history.push('/');
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
@@ -29,9 +29,9 @@ export function logoutUser(){
         dispatch(setUser({}));
       })
       .then(() => {
-        dispatch(loadCart())
+        dispatch(loadCart());
+        history.push('/');
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
@@ -40,9 +40,9 @@ export function createUser(credentials, history){
   return function thunk(dispatch){
     return axios.post('/api/user', credentials)
       .then(() => {
+        dispatch(fetchUsers());
         dispatch(loginUser(credentials, history));
       })
-      //update error handling to do something with this error
       .catch(err => dispatch(setError(err.response.data)));
   };
 }

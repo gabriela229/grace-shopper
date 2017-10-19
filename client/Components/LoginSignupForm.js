@@ -12,38 +12,47 @@ class LoginSignupForm extends Component {
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
-    this.onSignUpClick = this.onSignUpClick.bind(this);
   }
   onChange(event){
     const change = {};
     change[event.target.name] = event.target.value;
     this.setState(change);
-    this.props.clearError();
+    if (this.props.error.length > 0 ){
+      this.props.clearError();
+    }
   }
   onSubmit(event){
     event.preventDefault();
+    const url = this.props.location.pathname;
     const {email, password} = this.state;
-    this.props.startUserSession({email, password});
-    this.setState({email: '', password: ''});
-  }
-  onSignUpClick(event){
-    event.preventDefault();
-    this.props.signUpUser(this.state);
+    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state);
     this.setState({name: '', email: '', password: ''});
   }
+  componentDidMount(){
+    //if user tries to access /admin directly they will get an error
+    // except directly from /login or /signup since they are already mounted
+    const url = this.props.location.pathname;
+    if (url === '/admin'){
+      this.props.loginError('Please log in');
+    }
+  }
   componentDidUpdate(prevProps){
-    if (this.props.location.pathname !== prevProps.location.pathname ){
+  //clear error message
+    if (this.props.location.pathname !== prevProps.location.pathname && this.props.error.length > 0){
     this.props.clearError();
     }
   }
   componentWillUnmount(){
-    this.props.clearError();
+    if (this.props.error.length > 0 ){
+      this.props.clearError();
+    }
   }
   render() {
-    const {onSubmit, onChange, onSignUpClick} = this;
+    const {onSubmit, onChange} = this;
     const {name, email, password} = this.state;
     const {history, error} = this.props;
     const url = history.location.pathname;
+
     return (
       <div className="row">
         <div className="col-md-4 col-md-offset-4">
@@ -61,9 +70,9 @@ class LoginSignupForm extends Component {
               <label htmlFor="password">Password</label>
               <input onChange={onChange} name="password" className="form-control" type="password" value={password} />
             </div>
-              <button className={`btn btn-success btn-sm ${url === '/login' ? 'show' : 'hidden' }`}>Log In</button>
+              <button name="signup" className={`btn btn-warning btn-sm ${url === '/signup' ? 'show' : 'hidden' }`}  >Sign Up</button>
+              <button name="login" className={`btn btn-success btn-sm ${url === '/login' || url === '/admin' ? 'show' : 'hidden' }`}>Log In</button>
               {' '}
-              <button className={`btn btn-warning btn-sm ${url === '/signup' ? 'show' : 'hidden' }`} onClick={onSignUpClick} >Sign Up</button>
           </form>
         </div>
       </div>
@@ -87,6 +96,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     clearError: () => {
       dispatch(setError(''));
+    },
+    loginError: () => {
+      dispatch(setError('Please log in'));
     }
   };
 };

@@ -51,7 +51,7 @@ export default function reducer(state = { lineItems: [] }, action) {
             return action.cart || state;
         case ADD_ITEM:
             const newLineItems = state.lineItems;
-            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.productId === action.product.id);
+            let lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.product.id);
             if (lineItemIdx !== -1) {
                 newLineItems[lineItemIdx].quantity += action.product.buying;
             }
@@ -59,7 +59,7 @@ export default function reducer(state = { lineItems: [] }, action) {
                 newLineItems.push({quantity: action.product.buying, product: action.product});
             }
 
-            return Object.assign({}, state, { lineItems: newLineItems });
+            return Object.assign({}, state, { lineItems: newLineItems })
         default:
             return state;
     }
