@@ -13,7 +13,7 @@ class SingleProduct extends Component {
   }
 
   handleChange(evt) {
-    const {orderQuantity} = evt.target;
+    const orderQuantity = evt.target.value;
     this.setState({orderQuantity});
   }
 

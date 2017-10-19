@@ -23,7 +23,7 @@ export function loadCart() {
     };
 }
 
-export function addToCart(productId, orderId) {
+export function addToCart(productId, orderId, orderQuantity) {
     return function thunk(dispatch) {
         if (!orderId) {
             return axios.get(`/api/products/${productId}`)
@@ -31,7 +31,7 @@ export function addToCart(productId, orderId) {
                 .then(product => {
                     // product has inventory quantity
                     // buying is for customer selecting quantity
-                    const _product = Object.assign({}, product, {buying: 1});
+                    const _product = Object.assign({}, product, {buying: orderQuantity});
                     dispatch(addProductToCart(_product));
                 })
                 .catch(err => console.log(err));
@@ -56,10 +56,10 @@ export default function reducer(state = { lineItems: [] }, action) {
                 newLineItems[lineItemIdx].quantity += action.product.buying;
             }
             else {
-                newLineItems.push({quantity: action.product.buying, product: action.product})
+                newLineItems.push({quantity: action.product.buying, product: action.product});
             }
-            
-            return Object.assign({}, state, { lineItems: newLineItems })
+
+            return Object.assign({}, state, { lineItems: newLineItems });
         default:
             return state;
     }
