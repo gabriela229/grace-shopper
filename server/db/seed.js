@@ -1,20 +1,34 @@
-const { Product, Category, LineItem, Order, User, Review } = require('./models')
+const { Product, Category, LineItem, Order, User, Review } = require('./models');
+const bcrypt = require('bcrypt');
+
+function createPassword(password){
+  return bcrypt.genSalt(10)
+    .then( salt => {
+      return bcrypt.hash(password, salt);
+    })
+    .then( hash => {
+        return hash;
+    })
+    .catch(err => console.log(err));
+}
 
 const users = [
   {
     name: 'Doug Hnut',
     email: 'doughnut@gmail.com',
-    password: 123
+    password: '123',
+    isAdmin: true
   },
   {
     name: 'Homer Simpson',
     email: 'homer@gmail.com',
-    password: 234
+    password: '234',
+    passwordExpired: true
   },
   {
-    name: 'Test',
-    email: '1@1.com',
-    password: 1
+    name: 'Duncan Donaught',
+    email: 'duncan@gmail.com',
+    password: '123'
   }
 ];
 
@@ -208,6 +222,18 @@ const reviews = [
 const seed = () => {
   Category.bulkCreate(categories)
     .then(() => {
+      return Promise.all([
+        createPassword(users[0].password),
+        createPassword(users[1].password),
+        createPassword(users[2].password)
+      ]);
+    })
+    .then(([pass1, pass2, pass3]) => {
+      users[0].password = pass1;
+      users[1].password = pass2;
+      users[2].password = pass3;
+    })
+    .then( () => {
       User.bulkCreate(users);
     })
     .then(() => {
@@ -221,7 +247,8 @@ const seed = () => {
     })
     .then(() => {
       Review.bulkCreate(reviews);
-    });
+    })
+    .catch( err => console.log(err));
 };
 
 module.exports = seed;
