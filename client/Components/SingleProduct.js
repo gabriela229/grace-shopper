@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateLineItem} from '../store';
+import ReviewForm from './ReviewForm';
 
 class SingleProduct extends Component {
 
@@ -72,6 +73,8 @@ class SingleProduct extends Component {
             onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
 
         </div>
+
+        <ReviewForm product={product} productReviews={productReviews} />
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           <h3>{product.title} Reviews</h3>
