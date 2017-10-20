@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addToCart, addToUserCart} from '../store';
+import {addToCart} from '../store';
 
 class SingleProduct extends Component {
 
@@ -24,8 +24,7 @@ class SingleProduct extends Component {
       product,
       productReviews,
       quantityCounter,
-      handleAddToCart,
-      authUser
+      handleAddToCart
     } = this.props;
 
     const {orderQuantity} = this.state;
@@ -69,7 +68,7 @@ class SingleProduct extends Component {
 
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(product.id, cart.id, orderQuantity, authUser.id)}>Add to Cart</button>
+            onClick={() => handleAddToCart(product.id, cart.id, orderQuantity)}>Add to Cart</button>
 
         </div>
 
@@ -96,7 +95,7 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({products, cart, reviews, authUser}, ownProps) => {
+const mapStateToProps = ({products, cart, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
@@ -110,17 +109,13 @@ const mapStateToProps = ({products, cart, reviews, authUser}, ownProps) => {
     cart,
     product,
     productReviews,
-    quantityCounter,
-    authUser
+    quantityCounter
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddToCart: (productId, cartId, orderQuantity, authUserId) => {
-      if (authUserId) {
-        dispatch(addToUserCart(productId, cartId, orderQuantity));
-      } else {
+    handleAddToCart: (productId, cartId, orderQuantity) => {
         dispatch(addToCart(productId, orderQuantity));
       }
     },
