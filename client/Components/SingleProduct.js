@@ -116,7 +116,7 @@ const mapStateToProps = ({products, cart, reviews}, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (productId, cartId, orderQuantity) => {
-        dispatch(addToCart(productId, orderQuantity));
+        dispatch(addToCart(productId, cartId, orderQuantity));
       }
     },
   };
