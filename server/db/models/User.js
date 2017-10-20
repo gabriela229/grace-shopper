@@ -14,8 +14,7 @@ function saltPassword(user){
     return bcrypt.hash(user.password, salt);
   })
   .then( hash => {
-      user.password = hash;
-      user.save();
+    user.password = hash;
   })
   .catch(err => console.log(err));
 }
