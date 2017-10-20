@@ -62,14 +62,6 @@ const mapStateToProps = ({ products, cart, authUser }) => {
 
 const mapDispatchToProps = function (dispatch) {
   return {
-    // handleAddToCart: (productId, cartId, authUserId) => {
-    //   console.log(cartId, 'cartId in product list add to cart');
-    //   if (authUserId){
-    //     dispatch(addToUserCart(productId, cartId, 1));
-    //   } else {
-
-    //     dispatch(addToCart(productId, 1));
-    //   }
     handleAddToCart: (productId, cartId) => {
       dispatch(updateLineItem(cartId, productId, 1, true));
     },

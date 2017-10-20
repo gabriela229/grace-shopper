@@ -23,7 +23,7 @@ export function loadCart(cart) {
             .then(newCart => {
                 if (cart) {
                     cart.lineItems.map( item => {
-                      dispatch(addToUserCart(item.productId, newCart.id, item.quantity));
+                      dispatch(updateLineItem(newCart.id, item.product.id, item.quantity));
                     });
                   }
                 dispatch(getCart(newCart));
@@ -32,13 +32,6 @@ export function loadCart(cart) {
     };
 }
 
-// export function addToUserCart(productId, orderId, quantity) {
-//     console.log('addtoUserCart', `productId: ${productId} orderId: ${orderId} quantity: ${quantity}`);
-//     return function thunk(dispatch) {
-//         return axios.post(`/api/orders/${orderId}/lineItems`, { productId, quantity })
-//             .then((res) => {
-//                 dispatch(loadCart());
-            // })
 export function updateLineItem(orderId, productId, quantity, increase) {
     return function thunk(dispatch) {
         if (!orderId) {
@@ -55,19 +48,7 @@ export function updateLineItem(orderId, productId, quantity, increase) {
             .catch(err => console.log(err));
     };
 }
-// export function addToCart(productId, orderQuantity) {
-//     return function thunk(dispatch) {
-//         return axios.get(`/api/products/${productId}`)
-//             .then(res => res.data)
-//             .then(product => {
-//                 // product has inventory quantity
-//                 // buying is for customer selecting quantity
-//                 const _product = Object.assign({}, product, {buying: orderQuantity * 1});
-//                 dispatch(addProductToCart(_product));
-//             })
-//             .catch(err => console.log(err));
-//     };
-// }
+
 
 export function removeLineItem(orderId, productId) {
     return function thunk(dispatch) {
