@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addToCart} from '../store';
+import {updateLineItem} from '../store';
 
 class SingleProduct extends Component {
 
@@ -13,13 +13,14 @@ class SingleProduct extends Component {
   }
 
   handleChange(evt) {
-    const orderQuantity = evt.target.value;
+    const orderQuantity = Number(evt.target.value);
     this.setState({orderQuantity});
   }
 
   render() {
 
     const {
+      authUser,
       cart,
       product,
       productReviews,
@@ -68,7 +69,7 @@ class SingleProduct extends Component {
 
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(product.id, cart.id, orderQuantity)}>Add to Cart</button>
+            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
 
         </div>
 
@@ -95,7 +96,7 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({products, cart, reviews}, ownProps) => {
+const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
@@ -106,6 +107,7 @@ const mapStateToProps = ({products, cart, reviews}, ownProps) => {
   }
 
   return {
+    authUser,
     cart,
     product,
     productReviews,
@@ -116,7 +118,7 @@ const mapStateToProps = ({products, cart, reviews}, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (productId, cartId, orderQuantity) => {
-      dispatch(addToCart(productId, cartId, orderQuantity));
+      dispatch(updateLineItem(productId, cartId, orderQuantity, true));
     },
   };
 };
