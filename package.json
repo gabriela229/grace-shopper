@@ -8,7 +8,7 @@
     "webpack": "./node_modules/webpack/bin/webpack.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "npm run webpack -- -w & nodemon --ignore src/ --ignore dist/ server/app.js",
-    "start": "npm run webpack node server/app.js"
+    "start": "node server/app.js"
   },
   "keywords": [],
   "author": "",
