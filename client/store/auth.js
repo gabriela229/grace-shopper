@@ -1,7 +1,7 @@
 import axios from 'axios';
 import {setError} from './error';
 import {fetchUsers} from './users';
-import {loadCart, addToUserCart} from './cart';
+import {loadCart} from './cart';
 
 const SET_USER = 'SET_USER';
 
