@@ -24,7 +24,7 @@ class SingleProduct extends Component {
       product,
       productReviews,
       quantityCounter,
-      handleAddToCart,
+      handleAddToCart
     } = this.props;
 
     const {orderQuantity} = this.state;
@@ -109,15 +109,15 @@ const mapStateToProps = ({products, cart, reviews}, ownProps) => {
     cart,
     product,
     productReviews,
-    quantityCounter,
+    quantityCounter
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (productId, cartId, orderQuantity) => {
-      dispatch(addToCart(productId, cartId, orderQuantity));
-    },
+        dispatch(addToCart(productId, cartId, orderQuantity));
+      }
   };
 };
 

@@ -26,7 +26,7 @@ class LoginSignupForm extends Component {
     const {location, cart} = this.props;
     const url = location.pathname;
     const {email, password} = this.state;
-    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}) : this.props.signUpUser(this.state, cart);
+    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}, cart) : this.props.signUpUser(this.state, cart);
     this.setState({name: '', email: '', password: ''});
   }
   componentDidMount(){
@@ -93,8 +93,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     signUpUser: (credentials, cart) => {
       dispatch(createUser(credentials, ownProps.history, cart));
     },
-    startUserSession: (credentials) => {
-      dispatch(loginUser(credentials, ownProps.history));
+    startUserSession: (credentials, cart) => {
+      dispatch(loginUser(credentials, ownProps.history, cart));
     },
     clearError: () => {
       dispatch(setError(''));

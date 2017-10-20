@@ -16,12 +16,17 @@ export function removeProductFromCart(productId) {
     return { type: DELETE_ITEM, productId };
 }
 
-export function loadCart() {
+export function loadCart(cart) {
     return function thunk(dispatch) {
         return axios.get('/api/orders/getCart')
             .then(res => res.data)
-            .then(cart => {
-                dispatch(getCart(cart));
+            .then(newCart => {
+                if (cart) {
+                    cart.lineItems.map( item => {
+                      dispatch(updateLineItem(newCart.id, item.product.id, item.quantity));
+                    });
+                  }
+                dispatch(getCart(newCart));
             })
             .catch(err => console.log(err));
     };
@@ -43,6 +48,7 @@ export function updateLineItem(orderId, productId, quantity, increase) {
             .catch(err => console.log(err));
     };
 }
+
 
 export function removeLineItem(orderId, productId) {
     return function thunk(dispatch) {

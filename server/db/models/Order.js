@@ -27,12 +27,13 @@ Order.updateLineItem = function (cartId, quantity, productId) {
                 lineItem.destroy()
             }
             if (lineItem) {
-                lineItem.quantity++;
+                lineItem.quantity += quantity;
                 return lineItem.save();
             }
             return db.models.lineItem.create({
                 orderId: cart.id,
-                productId: productId
+                productId,
+                quantity
             });
         });
 };
