@@ -118,7 +118,6 @@ const mapDispatchToProps = (dispatch) => {
     handleAddToCart: (productId, cartId, orderQuantity) => {
         dispatch(addToCart(productId, cartId, orderQuantity));
       }
-    },
   };
 };
 
