@@ -73,14 +73,14 @@ export default function reducer(state = { lineItems: [] }, action) {
             lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.product.id);
             if (lineItemIdx !== -1) {
                 if (action.increase) {
-                    newLineItems[lineItemIdx].quantity += action.quantity;
+                    newLineItems[lineItemIdx].quantity += +action.quantity;
                 }
                 else {
-                    newLineItems[lineItemIdx].quantity = action.quantity;
+                    newLineItems[lineItemIdx].quantity = +action.quantity;
                 }
             }
             else {
-                 newLineItems = [...state.lineItems, {quantity: action.quantity, product: action.product}];
+                 newLineItems = [...state.lineItems, {quantity: +action.quantity, product: action.product}];
             }
 
             return Object.assign({}, state, { lineItems: newLineItems })
