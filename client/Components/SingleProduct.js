@@ -28,7 +28,6 @@ class SingleProduct extends Component {
       quantityCounter,
       handleAddToCart
     } = this.props;
-    console.log("SingleProduct: render() - product = ", product);
 
     const {orderQuantity} = this.state;
     const {handleChange} = this;
@@ -94,7 +93,7 @@ class SingleProduct extends Component {
                 );
               })
               : <li className="list-group-item">No reviews yet!</li>
-            /* pagination? */}
+            }
           </ul>
 
         </div>
@@ -105,12 +104,17 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
+  // console.log("SingleProduct: mapStateToProps - authUser = ", authUser);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
+  // could be moved to model?
+  const userReviewed = productReviews.filter(_productReview => _productReview.user.id === authUser.id);
+  console.log('userReviewed = ', userReviewed);
 
   // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
   // show review form only if user has ordered this product?
+  // if user has a review, show edit/delete button?
 
   const quantityCounter = [];
   for (var i = 1; i < product.quantity; i++) {

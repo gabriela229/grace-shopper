@@ -1,8 +1,8 @@
 const Sequelize = require('sequelize');
 const db = require('../db');
 
-// const Product = require('./Product');
-// const User = require('./User');
+const Product = require('./Product');
+const User = require('./User');
 
 const Review = db.define('review', {
   content: {
@@ -20,6 +20,18 @@ const Review = db.define('review', {
     defaultValue: false
   }
 });
+
+// Review.hasUserReviewed = function(productId, userId) {
+//   console.log('hasUserReviewed: productId = ', productId);
+//   console.log('hasUserReviewed: userId = ', userId);
+//   Review.getProducts({
+//     where: { productId: productId }
+//   })
+//     .then(products => {
+//       console.log('hasUserReviewed: products = ', products);
+//       return true;
+//     })
+// };
 
 // Review.getReviewsForProduct = function(productId) {
 //   return Review.getProducts({

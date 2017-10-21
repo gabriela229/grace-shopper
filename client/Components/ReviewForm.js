@@ -6,7 +6,6 @@ class ReviewForm extends Component {
 
   constructor(props) {
     super(props);
-    console.log("ReviewForm: constructor() - props = ", props);
     this.state = {
       content: ''
     };
@@ -20,13 +19,12 @@ class ReviewForm extends Component {
 
   handleSubmit(evt) {
     evt.preventDefault();
-    console.log("ReviewForm: handleSubmit - this.props = ", this.props);
     const review = {
       content: evt.target.content.value,
       productId: this.props.singleProduct.id,
       userId: this.props.authUser.id
     };
-    console.log("ReviewForm: handleSubmit - review = ", review);
+    // console.log("ReviewForm: review = ", review);
     store.dispatch(postReview(review));
     this.setState({content: ''});
   }
@@ -47,7 +45,7 @@ class ReviewForm extends Component {
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <input
+            <textarea
               className="form-control"
               name="content"
               onChange={handleChange}
@@ -70,7 +68,7 @@ class ReviewForm extends Component {
 
 const mapStateToProps = (ownProps) => {
   // console.log("ReviewForm: mapStateToProps - ownProps = ", ownProps);
-  // // const {authUser, product} = ownProps;
+  // const {authUser, product} = ownProps;
   // const authUser = ownProps.authUser;
   // const product = ownProps.singleProduct;
   // console.log("ReviewForm: mapStateToProps - product = ", product);

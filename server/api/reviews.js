@@ -33,8 +33,6 @@ router.get('/', (req, res, next) => {
 
 // create a review
 router.post('/', (req, res, next) => {
-  // const {content, isVerified} = req.body;
-  console.log("POST review: req.body = ", req.body);
   Review.create(req.body)
     .then(review => res.status(200).send(review))
     .catch(next);
