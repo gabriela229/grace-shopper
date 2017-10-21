@@ -22,9 +22,8 @@ Order.updateLineItem = function (cartId, quantity, productId) {
     return Order.findById(cartId, { include: LineItem })
         .then(cart => {
             let lineItem = cart.lineItems.find(item => item.productId === productId);
-            console.log("quant", quantity)
             if (quantity === 0) {
-                lineItem.destroy()
+                lineItem.destroy();
             }
             if (lineItem) {
                 lineItem.quantity += quantity;
