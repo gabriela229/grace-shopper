@@ -41,9 +41,9 @@ router.post('/', (req, res, next)=>{
             to: email, // list of receivers
             subject: 'Order confirmation', // Subject line
             text: `Hello ${customerInfo.firstName}, 
-        Thanks for buying our products. You have ordered ${lineItems.reduce((total, item) => {return total +  item.quantity;}, 0)} donuts.
-        Best,
-        Your delicious donuts makers!!`,
+            Thanks for buying our products. You have ordered ${lineItems.reduce((total, item) => {return total +  item.quantity;}, 0)} donuts.
+            Best,
+            Your delicious donuts makers!!`,
             // html: `<b></b>`
         };
 
