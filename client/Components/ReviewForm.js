@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {} from '../store';
+import store, {postReview} from '../store';
 
 class ReviewForm extends Component {
 
@@ -10,11 +10,22 @@ class ReviewForm extends Component {
       content: ''
     };
     this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(evt) {
-    // const reviewContent = Number(evt.target.value);
-    this.setState({content});
+    // track the number of characters? min: 5, max: 500
+    const reviewContent = evt.target.value;
+    console.log("handleChange: reviewContent = ", reviewContent);
+    this.setState({content: reviewContent});
+  }
+
+  handleSubmit(evt) {
+    evt.preventDefault();
+    const reviewContent = evt.target.content.value;
+    console.log("handleSubmit: reviewContent = ", reviewContent);
+    store.dispatch(postReview(reviewContent));
+    this.setState({content: ''});
   }
 
   render() {
@@ -22,15 +33,34 @@ class ReviewForm extends Component {
     const {
       authUser,
       product,
-      productReviews,
     } = this.props;
 
-    const {handleChange} = this;
+    const {handleChange, handleSubmit} = this;
+    const {content} = this.state;
 
     return (
       <div className="row">
 
         <div className="col-xs-12 col-sm-12 product-buy-box center-block">
+          <h4>Add a Review!</h4>
+
+          <form onSubmit={handleSubmit}>
+            <div className="form-group">
+              <input
+                className="form-control"
+                name="content"
+                onChange={handleChange}
+                placeholder="Type your review..."
+                type="text"
+                value={content} />
+            </div>
+
+            <div>
+              <button
+                className="btn btn-sm btn-default"
+                type="submit">Save</button>
+            </div>
+          </form>
 
         </div>
 
@@ -40,18 +70,19 @@ class ReviewForm extends Component {
 }
 
 const mapStateToProps = ({authUser}, ownProps) => {
-  const { product, productReviews } = ownProps;
+  const {product} = ownProps;
 
   return {
     authUser,
     product,
-    productReviews,
   };
 };
 
 // const mapDispatchToProps = (dispatch) => {
 //   return {
-
+//     handleSubmitReview: (review) => {
+//       dispatch(postReview(review));
+//     },
 //   };
 // };
 

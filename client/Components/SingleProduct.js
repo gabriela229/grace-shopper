@@ -107,6 +107,8 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
 
+  // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
+
   const quantityCounter = [];
   for (var i = 1; i < product.quantity; i++) {
     quantityCounter.push(i);

@@ -49,6 +49,7 @@ export function getReviews() {
 // }
 
 export function postReview(review) {
+  console.log("postReview: review = ", review);
   return function thunk(dispatch) {
     return axios.post('/api/reviews', review)
       .then(res => res.data)
