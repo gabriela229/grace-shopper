@@ -31,7 +31,6 @@ export function getReviews() {
       .then(reviews => {
         dispatch(loadReviews(reviews));
       })
-      //update error handling to do something with this error
       .catch(err => console.log(err));
   };
 }
@@ -43,7 +42,6 @@ export function getReviews() {
 //       .then(reviews => {
 //         dispatch(loadReviews(reviews));
 //       })
-//       //update error handling to do something with this error
 //       .catch(err => console.log(err));
 //   };
 // }
@@ -56,7 +54,6 @@ export function postReview(review) {
       .then(newReview => {
         dispatch(addReview(newReview));
       })
-      //update error handling to do something with this error
       .catch(err => console.log(err));
   };
 }
@@ -68,7 +65,6 @@ export function updateReview(id) {
       .then(review => {
         dispatch(editReview(review));
       })
-      //update error handling to do something with this error
       .catch(err => console.log(err));
   };
 }
@@ -80,7 +76,6 @@ export function deleteReview(id){
       .then(() => {
         dispatch(removeReview(id));
       })
-      //update error handling to do something with this error
       .catch(err => console.log(err));
   };
 }

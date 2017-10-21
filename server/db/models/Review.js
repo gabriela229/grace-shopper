@@ -9,8 +9,10 @@ const Review = db.define('review', {
     type: Sequelize.TEXT,
     allowNull: false,
     validate: {
-      len: [5, 500],
-      msg: 'Your review must be AT LEAST 5 characters, and NO MORE than 500 characters.'
+      len: {
+        args: [5, 500],
+        msg: 'Your review must be AT LEAST 5 characters, and NO MORE than 500 characters.'
+      }
     }
   },
   isVerified: {

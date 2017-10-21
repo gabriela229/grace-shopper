@@ -28,6 +28,7 @@ class SingleProduct extends Component {
       quantityCounter,
       handleAddToCart
     } = this.props;
+    console.log("SingleProduct: render() - product = ", product);
 
     const {orderQuantity} = this.state;
     const {handleChange} = this;
@@ -58,13 +59,13 @@ class SingleProduct extends Component {
               onChange={handleChange}
               value={orderQuantity}>
               <option value="">-- How many? --</option>
-              {
-                quantityCounter && quantityCounter.map(_quantity => {
-                  return (
-                    <option key={_quantity} value={_quantity}>{_quantity}</option>
-                  );
-                })
-              }
+                {
+                  quantityCounter && quantityCounter.map(_quantity => {
+                    return (
+                      <option key={_quantity} value={_quantity}>{_quantity}</option>
+                    );
+                  })
+                }
             </select>
           </div>
 
@@ -74,13 +75,14 @@ class SingleProduct extends Component {
 
         </div>
 
-        { authUser.id
-          ? <ReviewForm product={product} productReviews={productReviews} />
-          : null
-        }
-
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
+          {
+            authUser.id
+            ? <ReviewForm authUser={authUser} singleProduct={product} />
+            : null
+          }
           <h3>{product.title} Reviews</h3>
+
           <ul className="list-group">
             {
               productReviews.length > 0
@@ -108,6 +110,7 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   const productReviews = reviews.filter(_review => _review.product.id === productId);
 
   // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
+  // show review form only if user has ordered this product?
 
   const quantityCounter = [];
   for (var i = 1; i < product.quantity; i++) {
@@ -125,8 +128,8 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddToCart: (productId, cartId, orderQuantity) => {
-      dispatch(updateLineItem(productId, cartId, orderQuantity, true));
+    handleAddToCart: (cartId, productId, orderQuantity) => {
+      dispatch(updateLineItem(cartId, productId, orderQuantity, true));
     },
   };
 };
