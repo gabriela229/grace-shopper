@@ -28,6 +28,7 @@ class Main extends Component {
       <div className="container">
         <Navbar />
         <Switch>
+          <Route path="/products/:productId" component={SingleProduct} />
           <Route exact path="/" component={ProductsList} />
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/login" component={LoginSignupForm} />
