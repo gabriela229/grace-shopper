@@ -1,22 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {getFirstName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submitThunk} from '../store/checkout';
+import { getFirstName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submitThunk } from '../store/checkout';
 
 const Checkout = (props) => {
-    const { cart, checkout} = props;
-    const {lineItems} = cart;
+    const { cart, checkout } = props;
+    const { lineItems } = cart;
     const {
-        handleFirstNameInput, 
-        handleLastNameInput, 
-        handleAddressInput, 
-        handleCityInput, 
-        handleStateInput, 
+        handleFirstNameInput,
+        handleLastNameInput,
+        handleAddressInput,
+        handleCityInput,
+        handleStateInput,
         handlePostalCodeInput,
         handleEmailInput,
         handleCustomerInfoSubmit
-    }  = props;
-    // console.log(props);
+    } = props;
     return (
         <div className="container wrapper">
             <div className="row cart-head">
@@ -63,7 +62,7 @@ const Checkout = (props) => {
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">Shipping Address</div>
-                            <form onSubmit = { (evt)=> handleCustomerInfoSubmit(checkout, lineItems, evt)}><div className="panel-body">
+                            <form onSubmit={(evt) => handleCustomerInfoSubmit(checkout, lineItems, evt)}><div className="panel-body">
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>First Name:</strong>
@@ -72,35 +71,35 @@ const Checkout = (props) => {
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
                                         <strong>Last Name:</strong>
-                                        <input  onChange={handleLastNameInput} type="text" name="last_name" className="form-control" value={checkout.lastName} />
+                                        <input onChange={handleLastNameInput} type="text" name="last_name" className="form-control" value={checkout.lastName} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>Address:</strong></div>
                                     <div className="col-md-12">
-                                        <input  onChange={handleAddressInput} type="text" name="address" className="form-control" value={checkout.address} />
+                                        <input onChange={handleAddressInput} type="text" name="address" className="form-control" value={checkout.address} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>City:</strong></div>
                                     <div className="col-md-12">
-                                        <input  onChange={handleCityInput} type="text" name="city" className="form-control" value={checkout.city} />
+                                        <input onChange={handleCityInput} type="text" name="city" className="form-control" value={checkout.city} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>State:</strong>
-                                        <input  onChange={handleStateInput} type="text" name="state" className="form-control" value={checkout.state} />
+                                        <input onChange={handleStateInput} type="text" name="state" className="form-control" value={checkout.state} />
                                     </div>
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
                                         <strong>Zip / Postal Code:</strong>
-                                        <input  onChange={handlePostalCodeInput} type="text" name="postal_code" className="form-control" value={checkout.postCode} />
+                                        <input onChange={handlePostalCodeInput} type="text" name="postal_code" className="form-control" value={checkout.postalCode} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>Email Address:</strong></div>
-                                    <div className="col-md-12"><input  onChange={handleEmailInput} type="text" name="email_address" className="form-control" value={checkout.email} /></div>
+                                    <div className="col-md-12"><input onChange={handleEmailInput} type="text" name="email_address" className="form-control" value={checkout.email} /></div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><button type="submit" className="btn btn-primary" value=""> <strong>submit</strong> </button> </div>
@@ -193,30 +192,29 @@ const mapStateToProps = ({ cart, checkout }) => {
 
 const mapDispatchToProps = function (dispatch, ownProps) {
     return {
-        handleFirstNameInput: evt=> {
+        handleFirstNameInput: evt => {
             dispatch(getFirstName(evt.target.value));
         },
-        handleLastNameInput: evt=> {
+        handleLastNameInput: evt => {
             dispatch(getLastName(evt.target.value));
         },
-        handleAddressInput: evt=> {
+        handleAddressInput: evt => {
             dispatch(getAddress(evt.target.value));
         },
-        handleCityInput: evt=> {
+        handleCityInput: evt => {
             dispatch(getCity(evt.target.value));
         },
-        handleStateInput: evt=> {
+        handleStateInput: evt => {
             dispatch(getState(evt.target.value));
         },
-        handleEmailInput: evt=> {
+        handleEmailInput: evt => {
             dispatch(getEmail(evt.target.value));
         },
-        handlePostalCodeInput: evt=>{
+        handlePostalCodeInput: evt => {
             dispatch(getPostalCode(evt.target.value));
         },
-        handleCustomerInfoSubmit: (customerInfo, lineItems, evt)=> {
+        handleCustomerInfoSubmit: (customerInfo, lineItems, evt) => {
             evt.preventDefault();
-            // console.log("CUSTOMER INFO OBJ:", customerInfo);
             dispatch(submitThunk(customerInfo, lineItems));
         }
     }

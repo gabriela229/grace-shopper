@@ -1,5 +1,6 @@
 const express = require('express');
 const Order = require('../db/models/Order');
+const nodemailer = require('nodemailer');
 require('dotenv').config();   // process.env now available 
 
 const router = express.Router();
@@ -16,53 +17,72 @@ router.post('/:id/lineItems', (req, res, next) => {
 router.put('/:id', (req, res, next) => {
 });
 
+/*
+// will be useful to set up on gmail and password as system env variable
+heroku config:set GITHUB_USERNAME=joesmith
+Adding config vars and restarting myapp... done, v12
+GITHUB_USERNAME: joesmith
+
+$ heroku config
+GITHUB_USERNAME: joesmith
+OTHER_VAR:    production
+
+$ heroku config:get GITHUB_USERNAME
+joesmith
+
+$ heroku config:unset GITHUB_USERNAME
+Unsetting GITHUB_USERNAME and restarting myapp... done, v13
+create reusable transporter object using the default SMTP transport
+*/
+let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+        user: process.env.AUNG_GMAIL,
+        pass: process.env.AUNG_GMAIL_PASSWORD
+    }
+});
+
 // for non-log-in user order
-router.post('/', (req, res, next)=>{
-    const {customerInfo, lineItems} = req.body;
-    const {email}  = customerInfo;
-    const nodemailer = require('nodemailer');
+router.post('/', (req, res, next) => {
+    const { customerInfo, lineItems } = req.body;
+    const { email } = customerInfo;
 
-    // Generate test SMTP service account from ethereal.email
-    // Only needed if you don't have a real mail account for testing
-    nodemailer.createTestAccount((err, account) => {
+    // create reusable transporter object using the default SMTP transport
+    let transporter = nodemailer.createTransport({
+        service: "Gmail",
+        auth: {
+            user: process.env.AUNG_GMAIL,
+            pass: process.env.AUNG_GMAIL_PASSWORD
+        }
+    });
 
-        // create reusable transporter object using the default SMTP transport
-        let transporter = nodemailer.createTransport({
-            service : "Gmail",
-            auth: {
-                user: process.env.AUNG_GMAIL,
-                pass: process.env.AUNG_GMAIL_PASSWORD
-            }
-        });
-
-        // setup email data with unicode symbols
-        let mailOptions = {
-            from: '"Amazing donuts makers team 👻" <eaungkyawching@gmail.com>', // sender address
-            to: email, // list of receivers
-            subject: 'Order confirmation', // Subject line
-            text: `Hello ${customerInfo.firstName}, 
-            Thanks for buying our products. You have ordered ${lineItems.reduce((total, item) => {return total +  item.quantity;}, 0)} donuts.
+    // setup email data with unicode symbols
+    let mailOptions = {
+        from: '"Amazing donuts makers team 👻" <eaungkyawching@gmail.com>', // sender address
+        to: email, // list of receivers
+        subject: 'Order confirmation', // Subject line
+        text: `Hello ${customerInfo.firstName}, 
+            Thanks for buying our products. You have ordered ${lineItems.reduce((total, item) => { return total + item.quantity; }, 0)} donuts.
             Best,
             Your delicious donuts makers!!`,
-            // html: `<b></b>`
-        };
+        // html: `<b></b>`
+    };
 
-        // send mail with defined transport object
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                return console.log(error);
-            }else{
-                console.log("Email sent", mailOptions.to);
-                res.sendStatus(201);
-            }
-        });
-    })
+    // send mail with defined transport object
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            return console.log(error);
+        } else {
+            console.log("Email has been sent to", mailOptions.to);
+            res.sendStatus(201);
+        }
+    });
 })
 
 // get cart
 router.get('/getCart', (req, res, next) => {
-    if (!req.session.userId){
-        res.send({lineItems: []});
+    if (!req.session.userId) {
+        res.send({ lineItems: [] });
     } else {
         Order.getCart(req.session.userId)
             .then(cart => res.send(cart));
