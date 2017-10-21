@@ -233,21 +233,11 @@ const seed = () => {
       users[1].password = pass2;
       users[2].password = pass3;
     })
-    .then( () => {
-      User.bulkCreate(users);
-    })
-    .then(() => {
-      Product.bulkCreate(products);
-    })
-    .then(() => {
-      Order.bulkCreate(orders);
-    })
-    .then(() => {
-      LineItem.bulkCreate(lineItems);
-    })
-    .then(() => {
-      Review.bulkCreate(reviews);
-    })
+    .then( () => User.bulkCreate(users))
+    .then(() => Product.bulkCreate(products))
+    .then(() => Order.bulkCreate(orders))
+    .then(() => LineItem.bulkCreate(lineItems))
+    .then(() => Review.bulkCreate(reviews))
     .catch( err => console.log(err));
 };
 
