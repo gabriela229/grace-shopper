@@ -8,7 +8,7 @@ const WRITE_EMAIL = 'WRITE_EMAIL';
 const WRITE_POSTAL_CDOE = 'WRITE_POSTAL_CDOE';
 const SUBMIT = "SUBMIT";
 
-export const getFistName = firstName =>{
+export const getFirstName = firstName =>{
     return {type: WRITE_FIRST_NAME, firstName}
 }
 
@@ -36,11 +36,23 @@ export const getPostalCode  =  postalCode =>{
     return {type: WRITE_POSTAL_CDOE, postalCode}
 }
 
-export const submit = ()=>{
-    return {type: SUBMIT}
+export const submit = customerInfo =>{
+    return {type: SUBMIT, customerInfo}
 }
 
 // a thunk when submit
+export function submitThunk(customerInfo, lineItems){
+  return function thunk(dispatch){
+    // add this customer and lineItmes to the db
+    return axios.post('/api/orders', {customerInfo, lineItems})
+      .then( res => res.data)
+      .then( result => {                   // don't know what it will be yet
+         console.log("Result", result);
+         dispatch(submit());                // emptify the controlled form
+      })
+      .catch(err => console.log(err));
+  };
+}
 
 const initialState = {
     firstName: '',
@@ -66,7 +78,7 @@ export default function reducer(state = initialState, action){
         case WRITE_EMAIL:
             return Object.assign({}, state, {email: action.email})
         case WRITE_POSTAL_CDOE:
-            return Object.assign({}, state, {firstName: action.postalCode})
+            return Object.assign({}, state, {postalCode: action.postalCode})
         case SUBMIT:
             return Object.assign({}, initialState);
         default: 

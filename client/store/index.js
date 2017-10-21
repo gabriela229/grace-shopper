@@ -32,3 +32,4 @@ export * from './error';
 export * from './users';
 export * from './cart';
 export * from './reviews';
+export * from './checkout';

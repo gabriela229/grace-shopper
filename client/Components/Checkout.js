@@ -1,21 +1,22 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import {getFistName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submit} from '../store/checkout';
+import {getFirstName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submitThunk} from '../store/checkout';
 
 const Checkout = (props) => {
     const { cart, checkout} = props;
+    const {lineItems} = cart;
     const {
-        handleFristNameInput, 
+        handleFirstNameInput, 
         handleLastNameInput, 
         handleAddressInput, 
         handleCityInput, 
         handleStateInput, 
         handlePostalCodeInput,
-        handleEmailInout,
-        handleSubmit
+        handleEmailInput,
+        handleCustomerInfoSubmit
     }  = props;
-    console.log(props);
+    // console.log(props);
     return (
         <div className="container wrapper">
             <div className="row cart-head">
@@ -31,27 +32,27 @@ const Checkout = (props) => {
                                 Review Order <div className="pull-right"><Link to='/cart'>Edit Cart</Link></div>
                             </div>
                             <div className="panel-body">
-                                {cart.lineItems.map(lineItem => (
+                                {lineItems.map(lineItem => (
                                     <div key={lineItem.product.id} className="form-group">
                                         <div className="col-sm-3 col-xs-3">
                                             <img className="img-responsive" src={lineItem.product.image} />
                                         </div>
                                         <div className="col-sm-6 col-xs-6">
                                             <div className="col-xs-12">{lineItem.product.title}</div>
-                                            <div className="col-xs-12"><small>Quantity:<span>2</span></small></div>
+                                            <div className="col-xs-12"><small>Quantity:<span>{lineItem.quantity}</span></small></div>
                                         </div>
                                         <div className="col-sm-3 col-xs-3 text-right">
-                                            <h6><span>$</span>3</h6>
+                                            <h6><span>$</span>{lineItem.product.price}</h6>
                                         </div>
                                     </div>
                                 ))}
                                 <div className="form-group"><hr /></div>
                                 <div className="form-group">
                                     <div className="col-xs-12">
-                                        <strong>Order Total</strong>
+                                        <strong>Order Total:</strong>
                                         <div className="pull-right"><span>$</span><span>
-                                            {cart.lineItems.reduce((total, lineItem) => {
-                                                return total + (2 * 3)
+                                            {lineItems.reduce((total, lineItem) => {
+                                                return total + (lineItem.quantity * lineItem.product.price)
                                             }, 0)}
                                         </span></div>
                                     </div>
@@ -62,11 +63,11 @@ const Checkout = (props) => {
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">Shipping Address</div>
-                            <form onSubmit = {handleSubmit}><div className="panel-body">
+                            <form onSubmit = { (evt)=> handleCustomerInfoSubmit(checkout, lineItems, evt)}><div className="panel-body">
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>First Name:</strong>
-                                        <input onChange={handleFristNameInput} type="text" name="first_name" className="form-control" value={checkout.firstName} />
+                                        <input onChange={handleFirstNameInput} type="text" name="first_name" className="form-control" value={checkout.firstName} />
                                     </div>
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
@@ -89,17 +90,17 @@ const Checkout = (props) => {
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>State:</strong>
-                                        <input  onChange={handleStateInput} type="text" name="first_name" className="form-control" value={checkout.state} />
+                                        <input  onChange={handleStateInput} type="text" name="state" className="form-control" value={checkout.state} />
                                     </div>
                                     <div className="span1"></div>
                                     <div className="col-md-6 col-xs-12">
                                         <strong>Zip / Postal Code:</strong>
-                                        <input  onChange={handlePostalCodeInput} type="text" name="last_name" className="form-control" value={checkout.postCode} />
+                                        <input  onChange={handlePostalCodeInput} type="text" name="postal_code" className="form-control" value={checkout.postCode} />
                                     </div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><strong>Email Address:</strong></div>
-                                    <div className="col-md-12"><input  onChange={handleEmailInout} type="text" name="email_address" className="form-control" value={checkout.email} /></div>
+                                    <div className="col-md-12"><input  onChange={handleEmailInput} type="text" name="email_address" className="form-control" value={checkout.email} /></div>
                                 </div>
                                 <div className="form-group">
                                     <div className="col-md-12"><button type="submit" className="btn btn-primary" value=""> <strong>submit</strong> </button> </div>
@@ -190,10 +191,10 @@ const mapStateToProps = ({ cart, checkout }) => {
     };
 };
 
-const mapDispatchToProps = function (dispatch) {
+const mapDispatchToProps = function (dispatch, ownProps) {
     return {
-        handleFristNameInput: evt=> {
-            dispatch(getFistName(evt.target.value));
+        handleFirstNameInput: evt=> {
+            dispatch(getFirstName(evt.target.value));
         },
         handleLastNameInput: evt=> {
             dispatch(getLastName(evt.target.value));
@@ -207,15 +208,16 @@ const mapDispatchToProps = function (dispatch) {
         handleStateInput: evt=> {
             dispatch(getState(evt.target.value));
         },
-        handleEmailInout: evt=> {
+        handleEmailInput: evt=> {
             dispatch(getEmail(evt.target.value));
         },
         handlePostalCodeInput: evt=>{
             dispatch(getPostalCode(evt.target.value));
         },
-        handleSubmit: evt=> {
+        handleCustomerInfoSubmit: (customerInfo, lineItems, evt)=> {
             evt.preventDefault();
-            dispatch(submit());
+            // console.log("CUSTOMER INFO OBJ:", customerInfo);
+            dispatch(submitThunk(customerInfo, lineItems));
         }
     }
 }
