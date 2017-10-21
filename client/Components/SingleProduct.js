@@ -74,7 +74,10 @@ class SingleProduct extends Component {
 
         </div>
 
-        <ReviewForm product={product} productReviews={productReviews} />
+        { authUser.id
+          ? <ReviewForm product={product} productReviews={productReviews} />
+          : null
+        }
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           <h3>{product.title} Reviews</h3>
