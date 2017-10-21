@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { removeLineItem } from '../store';
+import { removeLineItem, updateLineItem } from '../store';
+
 
 const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) => {
     if (!cart.lineItems.length) {
@@ -28,6 +29,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                 <tbody>
             {
               cart.lineItems.map(lineItem => {
+              console.log("mapping")
               return (
                 <tr key={lineItem.product.id}>
                 <td className="col-sm-8 col-md-6">
@@ -38,10 +40,23 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                     </div>
                 </div></td>
                 <td className="col-sm-1 col-md-1" style={{textAlign: "center"}}>
-                <input type="email" onChange={handleQuantityUpdate} className="form-control" id="exampleInputEmail1" value={lineItem.quantity} />
+                <select
+                className="form-control"
+                name="orderQuantity"
+                onChange={(event) => handleQuantityUpdate(event, cart.id, lineItem.product.id)}
+                value={lineItem.quantity}>
+                    <option value="">-- How many? --</option>
+                    {
+                        lineItem.product.quantity && [...Array(lineItem.product.quantity)].map((_quantity, i) => {
+                            return (
+                                <option key={i} value={i}>{i}</option>
+                            );}
+                        )
+                    }
+                </select>
                 </td>
                 <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price}</strong></td>
-                <td className="col-sm-1 col-md-1 text-center"><strong>${lineItem.product.price * lineItem.quantity}</strong></td>
+                <td className="col-sm-1 col-md-1 text-center"><strong>${(lineItem.product.price * lineItem.quantity).toFixed(2)}</strong></td>
                 <td className="col-sm-1 col-md-1">
                 <button onClick={() => removeLineItemOnClick(cart.id, lineItem.product.id)} type="button" className="btn btn-danger">
                     <span className="glyphicon glyphicon-remove"></span> Remove
@@ -55,7 +70,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                         <td>   </td>
                         <td>   </td>
                         <td><h3>Total</h3></td>
-                        <td className="text-right"><h3><strong>${cart.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity}, 0)}</strong></h3></td>
+                        <td className="text-right"><h3><strong>${cart.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity}, 0).toFixed(2)}</strong></h3></td>
                     </tr>
                     <tr>
                         <td>   </td>
@@ -79,17 +94,16 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
 }
 
 const mapStateToProps = ({ cart, products }) => {
-  return {
-    cart,
-    products
-  };
+    return {
+        cart,
+        products
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        handleQuantityUpdate: (event) => {
-            // const id = event.target.value;
-            // dispatch(updateLineItem(cartId, productId, 1, true));
+        handleQuantityUpdate: (event, cartId, productId) => {
+            dispatch(updateLineItem(cartId, productId, event.target.value, false));
         },
         removeLineItemOnClick: (cartId, productId) => {
             dispatch(removeLineItem(cartId, productId));

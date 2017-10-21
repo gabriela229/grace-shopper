@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { addToCart, addToUserCart, updateLineItem } from '../store';
+import { addToCart, updateLineItem } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
 const ProductsList = (props) => {
   const { products, cart, handleChange, handleSubmit, handleAddToCart, authUser } = props;
-  console.log(products, 'products');
   return (
     <div>
       <h1>Products list</h1>
@@ -50,7 +49,7 @@ const ProductsList = (props) => {
 
     </div>
   );
-}
+};
 
 const mapStateToProps = ({ products, cart, authUser }) => {
   return {
@@ -82,7 +81,7 @@ const mapDispatchToProps = function (dispatch) {
         dispatch(getProducts());
       }
     }
-  }
-}
+  };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProductsList);

@@ -29,7 +29,7 @@ export function logoutUser(){
         dispatch(setUser({}));
       })
       .then(() => {
-        dispatch(loadCart());
+        dispatch(loadCart({lineItems: []}));
         history.push('/');
       })
       .catch(err => dispatch(setError(err.response.data)));

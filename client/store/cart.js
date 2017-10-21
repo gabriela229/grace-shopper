@@ -17,17 +17,23 @@ export function removeProductFromCart(productId) {
 }
 
 export function loadCart(cart) {
-    return function thunk(dispatch) {
-        return axios.get('/api/orders/getCart')
+    return function thunk(dispatch, getState) {
+        const state = getState();
+        if (!cart && !state.cart.id && state.cart.lineItems.length > 0 ){
+            return dispatch(getCart(state.cart));
+        }
+            return axios.get('/api/orders/getCart')
             .then(res => res.data)
             .then(newCart => {
-                if (cart) {
+                if (cart && cart.lineItems.length > 0) {
                     cart.lineItems.map( item => {
-                      dispatch(updateLineItem(newCart.id, item.product.id, item.quantity));
+                       dispatch(updateLineItem(newCart.id, item.product.id, item.quantity));
                     });
-                  }
-                dispatch(getCart(newCart));
-            })
+                }
+                else {
+                    dispatch(getCart(newCart));
+            }
+        })
             .catch(err => console.log(err));
     };
 }
@@ -73,20 +79,20 @@ export default function reducer(state = { lineItems: [] }, action) {
             lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.product.id);
             if (lineItemIdx !== -1) {
                 if (action.increase) {
-                    newLineItems[lineItemIdx].quantity += action.quantity;
+                    newLineItems[lineItemIdx].quantity += +action.quantity;
                 }
                 else {
-                    newLineItems[lineItemIdx].quantity = action.quantity;
+                    newLineItems[lineItemIdx].quantity = +action.quantity;
                 }
             }
             else {
-                 newLineItems = [...state.lineItems, {quantity: action.quantity, product: action.product}];
+                 newLineItems = [...state.lineItems, {quantity: +action.quantity, product: action.product}];
             }
 
             return Object.assign({}, state, { lineItems: newLineItems })
         case DELETE_ITEM:
             lineItemIdx = newLineItems.findIndex(lineItem => lineItem.product.id === action.productId);
-            newLineItems.splice(lineItemIdx, 1)
+            newLineItems.splice(lineItemIdx, 1);
 
             return Object.assign({}, state, { lineItems: newLineItems });
         default:

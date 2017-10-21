@@ -9,7 +9,13 @@ import products from './products';
 import authUser from './auth';
 import users from './users';
 import reviews from './reviews';
+<<<<<<< HEAD
 import checkout from './checkout';
+=======
+import {loadState} from './localStorage';
+
+const persistedState = loadState();
+>>>>>>> ce258199cc27c43a1f070481db8a000e9dbf03ec
 
 const rootReducer = combineReducers({
   authUser,
@@ -18,11 +24,15 @@ const rootReducer = combineReducers({
   error,
   products,
   reviews,
+<<<<<<< HEAD
   users,
   checkout                          // an object
+=======
+  users
+>>>>>>> ce258199cc27c43a1f070481db8a000e9dbf03ec
 });
 
-export default createStore(rootReducer, applyMiddleware(thunkMiddleware, logger));
+export default createStore(rootReducer, persistedState, applyMiddleware(thunkMiddleware, logger));
 
 
 export * from './products';
@@ -32,4 +42,8 @@ export * from './error';
 export * from './users';
 export * from './cart';
 export * from './reviews';
+<<<<<<< HEAD
 export * from './checkout';
+=======
+export * from './localStorage';
+>>>>>>> ce258199cc27c43a1f070481db8a000e9dbf03ec

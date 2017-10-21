@@ -14,7 +14,7 @@ import Checkout from './Checkout';
 
 // store and getProducts thunk
 
-import store, {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart, addToCart} from '../store';
+import {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart} from '../store';
 
 class Main extends Component {
 
@@ -34,9 +34,7 @@ class Main extends Component {
           <Route exact path="/login" component={LoginSignupForm} />
           <Route exact path="/signup" component={LoginSignupForm} />
           <Route path="/products/:productId" component={SingleProduct} />
-          <Route path="/checkout" component={Checkout} />
-          {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
-          {/* <Route path="/products/:productId" component={SingleProduct} />  */}
+          <Route exact path="/checkout" component={Checkout} />
           <Route exact path="/admin" component={this.props.authUser.id ? Admin : LoginSignupForm} />
           {this.props.authUser.id ? <Route exact path="/reset" component={PasswordReset} /> : <Redirect to="/" />}
           <Redirect to="/" />
