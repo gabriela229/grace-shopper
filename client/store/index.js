@@ -9,6 +9,7 @@ import products from './products';
 import authUser from './auth';
 import users from './users';
 import reviews from './reviews';
+import orders from './orders';
 import {loadState} from './localStorage';
 
 const persistedState = loadState();
@@ -20,7 +21,8 @@ const rootReducer = combineReducers({
   error,
   products,
   reviews,
-  users
+  users,
+  orders
 });
 
 export default createStore(rootReducer, persistedState, applyMiddleware(thunkMiddleware, logger));
@@ -34,3 +36,4 @@ export * from './users';
 export * from './cart';
 export * from './reviews';
 export * from './localStorage';
+export * from './orders';

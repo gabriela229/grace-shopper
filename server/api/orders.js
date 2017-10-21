@@ -25,4 +25,15 @@ router.get('/getCart', (req, res, next) => {
     }
 });
 
+router.get('/', (req, res, next) => {
+    Order.findAll({
+        where: {
+            isCart: false
+        },
+        include: [{all: true, nested: true}]
+    })
+    .then(orders => res.send(orders))
+    .catch(next);
+});
+
 module.exports = router;

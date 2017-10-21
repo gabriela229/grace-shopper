@@ -26,14 +26,14 @@ class LoginSignupForm extends Component {
     const {location, cart} = this.props;
     const url = location.pathname;
     const {email, password} = this.state;
-    url === '/login' || url === '/admin' ? this.props.startUserSession({email, password}, cart) : this.props.signUpUser(this.state, cart);
+    url === '/login' || url.includes('/admin') ? this.props.startUserSession({email, password}, cart) : this.props.signUpUser(this.state, cart);
     this.setState({name: '', email: '', password: ''});
   }
   componentDidMount(){
     //if user tries to access /admin directly they will get an error
     // except directly from /login or /signup since they are already mounted
     const url = this.props.location.pathname;
-    if (url === '/admin'){
+    if (url.includes('/admin')){
       this.props.loginError('Please log in');
     }
   }
@@ -72,7 +72,7 @@ class LoginSignupForm extends Component {
               <input onChange={onChange} name="password" className="form-control" type="password" value={password} />
             </div>
               <button name="signup" className={`btn btn-warning btn-sm ${url === '/signup' ? 'show' : 'hidden' }`}  >Sign Up</button>
-              <button name="login" className={`btn btn-success btn-sm ${url === '/login' || url === '/admin' ? 'show' : 'hidden' }`}>Log In</button>
+              <button name="login" className={`btn btn-success btn-sm ${url === '/login' || url.includes('/admin') ? 'show' : 'hidden' }`}>Log In</button>
               {' '}
           </form>
         </div>

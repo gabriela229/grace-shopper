@@ -89,11 +89,21 @@ function Navbar(props) {
               Sign up
               </NavLink>
             </li>
-            <li>
-              <NavLink className={authUser.id && authUser.isAdmin ? 'show' : 'hidden'}  to="/admin" activeClassName="active">
-              Admin
+            <li className={`${authUser.id && authUser.isAdmin ? 'show' : 'hidden'} dropdown`}>
+            <a href="#" className="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Admin <span className="caret" /></a>
+            <ul className="dropdown-menu">
+              <li>
+                <NavLink className={authUser.id && authUser.isAdmin ? 'show' : 'hidden'}  to="/admin/users" activeClassName="active">
+                Users
+                </NavLink>
+              </li>
+              <li>
+              <NavLink className={authUser.id && authUser.isAdmin ? 'show' : 'hidden'}  to="/admin/orders" activeClassName="active">
+              Orders
               </NavLink>
             </li>
+            </ul>
+          </li>
             <li>
               <a><button className={`btn btn-primary ${authUser.id ? 'show' : 'hidden'}`} onClick={endUserSession}>
               logout
