@@ -37,18 +37,18 @@ export const getPostalCode = postalCode => {
 }
 
 export const submit = () => {
-    return { type: SUBMIT};
+    return { type: SUBMIT };
 }
 
 // a thunk when submit
-export function submitThunk(customerInfo, lineItems) {
+export function submitThunk(customerInfo, lineItems, authUser) {
     return function thunk(dispatch) {
         // add this customer and lineItmes to the db
-        return axios.post('/api/orders', { customerInfo, lineItems })
+        return axios.post('/api/orders', { customerInfo, lineItems, authUser})
             .then(res => res.data)
-            .then(result => {                   // don't know what it will be yet
-                console.log("Result", result);   // console.log  // created
-                dispatch(submit());                // emptify the controlled form
+            .then(result => {                       // don't know what it will be yet
+                console.log("Result", result);      // console.log  // created
+                dispatch(submit());                 // emptify the controlled form
             })
             .catch(err => console.log(err));
     };

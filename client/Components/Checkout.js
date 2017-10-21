@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { getFirstName, getLastName, getCity, getState, getPostalCode, getAddress, getEmail, submitThunk } from '../store/checkout';
 
 const Checkout = (props) => {
-    const { cart, checkout } = props;
+    const { cart, checkout, authUser } = props;
     const { lineItems } = cart;
     const {
         handleFirstNameInput,
@@ -62,7 +62,7 @@ const Checkout = (props) => {
                     <div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 col-md-pull-6 col-sm-pull-6">
                         <div className="panel panel-info">
                             <div className="panel-heading">Shipping Address</div>
-                            <form onSubmit={(evt) => handleCustomerInfoSubmit(checkout, lineItems, evt)}><div className="panel-body">
+                            <form onSubmit={(evt) => handleCustomerInfoSubmit(checkout, lineItems, authUser, evt)}><div className="panel-body">
                                 <div className="form-group">
                                     <div className="col-md-6 col-xs-12">
                                         <strong>First Name:</strong>
@@ -186,7 +186,8 @@ const Checkout = (props) => {
 const mapStateToProps = ({ cart, checkout }) => {
     return {
         cart,
-        checkout
+        checkout,
+        authUser
     };
 };
 
@@ -213,9 +214,9 @@ const mapDispatchToProps = function (dispatch, ownProps) {
         handlePostalCodeInput: evt => {
             dispatch(getPostalCode(evt.target.value));
         },
-        handleCustomerInfoSubmit: (customerInfo, lineItems, evt) => {
+        handleCustomerInfoSubmit: (customerInfo, lineItems, authUser, evt) => {
             evt.preventDefault();
-            dispatch(submitThunk(customerInfo, lineItems));
+            dispatch(submitThunk(customerInfo, lineItems, authUser));
         }
     }
 }

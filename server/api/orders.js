@@ -44,7 +44,7 @@ let transporter = nodemailer.createTransport({
 
 // for non-log-in user order
 router.post('/', (req, res, next) => {
-    const { customerInfo, lineItems } = req.body;
+    const { customerInfo, lineItems,  } = req.body;
     const { email } = customerInfo;
 
     // create reusable transporter object using the default SMTP transport
