@@ -21,17 +21,21 @@ const Review = db.define('review', {
   }
 });
 
-// Review.hasUserReviewed = function(productId, userId) {
-//   console.log('hasUserReviewed: productId = ', productId);
-//   console.log('hasUserReviewed: userId = ', userId);
-//   Review.getProducts({
-//     where: { productId: productId }
-//   })
-//     .then(products => {
-//       console.log('hasUserReviewed: products = ', products);
-//       return true;
-//     })
-// };
+Review.hasUserReviewedProduct = function(productId, userId) {
+  console.log('hasUserReviewed: productId = ', productId);
+  console.log('hasUserReviewed: userId = ', userId);
+  Review.findAll({
+    where: {
+      $and: [
+        { productId: productId },
+        { userId: userId }
+      ]
+    }
+  })
+    .then(review => {
+      console.log('hasUserReviewedProduct: review = ', review);
+    })
+};
 
 // Review.getReviewsForProduct = function(productId) {
 //   return Review.getProducts({

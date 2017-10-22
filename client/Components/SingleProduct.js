@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateLineItem} from '../store';
+import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
 
 class SingleProduct extends Component {
@@ -25,6 +26,7 @@ class SingleProduct extends Component {
       cart,
       product,
       productReviews,
+      userReviewed,
       quantityCounter,
       handleAddToCart
     } = this.props;
@@ -76,25 +78,13 @@ class SingleProduct extends Component {
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           {
-            authUser.id
+            authUser.id && userReviewed.length === 0
             ? <ReviewForm authUser={authUser} singleProduct={product} />
             : null
           }
           <h3>{product.title} Reviews</h3>
 
-          <ul className="list-group">
-            {
-              productReviews.length > 0
-              ? productReviews.map(review => {
-                return (
-                  <li
-                    key={review.id}
-                    className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
-                );
-              })
-              : <li className="list-group-item">No reviews yet!</li>
-            }
-          </ul>
+          <ReviewsList productReviews={productReviews} />
 
         </div>
 
@@ -126,7 +116,8 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
     cart,
     product,
     productReviews,
-    quantityCounter
+    quantityCounter,
+    userReviewed
   };
 };
 
