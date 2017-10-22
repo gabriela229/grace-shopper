@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import store, {postReview} from '../store';
+import {postReview} from '../store';
 
 class ReviewForm extends Component {
 
@@ -24,8 +24,7 @@ class ReviewForm extends Component {
       productId: this.props.singleProduct.id,
       userId: this.props.authUser.id
     };
-    // console.log("ReviewForm: review = ", review);
-    store.dispatch(postReview(review));
+    this.props.dispatch(postReview(review));
     this.setState({content: ''});
   }
 
@@ -66,24 +65,22 @@ class ReviewForm extends Component {
   }
 }
 
-const mapStateToProps = (ownProps) => {
-  // console.log("ReviewForm: mapStateToProps - ownProps = ", ownProps);
-  // const {authUser, product} = ownProps;
-  // const authUser = ownProps.authUser;
-  // const product = ownProps.singleProduct;
-  // console.log("ReviewForm: mapStateToProps - product = ", product);
+const mapStateToProps = ({authUser, singleProduct}) => {
+  console.log("ReviewForm: mapStateToProps - authUser = ", authUser);
+  console.log("ReviewForm: mapStateToProps - singleProduct = ", singleProduct);
+
   return {
-    // authUser,
-    // product,
+    authUser,
+    singleProduct
   };
 };
 
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     handleSubmitReview: (review) => {
-//       dispatch(postReview(review));
-//     },
-//   };
-// };
+const mapDispatchToProps = (dispatch) => {
+  return {
+    handleSubmitReview: (review) => {
+      dispatch(postReview(review));
+    },
+  };
+};
 
-export default connect(mapStateToProps)(ReviewForm);
+export default connect(mapStateToProps, mapStateToProps)(ReviewForm);

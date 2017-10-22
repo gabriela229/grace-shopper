@@ -27,7 +27,6 @@ class SingleProduct extends Component {
       product,
       productReviews,
       userReviewed,
-      quantityCounter,
       handleAddToCart
     } = this.props;
 
@@ -61,7 +60,7 @@ class SingleProduct extends Component {
               value={orderQuantity}>
               <option value="">-- How many? --</option>
                 {
-                  quantityCounter && quantityCounter.map(_quantity => {
+                  product.quantityCounter && product.quantityCounter.map(_quantity => {
                     return (
                       <option key={_quantity} value={_quantity}>{_quantity}</option>
                     );
@@ -94,7 +93,6 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
-  // console.log("SingleProduct: mapStateToProps - authUser = ", authUser);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
@@ -105,18 +103,13 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
   // show review form only if user has ordered this product?
   // if user has a review, show edit/delete button?
-
-  const quantityCounter = [];
-  for (var i = 1; i < product.quantity; i++) {
-    quantityCounter.push(i);
-  }
+  console.log("product.quantityCounter = ", product.quantityCounter);
 
   return {
     authUser,
     cart,
     product,
     productReviews,
-    quantityCounter,
     userReviewed
   };
 };
