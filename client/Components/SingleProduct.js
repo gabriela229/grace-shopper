@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { addToCart } from '../store';
-import ProductImageUpload from './ProductImageUpload'
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {updateLineItem} from '../store';
+import ReviewForm from './ReviewForm';
 
 class SingleProduct extends Component {
 
@@ -14,13 +14,14 @@ class SingleProduct extends Component {
   }
 
   handleChange(evt) {
-    const orderQuantity = evt.target.value;
-    this.setState({ orderQuantity });
+    const orderQuantity = Number(evt.target.value);
+    this.setState({orderQuantity});
   }
 
   render() {
 
     const {
+      authUser,
       cart,
       product,
       productReviews,
@@ -61,13 +62,13 @@ class SingleProduct extends Component {
               onChange={handleChange}
               value={orderQuantity}>
               <option value="">-- How many? --</option>
-              {
-                quantityCounter && quantityCounter.map(_quantity => {
-                  return (
-                    <option key={_quantity} value={_quantity}>{_quantity}</option>
-                  );
-                })
-              }
+                {
+                  quantityCounter && quantityCounter.map(_quantity => {
+                    return (
+                      <option key={_quantity} value={_quantity}>{_quantity}</option>
+                    );
+                  })
+                }
             </select>
           </div>
           {
@@ -75,24 +76,30 @@ class SingleProduct extends Component {
           }
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(product.id, cart.id, orderQuantity)}>Add to Cart</button>
+            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
 
         </div>
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
+          {
+            authUser.id
+            ? <ReviewForm authUser={authUser} singleProduct={product} />
+            : null
+          }
           <h3>{product.title} Reviews</h3>
+
           <ul className="list-group">
             {
               productReviews.length > 0
-                ? productReviews.map(review => {
-                  return (
-                    <li
-                      key={review.id}
-                      className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
-                  );
-                })
-                : <li className="list-group-item">No reviews yet!</li>
-            /* pagination? */}
+              ? productReviews.map(review => {
+                return (
+                  <li
+                    key={review.id}
+                    className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
+                );
+              })
+              : <li className="list-group-item">No reviews yet!</li>
+            }
           </ul>
 
         </div>
@@ -102,10 +109,17 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({ products, cart, reviews, authUser }, ownProps) => {
+const mapStateToProps = ({authUser, cart, products, reviews, authUser}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
+  // could be moved to model?
+  const userReviewed = productReviews.filter(_productReview => _productReview.user.id === authUser.id);
+  console.log('userReviewed = ', userReviewed);
+
+  // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
+  // show review form only if user has ordered this product?
+  // if user has a review, show edit/delete button?
 
   const quantityCounter = [];
   if (product) {
@@ -125,9 +139,9 @@ const mapStateToProps = ({ products, cart, reviews, authUser }, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddToCart: (productId, cartId, orderQuantity) => {
-      dispatch(addToCart(productId, cartId, orderQuantity));
-    }
+    handleAddToCart: (cartId, productId, orderQuantity) => {
+      dispatch(updateLineItem(cartId, productId, orderQuantity, true));
+    },
   };
 };
 

@@ -10,12 +10,12 @@ router.get('/', (req, res, next) => {
     .catch(next);
 });
 
-// get a review by reviewId
-router.get('/:reviewId', (req, res, next) => {
-  Review.findById(req.params.reviewId)
-    .then(review => res.send(review))
-    .catch(next);
-});
+// // get a review by reviewId
+// router.get('/:reviewId', (req, res, next) => {
+//   Review.findById(req.params.reviewId)
+//     .then(review => res.send(review))
+//     .catch(next);
+// });
 
 // // get reviews for a Product by productId
 // router.get('/:productId', (req, res, next) => {
@@ -33,29 +33,28 @@ router.get('/:reviewId', (req, res, next) => {
 
 // create a review
 router.post('/', (req, res, next) => {
-  // const {content, isVerified} = req.body;
   Review.create(req.body)
     .then(review => res.status(200).send(review))
     .catch(next);
 });
 
-// update a review (?)
-router.put('/:id', (req, res, next) => {
-  const {content, isVerified} = req.body;
-  Review.findById(req.params.id)
-    .then(review => {
-      return review.update({content, isVerified});
-    })
-    .then(review => res.status(200).send(review))
-    .catch(next);
-});
+// // update a review (?)
+// router.put('/:id', (req, res, next) => {
+//   const {content, isVerified} = req.body;
+//   Review.findById(req.params.id)
+//     .then(review => {
+//       return review.update({content, isVerified});
+//     })
+//     .then(review => res.status(200).send(review))
+//     .catch(next);
+// });
 
-// delete a review
-router.delete('/:id', (req, res, next) => {
-  Review.findById(req.params.id)
-    .then(review => review.destroy())
-    .then(() => res.status(200).send())
-    .catch(next);
-});
+// // delete a review
+// router.delete('/:id', (req, res, next) => {
+//   Review.findById(req.params.id)
+//     .then(review => review.destroy())
+//     .then(() => res.status(200).send())
+//     .catch(next);
+// });
 
 module.exports = router;
