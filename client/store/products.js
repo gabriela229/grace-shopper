@@ -9,7 +9,7 @@ const DELETE_PRODUCT = 'DELETE_PRODUCT';
 const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS';
 // search products action
 export function searchProducts(toSearch){
-  return{ type: SEARCH_PRODUCTS, toSearch};
+  return { type: SEARCH_PRODUCTS, toSearch};
 }
 
 export function loadProducts(products){

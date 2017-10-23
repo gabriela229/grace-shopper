@@ -1,13 +1,70 @@
-import React from 'react';
+import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import {deleteUser, updateUser} from '../store';
+import {updateOrder, searchOrders} from '../store';
+import ReactModal from 'react-modal';
 
-function AdminOrders({orders, users, authUser, handleUserUpdate}) {
-  console.log(orders);
+const customStyles = {
+  overlay: {
+    background: 'rgba(0, 0, 0, .7)',
+  },
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)'
+  }
+};
+
+class AdminOrders extends Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      isOpen: false,
+      orderOnState: {lineItems: []},
+      filteredOrders: props.orders
+    };
+    this.showModal = this.showModal.bind(this);
+    this.closeModal = this.closeModal.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.search = this.search.bind(this);
+  }
+  showModal(orderOnState){
+    this.setState({isOpen: true, orderOnState});
+  }
+  closeModal(){
+    this.setState({isOpen: false, orderOnState: {lineItems: []}});
+  }
+  onChange(){
+    console.log('changed');
+  }
+  search(event){
+    const searchTerm = event.target.value;
+    const filteredOrders = this.props.orders.filter(order => {
+      const {user, status} = order;
+      return user.name.toLowerCase().match(searchTerm.toLowerCase()) || status.toLowerCase().match(searchTerm.toLowerCase()) || user.email.toLowerCase().match(searchTerm.toLowerCase());
+    });
+    this.setState({filteredOrders});
+  }
+  render(){
+    const {closeModal, showModal, onChange, search} = this;
+    const {isOpen, orderOnState, filteredOrders} = this.state;
+    const {orders, users, authUser, handleChange, handleUserUpdate} = this.props;
     return (
         <div className="table-responsive">
           <h1>Orders</h1>
+          <div className="row">
+            <div className="col-md-3 col-md-offset-9">
+            <input
+            name="searchInput"
+            onChange={search}
+            className="form-control pull-right"
+            placeholder="Search Orders" />
+            </div>
+          </div>
+          <br></br>
           <table className="table table-hover" >
             <thead>
               <tr>
@@ -17,41 +74,36 @@ function AdminOrders({orders, users, authUser, handleUserUpdate}) {
                 <th>Order Address</th>
                 <th>Products Purchased</th>
                 <th>Order Total</th>
+                <th>Order Status</th>
               </tr>
             </thead>
             <tbody>
               {orders.map( order => {
+                let visibility = '';
+                if (!filteredOrders.find((ord) => {
+                  return ord.id === order.id;
+                })){
+                  visibility = 'hide';
+                }
                 return (
-                    <tr key={order.id}>
-                      <th scope="row">{order.id}</th>
+                    <tr key={order.id} className={visibility} >
+                      <td>{order.id}</td>
                       <td>{order.user.name}</td>
                       <td>{order.user.email}</td>
-                      <td style={{wordWrap: 'break-all'}}>{order.address}</td>
+                      <td>{order.address}</td>
+                      <td onClick={() => {
+                        showModal(order);
+                      }}>
+                          <a>Order Details</a>
+                      </td>
+                      <td><strong>${order.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity;}, 0).toFixed(2)}</strong></td>
                       <td>
-                      <table className="table table-hover">
-                        <thead>
-                        <tr>
-                        <th>ID</th>
-                        <th>Title</th>
-                        <th>Quantity</th>
-                      </tr>
-                        </thead>
-                        <tbody>
-
-                            {order.lineItems.map(lineItem => {
-                            return (
-                              <tr key={lineItem.id}>
-                              <td>{lineItem.product.id}</td>
-                              <td>
-                                <NavLink  to={`/products/${lineItem.product.id}`}>{lineItem.product.title}</NavLink>
-                              </td>
-                              <td>{lineItem.quantity}</td>
-                              </tr>
-                            );
-                          })}
-
-                        </tbody>
-                      </table>
+                        <select onChange={onChange} name="orderStatus" className="form-control" value={order.status}>
+                          <option value="Created">Created</option>
+                          <option value="Processing">Processing</option>
+                          <option value="Cancelled">Cancelled</option>
+                          <option value="Completed">Completed</option>
+                        </select>
                       </td>
                     </tr>
                   );
@@ -59,8 +111,47 @@ function AdminOrders({orders, users, authUser, handleUserUpdate}) {
               }
             </tbody>
           </table>
+          <ReactModal isOpen={isOpen} style={customStyles}>
+          <div className="">
+          <button className="btn btn-danger pull-right" onClick={closeModal}><span className="glyphicon glyphicon-remove" /></button>
+          <table className="table table-hover">
+            <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Title</th>
+                  <th>Quantity</th>
+                  <th>Price per Item</th>
+                  <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {orderOnState.lineItems.map(lineItem => {
+                return (
+                  <tr key={lineItem.id}>
+                  <td>{lineItem.product.id}</td>
+                  <td>
+                    <NavLink  to={`/products/${lineItem.product.id}`}>{lineItem.product.title}</NavLink>
+                  </td>
+                  <td>{lineItem.quantity}</td>
+                  <td>${lineItem.product.price}</td>
+                  <td>${(lineItem.quantity * lineItem.product.price).toFixed(2)}</td>
+                  </tr>
+                );
+              })}
+              <tr>
+                <td><strong>Order Total:</strong></td>
+                <td />
+                <td />
+                <td />
+                <td><strong>${orderOnState.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity;}, 0).toFixed(2)}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+        </ReactModal>
         </div>
     );
+  }
 }
 
 const mapStateToProps = ({orders, users, authUser}) => {
@@ -73,6 +164,10 @@ const mapStateToProps = ({orders, users, authUser}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    // handleChange: function (evt) {
+    //   const input = evt.target.value;
+    //   dispatch(searchOrders(input));
+    // }
   };
 };
 

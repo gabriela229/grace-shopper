@@ -7,6 +7,10 @@ const Order = db.define('order', {
     isCart: {
         type: Sequelize.BOOLEAN,
         defaultValue: true
+    },
+    status: {
+        type: Sequelize.STRING,
+        defaultValue: 'Created'
     }
 }, {
         hooks: {
