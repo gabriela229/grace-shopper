@@ -22,7 +22,6 @@ class SingleProduct extends Component {
   render() {
 
     const {
-      authUser,
       cart,
       product,
       productReviews,
@@ -111,7 +110,6 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
-  // console.log("SingleProduct: mapStateToProps - authUser = ", authUser);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
