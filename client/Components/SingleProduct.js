@@ -21,7 +21,6 @@ class SingleProduct extends Component {
   render() {
 
     const {
-      authUser,
       cart,
       product,
       productReviews,
