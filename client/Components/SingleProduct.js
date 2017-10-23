@@ -46,8 +46,8 @@ class SingleProduct extends Component {
         <div className="col-xs-12 col-sm-12 product-info-box">
           <h1 className="product-title">{product.title}</h1>
           <p className="product-description">{product.description}</p>
-          <p className="product-quantity">{product.quantity ? 'In Stock!' : 'Sold Out!'}</p>
-          <p className="product-price"><strong>${product.price}</strong></p>
+          <p className="product-quantity"><em>{product.quantity ? 'In Stock!' : 'Sold Out!'}</em></p>
+          <h4 className="product-price">$<strong>{product.price}</strong></h4>
         </div>
 
         <div className="col-xs-12 col-sm-12 product-buy-box center-block">
