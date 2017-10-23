@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {addToCart} from '../store';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { addToCart } from '../store';
+import ProductImageUpload from './ProductImageUpload'
 
 class SingleProduct extends Component {
 
@@ -14,7 +15,7 @@ class SingleProduct extends Component {
 
   handleChange(evt) {
     const orderQuantity = evt.target.value;
-    this.setState({orderQuantity});
+    this.setState({ orderQuantity });
   }
 
   render() {
@@ -24,11 +25,15 @@ class SingleProduct extends Component {
       product,
       productReviews,
       quantityCounter,
-      handleAddToCart
+      handleAddToCart,
+      authUser
     } = this.props;
 
-    const {orderQuantity} = this.state;
-    const {handleChange} = this;
+    const { orderQuantity } = this.state;
+    const { handleChange } = this;
+
+    if (!product)
+      return (<div />)
 
     return (
       <div className="row">
@@ -65,7 +70,9 @@ class SingleProduct extends Component {
               }
             </select>
           </div>
-
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
+          }
           <button
             className="btn btn-sm btn-default"
             onClick={() => handleAddToCart(product.id, cart.id, orderQuantity)}>Add to Cart</button>
@@ -77,14 +84,14 @@ class SingleProduct extends Component {
           <ul className="list-group">
             {
               productReviews.length > 0
-              ? productReviews.map(review => {
-                return (
-                  <li
-                    key={review.id}
-                    className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
-                );
-              })
-              : <li className="list-group-item">No reviews yet!</li>
+                ? productReviews.map(review => {
+                  return (
+                    <li
+                      key={review.id}
+                      className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
+                  );
+                })
+                : <li className="list-group-item">No reviews yet!</li>
             /* pagination? */}
           </ul>
 
@@ -95,29 +102,32 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({products, cart, reviews}, ownProps) => {
+const mapStateToProps = ({ products, cart, reviews, authUser }, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
 
   const quantityCounter = [];
-  for (var i = 1; i < product.quantity; i++) {
-    quantityCounter.push(i);
+  if (product) {
+    for (var i = 1; i < product.quantity; i++) {
+      quantityCounter.push(i);
+    }
   }
 
   return {
     cart,
     product,
     productReviews,
-    quantityCounter
+    quantityCounter,
+    authUser
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (productId, cartId, orderQuantity) => {
-        dispatch(addToCart(productId, cartId, orderQuantity));
-      }
+      dispatch(addToCart(productId, cartId, orderQuantity));
+    }
   };
 };
 
