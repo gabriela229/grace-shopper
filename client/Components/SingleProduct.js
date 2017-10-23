@@ -26,7 +26,7 @@ class SingleProduct extends Component {
       cart,
       product,
       productReviews,
-      userReviewed,
+      userHasReviewed,
       handleAddToCart
     } = this.props;
 
@@ -77,14 +77,12 @@ class SingleProduct extends Component {
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           {
-            authUser.id && userReviewed.length === 0
-            ? <ReviewForm authUser={authUser} singleProduct={product} />
+            authUser.id && !userHasReviewed
+            ? <ReviewForm authUser={authUser} singleProduct={product} hasReviewed={userHasReviewed} />
             : null
           }
           <h3>{product.title} Reviews</h3>
-
           <ReviewsList productReviews={productReviews} />
-
         </div>
 
       </div>
@@ -96,21 +94,18 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
-  // could be moved to model?
-  const userReviewed = productReviews.filter(_productReview => _productReview.user.id === authUser.id);
-  console.log('userReviewed = ', userReviewed);
+  const userHasReviewed = productReviews.reduce((verified, _productReview) => {
+    return _productReview.user.id === authUser.id;
+  }, false);
 
-  // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
-  // show review form only if user has ordered this product?
   // if user has a review, show edit/delete button?
-  console.log("product.quantityCounter = ", product.quantityCounter);
 
   return {
     authUser,
     cart,
     product,
     productReviews,
-    userReviewed
+    userHasReviewed
   };
 };
 
@@ -118,7 +113,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (cartId, productId, orderQuantity) => {
       dispatch(updateLineItem(cartId, productId, orderQuantity, true));
-    },
+    }
   };
 };
 

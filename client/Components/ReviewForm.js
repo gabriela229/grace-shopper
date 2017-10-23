@@ -6,6 +6,7 @@ class ReviewForm extends Component {
 
   constructor(props) {
     super(props);
+    // console.log("ReviewForm: constructor() - this.props = ", this.props);
     this.state = {
       content: ''
     };
@@ -21,19 +22,14 @@ class ReviewForm extends Component {
     evt.preventDefault();
     const review = {
       content: evt.target.content.value,
-      productId: this.props.singleProduct.id,
-      userId: this.props.authUser.id
+      productId: this.props.product.id,
+      userId: this.props.reviewer.id
     };
     this.props.dispatch(postReview(review));
     this.setState({content: ''});
   }
 
   render() {
-    // console.log("ReviewForm: render() - this.props = ", this.props);
-    // const {
-    //   authUser,
-    //   product,
-    // } = this.props;
 
     const {handleChange, handleSubmit} = this;
     const {content} = this.state;
@@ -65,22 +61,24 @@ class ReviewForm extends Component {
   }
 }
 
-const mapStateToProps = ({authUser, singleProduct}) => {
-  console.log("ReviewForm: mapStateToProps - authUser = ", authUser);
-  console.log("ReviewForm: mapStateToProps - singleProduct = ", singleProduct);
+const mapStateToProps = (state, ownProps) => {
+  // console.log("ReviewForm: mapStateToProps - authUser = ", ownProps.authUser);
+  // console.log("ReviewForm: mapStateToProps - singleProduct = ", ownProps.singleProduct);
+  // console.log("ReviewForm: mapStateToProps - verified = ", ownProps.hasReviewed);
 
   return {
-    authUser,
-    singleProduct
+    reviewer: ownProps.authUser,
+    product: ownProps.singleProduct,
+    userHasReviewed: ownProps.hasReviewed
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    handleSubmitReview: (review) => {
-      dispatch(postReview(review));
-    },
-  };
-};
+// const mapDispatchToProps = (dispatch) => {
+//   return {
+//     handleSubmitReview: (review) => {
+//       dispatch(postReview(review));
+//     },
+//   };
+// };
 
-export default connect(mapStateToProps, mapStateToProps)(ReviewForm);
+export default connect(mapStateToProps)(ReviewForm);
