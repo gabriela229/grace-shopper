@@ -6,6 +6,7 @@ api.use('/orders', require('./orders'));
 api.use('/products', require('./products'));
 api.use('/reviews', require('./reviews'));
 api.use('/user', require('./user'));
+api.use('/fileUpload', require('./fileUpload'));
 
 api.use((req, res, next) => {
   res.status(404).send('Page Not Found');
