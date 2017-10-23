@@ -98,8 +98,6 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
     return _productReview.user.id === authUser.id;
   }, false);
 
-  // if user has a review, show edit/delete button?
-
   return {
     authUser,
     cart,

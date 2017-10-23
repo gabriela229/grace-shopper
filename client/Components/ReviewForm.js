@@ -6,7 +6,6 @@ class ReviewForm extends Component {
 
   constructor(props) {
     super(props);
-    // console.log("ReviewForm: constructor() - this.props = ", this.props);
     this.state = {
       content: ''
     };
@@ -62,23 +61,11 @@ class ReviewForm extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  // console.log("ReviewForm: mapStateToProps - authUser = ", ownProps.authUser);
-  // console.log("ReviewForm: mapStateToProps - singleProduct = ", ownProps.singleProduct);
-  // console.log("ReviewForm: mapStateToProps - verified = ", ownProps.hasReviewed);
-
   return {
     reviewer: ownProps.authUser,
     product: ownProps.singleProduct,
     userHasReviewed: ownProps.hasReviewed
   };
 };
-
-// const mapDispatchToProps = (dispatch) => {
-//   return {
-//     handleSubmitReview: (review) => {
-//       dispatch(postReview(review));
-//     },
-//   };
-// };
 
 export default connect(mapStateToProps)(ReviewForm);

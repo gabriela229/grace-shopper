@@ -11,10 +11,6 @@ const Review = db.define('review', {
         msg: 'Your review must be AT LEAST 5 characters, and NO MORE than 500 characters.'
       }
     }
-  },
-  isVerified: {
-    type: Sequelize.BOOLEAN,
-    defaultValue: false
   }
 });
 

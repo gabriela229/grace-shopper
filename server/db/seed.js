@@ -195,19 +195,16 @@ const lineItems = [
 const reviews = [
   {
     content: "Great donut! Just try it!",
-    isVerified: true,
     productId: 1,
     userId: 1
   },
   {
     content: "This donut changed my life.",
-    isVerified: true,
     productId: 1,
     userId: 2
   },
   {
     content: "I've heard that these are the best.",
-    isVerified: false,
     productId: 1,
     userId: 3
   }
