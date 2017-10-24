@@ -8,12 +8,11 @@ import LoginSignupForm from './LoginSignupForm';
 import Navbar from './Navbar';
 import ProductsList from './ProductsList';
 import SingleProduct from './SingleProduct';
-// import AdminUsers from './AdminUsers';
 import AdminRoutes from './AdminRoutes';
-// import PasswordReset from './PasswordReset';
 
 // store and getProducts thunk
-
+import PasswordReset from './PasswordReset';
+import Checkout from './Checkout';
 import { fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart, fetchOrders } from '../store';
 
 class Main extends Component {
@@ -32,6 +31,10 @@ class Main extends Component {
           <Route exact path="/cart" component={Cart} />
           <Route exact path="/login" component={LoginSignupForm} />
           <Route exact path="/signup" component={LoginSignupForm} />
+
+
+          <Route path="/products/:productId" component={SingleProduct} />
+          <Route exact path="/checkout" component={Checkout} />
           {this.props.authUser.id ?
             <AdminRoutes /> : null
           }
@@ -62,6 +65,5 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 };
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

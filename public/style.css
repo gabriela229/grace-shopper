@@ -20,7 +20,13 @@ h1, h2, h3 {
 }
 
 .product-buy-box {
+  margin-top: 10px;
   text-align: center;
+}
+
+.product-buy-box select {
+  margin: 0 auto;
+  width: 15%;
 }
 
 .product-review-box {

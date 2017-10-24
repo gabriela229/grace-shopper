@@ -1,6 +1,7 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {updateLineItem} from '../store';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateLineItem } from '../store';
+import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
 import ProductImageUpload from './ProductImageUpload';
 import ProductImageCarousel from './ProductImageCarousel';
@@ -10,14 +11,14 @@ class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      orderQuantity: 0
+      orderQuantity: 1
     };
     this.handleChange = this.handleChange.bind(this);
   }
 
   handleChange(evt) {
     const orderQuantity = Number(evt.target.value);
-    this.setState({orderQuantity});
+    this.setState({ orderQuantity });
   }
 
   render() {
@@ -26,7 +27,7 @@ class SingleProduct extends Component {
       cart,
       product,
       productReviews,
-      quantityCounter,
+      userHasReviewed,
       handleAddToCart,
       authUser
     } = this.props;
@@ -39,15 +40,16 @@ class SingleProduct extends Component {
 
     return (
       <div className="row">
-        <div className="col-xs-12 col-sm-12 product-info-box">
+
+        <div className="col-xs-8 col-sm-8 product-info-box">
           <h1 className="product-title">{product.title}</h1>
           <ProductImageCarousel images={product.image} />
           <p className="product-description">{product.description}</p>
-          <p className="product-quantity">{product.quantity ? 'In Stock!' : 'Sold Out!'}</p>
-          <p className="product-price"><strong>${product.price}</strong></p>
+          <p className="product-quantity"><em>{product.quantity ? 'In Stock!' : 'Sold Out!'}</em></p>
+          <h4 className="product-price">$<strong>{product.price}</strong></h4>
         </div>
 
-        <div className="col-xs-12 col-sm-12 product-buy-box center-block">
+        <div className="col-xs-4 col-sm-4 product-buy-box center-block">
 
           <div className="form-group">
             <select
@@ -55,47 +57,32 @@ class SingleProduct extends Component {
               name="orderQuantity"
               onChange={handleChange}
               value={orderQuantity}>
-              <option value="">-- How many? --</option>
-                {
-                  quantityCounter && quantityCounter.map(_quantity => {
-                    return (
-                      <option key={_quantity} value={_quantity}>{_quantity}</option>
-                    );
-                  })
-                }
+              {
+                product.quantityCounter && product.quantityCounter.map(_quantity => {
+                  return (
+                    <option key={_quantity} value={_quantity}>{_quantity}</option>
+                  );
+                })
+              }
             </select>
           </div>
-          {
-            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
-          }
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
-
+            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart
+          </button>
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id} />) : ('')
+          }
         </div>
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           {
-            authUser.id
-            ? <ReviewForm authUser={authUser} singleProduct={product} />
-            : null
+            authUser.id && !userHasReviewed
+              ? <ReviewForm authUser={authUser} singleProduct={product} hasReviewed={userHasReviewed} />
+              : null
           }
           <h3>{product.title} Reviews</h3>
-
-          <ul className="list-group">
-            {
-              productReviews.length > 0
-              ? productReviews.map(review => {
-                return (
-                  <li
-                    key={review.id}
-                    className="list-group-item"><em>"{review.content}"</em> - <strong>{review.user.name}</strong> {review.isVerified ? <span className="badge"><small>Verified Review!</small></span> : null}</li>
-                );
-              })
-              : <li className="list-group-item">No reviews yet!</li>
-            }
-          </ul>
-
+          <ReviewsList productReviews={productReviews} />
         </div>
 
       </div>
@@ -103,30 +90,19 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
+const mapStateToProps = ({ authUser, cart, products, reviews }, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
-  // could be moved to model?
-  const userReviewed = productReviews.filter(_productReview => _productReview.user.id === authUser.id);
-  console.log('userReviewed = ', userReviewed);
-
-  // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
-  // show review form only if user has ordered this product?
-  // if user has a review, show edit/delete button?
-
-  const quantityCounter = [];
-  if (product) {
-    for (var i = 1; i < product.quantity; i++) {
-      quantityCounter.push(i);
-    }
-  }
+  const userHasReviewed = productReviews.reduce((verified, _productReview) => {
+    return _productReview.user.id === authUser.id;
+  }, false);
 
   return {
     cart,
     product,
     productReviews,
-    quantityCounter,
+    userHasReviewed,
     authUser
   };
 };
@@ -135,7 +111,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     handleAddToCart: (cartId, productId, orderQuantity) => {
       dispatch(updateLineItem(cartId, productId, orderQuantity, true));
-    },
+    }
   };
 };
 
