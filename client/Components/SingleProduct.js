@@ -11,7 +11,7 @@ class SingleProduct extends Component {
   constructor() {
     super();
     this.state = {
-      orderQuantity: 0
+      orderQuantity: 1
     };
     this.handleChange = this.handleChange.bind(this);
   }
@@ -56,7 +56,6 @@ class SingleProduct extends Component {
               name="orderQuantity"
               onChange={handleChange}
               value={orderQuantity}>
-              <option value="">-- How many? --</option>
                 {
                   product.quantityCounter && product.quantityCounter.map(_quantity => {
                     return (
