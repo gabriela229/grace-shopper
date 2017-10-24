@@ -48,7 +48,7 @@ const mapStateToProps = ({ authUser }) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-  // dispatch(loginUser({ email: 'doughnut@gmail.com', password: '123'}, null, {lineItems: []}))
+  dispatch(loginUser({ email: 'doughnut@gmail.com', password: '123'}, null, {lineItems: []}))
   return {
     fetchInitialData: () => {
       dispatch(getProducts());

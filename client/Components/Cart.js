@@ -27,7 +27,6 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                 <tbody>
             {
               cart.lineItems.map(lineItem => {
-              console.log("mapping")
               return (
                 <tr key={lineItem.product.id}>
                 <td className="col-sm-8 col-md-6">

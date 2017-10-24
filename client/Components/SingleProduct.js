@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {updateLineItem} from '../store';
 import ReviewForm from './ReviewForm';
 import ProductImageUpload from './ProductImageUpload';
+import ProductImageCarousel from './ProductImageCarousel';
 
 class SingleProduct extends Component {
 
@@ -22,7 +23,6 @@ class SingleProduct extends Component {
   render() {
 
     const {
-      authUser,
       cart,
       product,
       productReviews,
@@ -39,16 +39,9 @@ class SingleProduct extends Component {
 
     return (
       <div className="row">
-
-        <div className="col-xs-12 col-sm-12 product-image-box">
-          <img
-            src={product.image}
-            alt="default product image"
-            className="img-responsive" />
-        </div>
-
         <div className="col-xs-12 col-sm-12 product-info-box">
           <h1 className="product-title">{product.title}</h1>
+          <ProductImageCarousel images={product.image[0]} />
           <p className="product-description">{product.description}</p>
           <p className="product-quantity">{product.quantity ? 'In Stock!' : 'Sold Out!'}</p>
           <p className="product-price"><strong>${product.price}</strong></p>
@@ -111,7 +104,6 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
-  // console.log("SingleProduct: mapStateToProps - authUser = ", authUser);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);

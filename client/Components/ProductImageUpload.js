@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { updateProductImage } from '../store'
 import { connect } from 'react-redux';
+import Dropzone from 'react-dropzone';
 
 class ImageUploader extends Component {
     constructor() {
@@ -9,12 +10,12 @@ class ImageUploader extends Component {
         this.state = {
             data_uri: '',
             filename: '',
-            filetype: '',
-            processing: false
+            processing: false,
+            files: []
         }
 
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleFile = this.handleFile.bind(this);
+        this.handleOnDrop = this.handleOnDrop.bind(this);
     }
 
     handleSubmit(e) {
@@ -25,12 +26,7 @@ class ImageUploader extends Component {
             processing: true
         });
 
-        axios.post('/api/FileUpload',
-            {
-                data_uri: this.state.data_uri,
-                filename: this.state.filename,
-                filetype: this.state.filetype
-            })
+        axios.post('/api/FileUpload', { files: this.state.files })
             .then(res => res.data)
             .then(function (res) {
                 _this.props.dispatch(updateProductImage(_this.props.productId, res.uri))
@@ -40,24 +36,27 @@ class ImageUploader extends Component {
             });
     }
 
-    handleFile(e) {
-        const reader = new FileReader();
-        const file = e.target.files[0];
+    handleOnDrop(files) {
+        files.map(function (file) {
+            const reader = new FileReader();
 
-        reader.onload = (upload) => {
-            this.setState({
-                data_uri: upload.target.result,
-                filename: file.name,
-                filetype: file.type
-            });
-        };
+            reader.onload = (upload) => {
+                const uploadedFile = {
+                    data_uri: upload.target.result,
+                    filename: file.name,
+                    filetype: file.type
+                }
+                this.setState(prevState => ({ files: [...prevState.files, uploadedFile] }))
+            };
 
-        reader.readAsDataURL(file);
+            reader.readAsDataURL(file);
+        }, this);
     }
 
     render() {
         let processing;
         let uploaded;
+        const { handleSubmit, handleOnDrop } = this
 
         if (this.state.uploaded_uri) {
             uploaded = (
@@ -72,15 +71,18 @@ class ImageUploader extends Component {
         }
 
         return (
-            <div className='row'>
+            <div className='row' >
                 <div className='col-sm-12'>
                     <label>Upload an image</label>
-                    <form onSubmit={this.handleSubmit} encType="multipart/form-data">
-                        <input type="file" onChange={this.handleFile} />
+
+                    <form onSubmit={handleSubmit} encType="multipart/form-data">
+                        <Dropzone disabled={processing ? true : false} onDrop={handleOnDrop}>
+                            <p>Try dropping some files here, or click to select files to upload.</p>
+                        </Dropzone>
                         <input disabled={processing ? "disabled" : false} className='btn btn-primary' type="submit" value="Upload" />
                         {processing}
+                        {uploaded}
                     </form>
-                    {uploaded}
                 </div>
             </div>
         );
