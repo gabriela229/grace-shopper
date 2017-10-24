@@ -76,10 +76,10 @@ class ImageUploader extends Component {
                     <label>Upload an image</label>
 
                     <form onSubmit={handleSubmit} encType="multipart/form-data">
-                        <Dropzone disabled={processing ? true : false} onDrop={handleOnDrop} style={{ width: "200px", height: "200px", borderWidth: "2px", borderColor: "rgb(102, 102, 102)", borderStyle: "dashed", borderRadius: "5px", margin: "auto" }} >
+                        <Dropzone disabled={processing ? true : false} onDrop={handleOnDrop} style={{ width: "200px", height: "200px", borderWidth: "2px", borderColor: "rgb(102, 102, 102)", borderStyle: "dashed", borderRadius: "5px", margin: "auto" }} activeStyle={{ width: "200px", height: "200px", borderWidth: "2px", borderColor: "#6c6", borderStyle: "solid", borderRadius: "5px", margin: "auto", backgroundColor:"#eee" }} >
                             <p>Try dropping some files here, or click to select files to upload.</p>
                         </Dropzone>
-                        <input disabled={processing ? "disabled" : false} className='btn btn-primary' type="submit" value="Upload" />
+                        <input disabled={processing ? "disabled" : false} className='btn btn-primary' type="submit" value="Upload" /><br />
                         {processing}
                         {uploaded}
                     </form>
