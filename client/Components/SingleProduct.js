@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
-import {connect} from 'react-redux';
-import {updateLineItem} from '../store';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { updateLineItem } from '../store';
 import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
 import ProductImageUpload from './ProductImageUpload';
@@ -18,7 +18,7 @@ class SingleProduct extends Component {
 
   handleChange(evt) {
     const orderQuantity = Number(evt.target.value);
-    this.setState({orderQuantity});
+    this.setState({ orderQuantity });
   }
 
   render() {
@@ -40,7 +40,8 @@ class SingleProduct extends Component {
 
     return (
       <div className="row">
-        <div className="col-xs-12 col-sm-12 product-info-box">
+
+        <div className="col-xs-8 col-sm-8 product-info-box">
           <h1 className="product-title">{product.title}</h1>
           <ProductImageCarousel images={product.image} />
           <p className="product-description">{product.description}</p>
@@ -48,7 +49,7 @@ class SingleProduct extends Component {
           <h4 className="product-price">$<strong>{product.price}</strong></h4>
         </div>
 
-        <div className="col-xs-12 col-sm-12 product-buy-box center-block">
+        <div className="col-xs-4 col-sm-4 product-buy-box center-block">
 
           <div className="form-group">
             <select
@@ -56,29 +57,29 @@ class SingleProduct extends Component {
               name="orderQuantity"
               onChange={handleChange}
               value={orderQuantity}>
-                {
-                  product.quantityCounter && product.quantityCounter.map(_quantity => {
-                    return (
-                      <option key={_quantity} value={_quantity}>{_quantity}</option>
-                    );
-                  })
-                }
+              {
+                product.quantityCounter && product.quantityCounter.map(_quantity => {
+                  return (
+                    <option key={_quantity} value={_quantity}>{_quantity}</option>
+                  );
+                })
+              }
             </select>
           </div>
-          {
-            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
-          }
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
-
+            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart
+          </button>
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id} />) : ('')
+          }
         </div>
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
           {
             authUser.id && !userHasReviewed
-            ? <ReviewForm authUser={authUser} singleProduct={product} hasReviewed={userHasReviewed} />
-            : null
+              ? <ReviewForm authUser={authUser} singleProduct={product} hasReviewed={userHasReviewed} />
+              : null
           }
           <h3>{product.title} Reviews</h3>
           <ReviewsList productReviews={productReviews} />
@@ -89,7 +90,7 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
+const mapStateToProps = ({ authUser, cart, products, reviews }, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
