@@ -13,6 +13,12 @@ router.post('/:id/lineItems', (req, res, next) => {
 
 // close cart (cart --> order)
 router.put('/:id', (req, res, next) => {
+    Order.findById(req.params.id)
+    .then(order => {
+        return order.update(req.body);
+    })
+        .then( updatedOrder => res.status(200).send(updatedOrder))
+        .catch(next);
 });
 
 // get cart

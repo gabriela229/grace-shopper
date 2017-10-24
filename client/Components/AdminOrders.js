@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import {updateOrder, searchOrders} from '../store';
+import {updateOrder} from '../store';
 import ReactModal from 'react-modal';
 
 const customStyles = {
@@ -28,7 +28,6 @@ class AdminOrders extends Component {
     };
     this.showModal = this.showModal.bind(this);
     this.closeModal = this.closeModal.bind(this);
-    this.onChange = this.onChange.bind(this);
     this.search = this.search.bind(this);
   }
   showModal(orderOnState){
@@ -37,9 +36,7 @@ class AdminOrders extends Component {
   closeModal(){
     this.setState({isOpen: false, orderOnState: {lineItems: []}});
   }
-  onChange(){
-    console.log('changed');
-  }
+
   search(event){
     const searchTerm = event.target.value;
     const filteredOrders = this.props.orders.filter(order => {
@@ -49,9 +46,9 @@ class AdminOrders extends Component {
     this.setState({filteredOrders});
   }
   render(){
-    const {closeModal, showModal, onChange, search} = this;
+    const {closeModal, showModal, search} = this;
     const {isOpen, orderOnState, filteredOrders} = this.state;
-    const {orders, users, authUser, handleChange, handleUserUpdate} = this.props;
+    const {orders, handleChange} = this.props;
     return (
         <div className="table-responsive">
           <h1>Orders</h1>
@@ -98,7 +95,7 @@ class AdminOrders extends Component {
                       </td>
                       <td><strong>${order.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity;}, 0).toFixed(2)}</strong></td>
                       <td>
-                        <select onChange={onChange} name="orderStatus" className="form-control" value={order.status}>
+                        <select onChange={handleChange} name="orderStatus" className="form-control" data-id={order.id} value={order.status}>
                           <option value="Created">Created</option>
                           <option value="Processing">Processing</option>
                           <option value="Cancelled">Cancelled</option>
@@ -164,10 +161,11 @@ const mapStateToProps = ({orders, users, authUser}) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // handleChange: function (evt) {
-    //   const input = evt.target.value;
-    //   dispatch(searchOrders(input));
-    // }
+    handleChange: function (event) {
+      const status = event.target.value;
+      const id = event.target.dataset.id * 1;
+      dispatch(updateOrder({id, status}));
+    }
   };
 };
 

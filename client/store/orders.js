@@ -7,7 +7,6 @@ export function getOrders(orders){
   return {type: GET_ORDERS, orders};
 }
 
-
 export function fetchOrders(){
   return (dispatch) => {
     return axios.get('/api/orders')
@@ -19,6 +18,14 @@ export function fetchOrders(){
   };
 }
 
+export function updateOrder(order){
+  return (dispatch) => {
+    return axios.put(`api/orders/${order.id}`, order)
+    .then( () => {
+      dispatch(fetchOrders());
+    });
+  };
+}
 
 export default function reducer(state = [], action){
   switch (action.type){
