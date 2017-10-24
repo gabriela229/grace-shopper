@@ -1,7 +1,8 @@
 const express = require('express');
 const Order = require('../db/models/Order');
+const User = require('../db/models/User');
 const nodemailer = require('nodemailer');
-require('dotenv').config();   // process.env now available 
+require('dotenv').config();   // process.env now available in development
 
 const router = express.Router();
 
@@ -18,21 +19,8 @@ router.put('/:id', (req, res, next) => {
 });
 
 /*
-// will be useful to set up on gmail and password as system env variable
+setting env variables in heroku
 heroku config:set GITHUB_USERNAME=joesmith
-Adding config vars and restarting myapp... done, v12
-GITHUB_USERNAME: joesmith
-
-$ heroku config
-GITHUB_USERNAME: joesmith
-OTHER_VAR:    production
-
-$ heroku config:get GITHUB_USERNAME
-joesmith
-
-$ heroku config:unset GITHUB_USERNAME
-Unsetting GITHUB_USERNAME and restarting myapp... done, v13
-create reusable transporter object using the default SMTP transport
 */
 let transporter = nodemailer.createTransport({
     service: "Gmail",
@@ -44,9 +32,9 @@ let transporter = nodemailer.createTransport({
 
 // for non-log-in user order
 router.post('/', (req, res, next) => {
-    const { customerInfo, lineItems,  } = req.body;
+    const { customerInfo, lineItems,  authUser} = req.body;
     const { email } = customerInfo;
-
+    // console.log(customerInfo);
     // create reusable transporter object using the default SMTP transport
     let transporter = nodemailer.createTransport({
         service: "Gmail",
@@ -58,7 +46,7 @@ router.post('/', (req, res, next) => {
 
     // setup email data with unicode symbols
     let mailOptions = {
-        from: '"Amazing donuts makers team 👻" <eaungkyawching@gmail.com>', // sender address
+        from: '"Amazing Donuts Makers 👻" <eaungkyawching@gmail.com>', // sender address
         to: email, // list of receivers
         subject: 'Order confirmation', // Subject line
         text: `Hello ${customerInfo.firstName}, 

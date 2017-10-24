@@ -13,7 +13,6 @@ import PasswordReset from './PasswordReset';
 import Checkout from './Checkout';
 
 // store and getProducts thunk
-
 import {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart} from '../store';
 
 class Main extends Component {
