@@ -34,7 +34,8 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                 <tr key={lineItem.product.id}>
                 <td className="col-sm-8 col-md-6">
                 <div className="media">
-                    <a className="thumbnail pull-left" href="#"> <img className="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style={{width: "72px", height: "72px"}} /> </a>
+                    {/* src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" */}
+                    <a className="thumbnail pull-left" href="#"> <img className="media-object" src={lineItem.product.image} style={{width: "72px", height: "72px"}} /> </a>
                     <div className="media-body">
                         <h4 className="media-heading"><a href="#">{lineItem.product.description}</a></h4>
                     </div>

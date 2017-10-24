@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { addToCart, updateLineItem } from '../store';
 import { searchProducts, getProducts } from '../store/products';
 
-const ProductsList = (props) => {
+export const ProductsList = (props) => {
   const { products, cart, handleChange, handleSubmit, handleAddToCart, authUser } = props;
   return (
     <div>
