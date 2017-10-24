@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { removeLineItem, updateLineItem } from '../store';
+
 
 const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) => {
     if (!cart.lineItems.length) {
@@ -31,7 +33,8 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                 <tr key={lineItem.product.id}>
                 <td className="col-sm-8 col-md-6">
                 <div className="media">
-                    <a className="thumbnail pull-left" href="#"> <img className="media-object" src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" style={{width: "72px", height: "72px"}} /> </a>
+                    {/* src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png" */}
+                    <a className="thumbnail pull-left" href="#"> <img className="media-object" src={lineItem.product.image} style={{width: "72px", height: "72px"}} /> </a>
                     <div className="media-body">
                         <h4 className="media-heading"><a href="#">{lineItem.product.description}</a></h4>
                     </div>
@@ -79,7 +82,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                         </button></td>
                         <td>
                         <button type="button" className="btn btn-success">
-                            Checkout <span className="glyphicon glyphicon-play"></span>
+                            <Link to="/checkout" replace> Checkout <span></span> </Link>
                         </button></td>
                     </tr>
                 </tbody>
