@@ -23,8 +23,8 @@ const Product = db.define('product', {
     }
   },
   image: {
-    type: Sequelize.STRING,
-    defaultValue: '/public/images/default-product.png'
+    type: Sequelize.ARRAY(Sequelize.STRING),
+    defaultValue: ['/public/images/default-product.png']
   }
 }, {
   getterMethods: {
