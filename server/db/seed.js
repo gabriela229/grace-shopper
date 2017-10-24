@@ -61,7 +61,7 @@ const products = [
   },
   {
     title: "Chocolate Donut",
-    image : ['https://s3.us-east-2.amazonaws.com/graceshopper/chocolate.jpeg', 'https://s3.us-east-2.amazonaws.com/graceshopper/chocolate.jpeg'],
+    image : ['https://s3.us-east-2.amazonaws.com/graceshopper/chocolate.jpeg', 'https://s3.us-east-2.amazonaws.com/graceshopper/chocolate_sprinkle.jpeg'],
     description: "It's a Chocolate Donut, as expected.",
     price: 1.50,
     quantity: 999,

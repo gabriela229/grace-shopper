@@ -41,7 +41,7 @@ class SingleProduct extends Component {
       <div className="row">
         <div className="col-xs-12 col-sm-12 product-info-box">
           <h1 className="product-title">{product.title}</h1>
-          <ProductImageCarousel images={product.image[0]} />
+          <ProductImageCarousel images={product.image} />
           <p className="product-description">{product.description}</p>
           <p className="product-quantity">{product.quantity ? 'In Stock!' : 'Sold Out!'}</p>
           <p className="product-price"><strong>${product.price}</strong></p>

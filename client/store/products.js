@@ -52,10 +52,10 @@ export function postProduct(product) {
   };
 }
 
-export function updateProductImage(id, image) {
+export function updateProductImage(id, images) {
   return function thunk(dispatch) {
     //make sure to update this get request url so that it matches route
-    return axios.put(`/api/products/${id}`, { image })
+    return axios.put(`/api/products/${id}`, { images })
       .then(res => res.data)
       .then(product => {
         dispatch(getProducts());

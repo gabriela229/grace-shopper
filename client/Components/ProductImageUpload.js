@@ -29,7 +29,8 @@ class ImageUploader extends Component {
         axios.post('/api/FileUpload', { files: this.state.files })
             .then(res => res.data)
             .then(function (res) {
-                _this.props.dispatch(updateProductImage(_this.props.productId, res.uri))
+                console.log
+                _this.props.dispatch(updateProductImage(_this.props.productId, res.fileUrls))
                 _this.setState({
                     processing: false
                 });

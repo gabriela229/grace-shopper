@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const ProductImageCarousel = ({ images }) => {
-    console.log("images", images)
     return (
         <div className="container">
             <div id="myCarousel" className="carousel slide" data-ride="carousel">
@@ -12,9 +11,13 @@ const ProductImageCarousel = ({ images }) => {
                     <li data-target="#myCarousel" data-slide-to="2"></li>
                 </ol>
                 <div className="carousel-inner">
-                    <div className="item active">
-                        <img src={images} />
-                    </div>
+                {
+                    images.map((image, index) => (
+                        <div key={index} className={index === 0 ? "item active" : "item"}>
+                            <img src={image} />
+                        </div>
+                ))
+                }
                 </div>
                 <a className="left carousel-control" href="#myCarousel" data-slide="prev">
                     <span className="glyphicon glyphicon-chevron-left"></span>
