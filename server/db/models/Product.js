@@ -26,6 +26,16 @@ const Product = db.define('product', {
     type: Sequelize.ARRAY(Sequelize.STRING),
     defaultValue: ['/public/images/default-product.png']
   }
+}, {
+  getterMethods: {
+    quantityCounter() {
+      const quantityArray = [];
+      for (var i = 1; i < this.quantity; i++) {
+        quantityArray.push(i);
+      }
+      return quantityArray;
+    }
+  }
 });
 
 module.exports = Product;

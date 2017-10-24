@@ -195,25 +195,16 @@ const lineItems = [
 const reviews = [
   {
     content: "Great donut! Just try it!",
-    isVerified: true,
     productId: 1,
     userId: 1
   },
   {
     content: "This donut changed my life.",
-    isVerified: true,
     productId: 1,
     userId: 2
   },
   {
-    content: "I've heard that these are the best.",
-    isVerified: false,
-    productId: 1,
-    userId: 3
-  },
-  {
-    content: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibu",
-    isVerified: false,
+    content: "Throw your current donut in the garbage and eat one of these instead!",
     productId: 1,
     userId: 3
   }
