@@ -1,43 +1,44 @@
 import axios from 'axios';
-import {setError} from './error';
-import {fetchUsers} from './users';
-import {loadCart} from './cart';
+import { setError } from './error';
+import { fetchUsers } from './users';
+import { loadCart } from './cart';
 
 const SET_USER = 'SET_USER';
 
-export function setUser(user){
-  return {type: SET_USER, user};
+export function setUser(user) {
+  return { type: SET_USER, user };
 }
 
-export function loginUser(credentials, history, cart){
-  return function thunk(dispatch){
+export function loginUser(credentials, history, cart) {
+  return function thunk(dispatch) {
     return axios.post('/api/auth', credentials)
       .then(res => res.data)
       .then(user => {
         dispatch(setUser(user));
         dispatch(loadCart(cart));
-        user.passwordExpired === true ? history.push('/reset') : history.push('/');
+        if (history)
+          user.passwordExpired === true ? history.push('/reset') : history.push('/');
       })
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
-export function logoutUser(){
-  return function thunk(dispatch){
+export function logoutUser() {
+  return function thunk(dispatch) {
     return axios.delete('/api/auth')
       .then(() => {
         dispatch(setUser({}));
       })
       .then(() => {
-        dispatch(loadCart({lineItems: []}));
+        dispatch(loadCart({ lineItems: [] }));
         history.push('/');
       })
       .catch(err => dispatch(setError(err.response.data)));
   };
 }
 
-export function createUser(credentials, history, cart){
-  return function thunk(dispatch){
+export function createUser(credentials, history, cart) {
+  return function thunk(dispatch) {
     return axios.post('/api/user', credentials)
       .then(res => res.data)
       .then(() => {
@@ -48,7 +49,7 @@ export function createUser(credentials, history, cart){
   };
 }
 
-export function fetchUser(){
+export function fetchUser() {
   return (dispatch) => {
     return axios.get('/api/auth')
       .then(result => result.data)
@@ -60,8 +61,8 @@ export function fetchUser(){
 }
 
 
-export default function reducer(state = {}, action){
-  switch (action.type){
+export default function reducer(state = {}, action) {
+  switch (action.type) {
     case SET_USER:
       return action.user;
     default:

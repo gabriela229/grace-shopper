@@ -21,7 +21,7 @@ const ProductsList = (props) => {
         {products.map(product => (
           <div key={product.id} className="col-xs-4">
             <span className="thumbnail">
-              <img src={product.image} alt="..." />
+              <img src={product.image[0]} alt="..." />
               <Link to={`/products/${product.id}`}> <p>{product.title}</p> </Link>
               <div className="ratings">
                 <span className="glyphicon glyphicon-star"></span>

@@ -14,14 +14,13 @@ import AdminRoutes from './AdminRoutes';
 
 // store and getProducts thunk
 
-import {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart, fetchOrders} from '../store';
+import { fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart, fetchOrders } from '../store';
 
 class Main extends Component {
 
   // fetch categories, products, and reviews data
   componentDidMount() {
     this.props.fetchInitialData();
-
   }
   render() {
     return (
@@ -43,13 +42,14 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = ({authUser}) => {
+const mapStateToProps = ({ authUser }) => {
   return {
     authUser
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
+  // dispatch(loginUser({ email: 'doughnut@gmail.com', password: '123'}, null, {lineItems: []}))
   return {
     fetchInitialData: () => {
       dispatch(getProducts());

@@ -1,6 +1,9 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {addToCart} from '../store';
+import {updateLineItem} from '../store';
+import ReviewForm from './ReviewForm';
+import ProductImageUpload from './ProductImageUpload';
+import ProductImageCarousel from './ProductImageCarousel';
 
 class SingleProduct extends Component {
 
@@ -13,7 +16,7 @@ class SingleProduct extends Component {
   }
 
   handleChange(evt) {
-    const orderQuantity = evt.target.value;
+    const orderQuantity = Number(evt.target.value);
     this.setState({orderQuantity});
   }
 
@@ -24,24 +27,21 @@ class SingleProduct extends Component {
       product,
       productReviews,
       quantityCounter,
-      handleAddToCart
+      handleAddToCart,
+      authUser
     } = this.props;
 
-    const {orderQuantity} = this.state;
-    const {handleChange} = this;
+    const { orderQuantity } = this.state;
+    const { handleChange } = this;
+
+    if (!product)
+      return (<div />)
 
     return (
       <div className="row">
-
-        <div className="col-xs-12 col-sm-12 product-image-box">
-          <img
-            src={product.image}
-            alt="default product image"
-            className="img-responsive" />
-        </div>
-
         <div className="col-xs-12 col-sm-12 product-info-box">
           <h1 className="product-title">{product.title}</h1>
+          <ProductImageCarousel images={product.image} />
           <p className="product-description">{product.description}</p>
           <p className="product-quantity">{product.quantity ? 'In Stock!' : 'Sold Out!'}</p>
           <p className="product-price"><strong>${product.price}</strong></p>
@@ -56,24 +56,32 @@ class SingleProduct extends Component {
               onChange={handleChange}
               value={orderQuantity}>
               <option value="">-- How many? --</option>
-              {
-                quantityCounter && quantityCounter.map(_quantity => {
-                  return (
-                    <option key={_quantity} value={_quantity}>{_quantity}</option>
-                  );
-                })
-              }
+                {
+                  quantityCounter && quantityCounter.map(_quantity => {
+                    return (
+                      <option key={_quantity} value={_quantity}>{_quantity}</option>
+                    );
+                  })
+                }
             </select>
           </div>
-
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
+          }
           <button
             className="btn btn-sm btn-default"
-            onClick={() => handleAddToCart(product.id, cart.id, orderQuantity)}>Add to Cart</button>
+            onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
 
         </div>
 
         <div className="col-xs-12 col-sm-12 product-review-box center-block">
+          {
+            authUser.id
+            ? <ReviewForm authUser={authUser} singleProduct={product} />
+            : null
+          }
           <h3>{product.title} Reviews</h3>
+
           <ul className="list-group">
             {
               productReviews.length > 0
@@ -85,7 +93,7 @@ class SingleProduct extends Component {
                 );
               })
               : <li className="list-group-item">No reviews yet!</li>
-            /* pagination? */}
+            }
           </ul>
 
         </div>
@@ -95,29 +103,39 @@ class SingleProduct extends Component {
   }
 }
 
-const mapStateToProps = ({products, cart, reviews}, ownProps) => {
+const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
+  // could be moved to model?
+  const userReviewed = productReviews.filter(_productReview => _productReview.user.id === authUser.id);
+  console.log('userReviewed = ', userReviewed);
+
+  // is user authenticated AND has user NOT already reviewed this product ? show ReviewForm : don't show
+  // show review form only if user has ordered this product?
+  // if user has a review, show edit/delete button?
 
   const quantityCounter = [];
-  for (var i = 1; i < product.quantity; i++) {
-    quantityCounter.push(i);
+  if (product) {
+    for (var i = 1; i < product.quantity; i++) {
+      quantityCounter.push(i);
+    }
   }
 
   return {
     cart,
     product,
     productReviews,
-    quantityCounter
+    quantityCounter,
+    authUser
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleAddToCart: (productId, cartId, orderQuantity) => {
-        dispatch(addToCart(productId, cartId, orderQuantity));
-      }
+    handleAddToCart: (cartId, productId, orderQuantity) => {
+      dispatch(updateLineItem(cartId, productId, orderQuantity, true));
+    },
   };
 };
 
