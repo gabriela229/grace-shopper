@@ -27,10 +27,10 @@ router.post('/', (req, res, next) => {
 
 // update a product
 router.put('/:id', (req, res, next) => {
-  const {quantity, price} = req.body;     // what do we want to update? may be price or quantity or both
+  const { image } = req.body;
   Product.findById(req.params.id)
     .then(product => {
-      return product.update({price, quantity});
+      return product.update({ image });
     })
     .then(product => res.status(200).send(product))
     .catch(next);

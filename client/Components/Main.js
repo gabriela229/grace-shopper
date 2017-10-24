@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { loginUser } from '../store';
 
 // components
 import Cart from './Cart';
@@ -12,15 +13,13 @@ import Admin from './Admin';
 import PasswordReset from './PasswordReset';
 import Checkout from './Checkout';
 
-// store and getProducts thunk
-import {fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart} from '../store';
+import { fetchUser, fetchUsers, getProducts, getCategories, getReviews, loadCart } from '../store';
 
 class Main extends Component {
 
   // fetch categories, products, and reviews data
   componentDidMount() {
     this.props.fetchInitialData();
-
   }
   render() {
     return (
@@ -43,13 +42,14 @@ class Main extends Component {
   }
 }
 
-const mapStateToProps = ({authUser}) => {
+const mapStateToProps = ({ authUser }) => {
   return {
     authUser
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
+  // dispatch(loginUser({ email: 'doughnut@gmail.com', password: '123'}, null, {lineItems: []}))
   return {
     fetchInitialData: () => {
       dispatch(getProducts());
@@ -61,6 +61,5 @@ const mapDispatchToProps = (dispatch) => {
     }
   };
 };
-
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));

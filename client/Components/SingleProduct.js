@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {updateLineItem} from '../store';
 import ReviewForm from './ReviewForm';
+import ProductImageUpload from './ProductImageUpload';
 
 class SingleProduct extends Component {
 
@@ -21,16 +22,19 @@ class SingleProduct extends Component {
   render() {
 
     const {
-      authUser,
       cart,
       product,
       productReviews,
       quantityCounter,
-      handleAddToCart
+      handleAddToCart,
+      authUser
     } = this.props;
 
-    const {orderQuantity} = this.state;
-    const {handleChange} = this;
+    const { orderQuantity } = this.state;
+    const { handleChange } = this;
+
+    if (!product)
+      return (<div />)
 
     return (
       <div className="row">
@@ -67,7 +71,9 @@ class SingleProduct extends Component {
                 }
             </select>
           </div>
-
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
+          }
           <button
             className="btn btn-sm btn-default"
             onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
@@ -104,7 +110,6 @@ class SingleProduct extends Component {
 }
 
 const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
-  // console.log("SingleProduct: mapStateToProps - authUser = ", authUser);
   const productId = Number(ownProps.match.params.productId);
   const product = products.find(_product => _product.id === productId);
   const productReviews = reviews.filter(_review => _review.product.id === productId);
@@ -117,16 +122,18 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   // if user has a review, show edit/delete button?
 
   const quantityCounter = [];
-  for (var i = 1; i < product.quantity; i++) {
-    quantityCounter.push(i);
+  if (product) {
+    for (var i = 1; i < product.quantity; i++) {
+      quantityCounter.push(i);
+    }
   }
 
   return {
-    authUser,
     cart,
     product,
     productReviews,
-    quantityCounter
+    quantityCounter,
+    authUser
   };
 };
 

@@ -8,26 +8,26 @@ const DELETE_PRODUCT = 'DELETE_PRODUCT';
 // working on search bar
 const SEARCH_PRODUCTS = 'SEARCH_PRODUCTS';
 // search products action
-export function searchProducts(toSearch){
-  return{ type: SEARCH_PRODUCTS, toSearch};
+export function searchProducts(toSearch) {
+  return { type: SEARCH_PRODUCTS, toSearch };
 }
 
-export function loadProducts(products){
-  return {type: GET_PRODUCTS, products};
+export function loadProducts(products) {
+  return { type: GET_PRODUCTS, products };
 }
-export function addProduct(product){
-  return {type: GET_PRODUCT, product};
+export function addProduct(product) {
+  return { type: GET_PRODUCT, product };
 }
-export function editProduct(product){
-  return {type: UPDATE_PRODUCT, product};
+export function editProduct(product) {
+  return { type: UPDATE_PRODUCT, product };
 }
-export function removeProduct(id){
-  return {type: DELETE_PRODUCT, id};
+export function removeProduct(id) {
+  return { type: DELETE_PRODUCT, id };
 }
 
 
-export function getProducts(){
-  return function thunk(dispatch){
+export function getProducts() {
+  return function thunk(dispatch) {
     //make sure to update this get request url so that it matches route
     return axios.get('/api/products')
       .then(res => res.data)
@@ -39,8 +39,8 @@ export function getProducts(){
   };
 }
 
-export function postProduct(product){
-  return function thunk(dispatch){
+export function postProduct(product) {
+  return function thunk(dispatch) {
     //make sure to update this get request url so that it matches route
     return axios.post('/api/products', product)
       .then(res => res.data)
@@ -52,21 +52,21 @@ export function postProduct(product){
   };
 }
 
-export function updateProduct(id){
-  return function thunk(dispatch){
+export function updateProductImage(id, image) {
+  return function thunk(dispatch) {
     //make sure to update this get request url so that it matches route
-    return axios.put(`/api/products/${id}`)
+    return axios.put(`/api/products/${id}`, { image })
       .then(res => res.data)
       .then(product => {
-        dispatch(editProduct(product));
+        dispatch(getProducts());
       })
       //update error handling to do something with this error
       .catch(err => console.log(err));
   };
 }
 
-export function deleteProduct(id){
-  return function thunk(dispatch){
+export function deleteProduct(id) {
+  return function thunk(dispatch) {
     //make sure to update this get request url so that it matches route
     return axios.delete(`/api/products/${id}`)
       .then(res => res.data)
@@ -78,8 +78,8 @@ export function deleteProduct(id){
   };
 }
 
-export default function reducer(state = [], action){
-  switch (action.type){
+export default function reducer(state = [], action) {
+  switch (action.type) {
     case GET_PRODUCTS:
       return action.products;
     case GET_PRODUCT:
