@@ -62,7 +62,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                     <span className="glyphicon glyphicon-remove"></span> Remove
                 </button></td>
             </tr>
-              )
+              );
             })
             }
                     <tr>
@@ -70,7 +70,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
                         <td>   </td>
                         <td>   </td>
                         <td><h3>Total</h3></td>
-                        <td className="text-right"><h3><strong>${cart.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity}, 0).toFixed(2)}</strong></h3></td>
+                        <td className="text-right"><h3><strong>${cart.lineItems.reduce((total, lineItem) => { return total += lineItem.product.price * lineItem.quantity;}, 0).toFixed(2)}</strong></h3></td>
                     </tr>
                     <tr>
                         <td>   </td>
@@ -91,7 +91,7 @@ const Cart = ({ cart, products, handleQuantityUpdate, removeLineItemOnClick }) =
     </div>
 </div>
   );
-}
+};
 
 const mapStateToProps = ({ cart, products }) => {
     return {
@@ -108,7 +108,7 @@ const mapDispatchToProps = (dispatch) => {
         removeLineItemOnClick: (cartId, productId) => {
             dispatch(removeLineItem(cartId, productId));
         }
-    }
-}
+    };
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);

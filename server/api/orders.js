@@ -16,6 +16,12 @@ router.post('/:id/lineItems', (req, res, next) => {
 
 // close cart (cart --> order)
 router.put('/:id', (req, res, next) => {
+    Order.findById(req.params.id)
+    .then(order => {
+        return order.update(req.body);
+    })
+        .then( updatedOrder => res.status(200).send(updatedOrder))
+        .catch(next);
 });
 
 /*
@@ -75,6 +81,17 @@ router.get('/getCart', (req, res, next) => {
         Order.getCart(req.session.userId)
             .then(cart => res.send(cart));
     }
+});
+
+router.get('/', (req, res, next) => {
+    Order.findAll({
+        where: {
+            isCart: false
+        },
+        include: [{all: true, nested: true}]
+    })
+    .then(orders => res.send(orders))
+    .catch(next);
 });
 
 module.exports = router;

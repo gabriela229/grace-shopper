@@ -145,12 +145,14 @@ const orders = [
   {
     address: "300 east 39th street, NY",
     isCart: false,
-    userId: 3
+    userId: 3,
+    status: 'Completed'
   },
   {
     address: "5 Hanover Square, Floor 25, New York, NY 10004",
     isCart: false,
-    userId: 3
+    userId: 2,
+    status: 'Processing'
   },
   {
     address: "",

@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {deleteUser, resetPassword, updateUser} from '../store';
 
-function Admin({users, removeUserOnClick, authUser, handleUserUpdate, resetUserPassword}) {
+function AdminUsers({users, removeUserOnClick, authUser, handleUserUpdate, resetUserPassword}) {
   let counter = 0;
   return (
         <div>
@@ -77,4 +77,4 @@ const mapDispatchToProps = (dispatch) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Admin);
+export default connect(mapStateToProps, mapDispatchToProps)(AdminUsers);

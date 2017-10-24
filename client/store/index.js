@@ -9,6 +9,7 @@ import products from './products';
 import authUser from './auth';
 import users from './users';
 import reviews from './reviews';
+import orders from './orders';
 import checkout from './checkout';
 import {loadState} from './localStorage';
 
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   products,
   reviews,
   users,
+  orders,
   checkout                          // an object
 });
 
@@ -37,4 +39,5 @@ export * from './cart';
 export * from './reviews';
 export * from './checkout';
 export * from './localStorage';
+export * from './orders';
 
