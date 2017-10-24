@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {updateLineItem} from '../store';
 import ReviewsList from './ReviewsList';
 import ReviewForm from './ReviewForm';
+import ProductImageUpload from './ProductImageUpload';
 
 class SingleProduct extends Component {
 
@@ -22,16 +23,19 @@ class SingleProduct extends Component {
   render() {
 
     const {
-      authUser,
       cart,
       product,
       productReviews,
       userHasReviewed,
-      handleAddToCart
+      handleAddToCart,
+      authUser
     } = this.props;
 
-    const {orderQuantity} = this.state;
-    const {handleChange} = this;
+    const { orderQuantity } = this.state;
+    const { handleChange } = this;
+
+    if (!product)
+      return (<div />)
 
     return (
       <div className="row">
@@ -68,7 +72,9 @@ class SingleProduct extends Component {
                 }
             </select>
           </div>
-
+          {
+            authUser.isAdmin ? (<ProductImageUpload productId={product.id}/>) : ('')
+          }
           <button
             className="btn btn-sm btn-default"
             onClick={() => handleAddToCart(cart.id, product.id, orderQuantity)}>Add to Cart</button>
@@ -99,11 +105,11 @@ const mapStateToProps = ({authUser, cart, products, reviews}, ownProps) => {
   }, false);
 
   return {
-    authUser,
     cart,
     product,
     productReviews,
-    userHasReviewed
+    userHasReviewed,
+    authUser
   };
 };
 
