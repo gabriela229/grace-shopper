@@ -27,15 +27,12 @@ router.post('/', (req, res, next) => {
 
 // update a product
 router.put('/:id', (req, res, next) => {
-  console.log(req.body);
   const { images } = req.body;
   Product.findById(req.params.id)
     .then(product => {
-      console.log("updating...", images)
       return product.update({ image: images });
     })
     .then(product => {
-      console.log("prodctafter", product)
       return res.status(200).send(product)
     })
     .catch(next);
